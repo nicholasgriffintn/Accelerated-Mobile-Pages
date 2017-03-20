@@ -1201,8 +1201,8 @@ function ampforwp_remove_title_tags(){
             . ' | ' .
 					  strip_tags(get_the_archive_description( '' ));
 			 }
-			$site_title = get_bloginfo('name') . ' | ' . get_option( 'blogdescription' ) ;
 			if ( is_home() ) {
+				$site_title = get_bloginfo('name') . ' | ' . get_option( 'blogdescription' ) ;
 				if  ( $redux_builder_amp['amp-frontpage-select-option']== 1) {
 					$ID = $redux_builder_amp['amp-frontpage-select-option-pages'];
 					$site_title =  get_the_title( $ID ) . ' | ' . get_option('blogname');
@@ -1222,7 +1222,7 @@ function ampforwp_remove_title_tags(){
 			<?php
 			if ( class_exists('WPSEO_Frontend') ) {
 				$front = WPSEO_Frontend::get_instance();
-				$title = $front->title($site_title);
+				$title = $front->title( $site_title );
 				echo $title;
 			} else {
 				echo $site_title;
@@ -1894,7 +1894,7 @@ Examples:
 						}
                         $content .= '</a></li>';  ?>
 					<?php endwhile;  $content .= '</ul>'; ?>
-			<?php endif; ?> 
+			<?php endif; ?>
 			<?php wp_reset_postdata();
 
 			 // Add AMP Woocommerce latest Products only on AMP Endpoint

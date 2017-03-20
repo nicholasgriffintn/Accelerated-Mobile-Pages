@@ -108,7 +108,7 @@ if ( get_query_var( 'paged' ) ) {
 		) ); ?>
 
 	<?php if ( $q->have_posts() ) : while ( $q->have_posts() ) : $q->the_post();
-		$ampforwp_amp_post_url = trailingslashit( get_permalink() ) . AMPFORWP_AMP_QUERY_VAR ; ?>
+		$ampforwp_amp_post_url = trailingslashit( trailingslashit( get_permalink() ) . AMPFORWP_AMP_QUERY_VAR ); ?>
 
 		<div class="amp-wp-content amp-loop-list <?php if ( has_post_thumbnail() ) { } else{?>amp-loop-list-noimg<?php } ?>">
 			<?php if ( has_post_thumbnail() ) { ?>

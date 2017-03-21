@@ -34,6 +34,21 @@ a {
 }
 amp-iframe { max-width: 100%; margin-bottom : 20px; }
 
+.alignleft{
+    margin-right: 12px;
+    margin-bottom:5px;
+    float: left;
+}
+.alignright{
+    float:right;
+    margin-left: 12px;
+    margin-bottom:5px;
+}
+.aligncenter{
+    text-align:center;
+    margin: 0 auto
+}
+
 /* Template Styles */
 .amp-wp-content, .amp-wp-title-bar div {
     <?php if ( $content_max_width > 0 ) : ?>
@@ -661,7 +676,7 @@ table a:link { color: #666; font-weight: bold; text-decoration: none; }
 table a:visited { color: #999999; font-weight: bold; text-decoration: none; }
 table a:active,
 table a:hover { color: #bd5a35; text-decoration: underline; }
-table { font-family: Arial, Helvetica, sans-serif; color: #666; font-size: 12px; text-shadow: 1px 1px 0px #fff; background: #eee; margin: 20px; width: 95%; }
+table { font-family: Arial, Helvetica, sans-serif; color: #666; font-size: 12px; text-shadow: 1px 1px 0px #fff; background: #eee; margin: 0px; width: 95%; }
 table th { padding: 21px 25px 22px 25px; border-top: 1px solid #fafafa; border-bottom: 1px solid #e0e0e0; background: #ededed; background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb)); background: -moz-linear-gradient(top, #ededed, #ebebeb); }
 table th:first-child { text-align: left; padding-left: 20px; }
 table tr:first-child th:first-child { -moz-border-radius-topleft: 3px; -webkit-border-top-left-radius: 3px; border-top-left-radius: 3px; }
@@ -694,9 +709,8 @@ table tr:hover td { background: #f2f2f2; background: -webkit-gradient(linear, le
     .comments_list ul li .comment-body{ width:auto }
 }
 @media screen and (max-width: 425px) {
-    .related_posts .related_link p{
-        display:none
-    }
+    .related_posts .related_link p{ display:none }
+    .alignright, .alignleft {float: none;}
     .related_posts .related_link {
         margin: 13px 18px 14px 19px;
     }
@@ -820,20 +834,6 @@ amp-user-notification button {
 .amp-ad-2{ margin-bottom: 50px; }
 <?php } ?>
 /**/
-.alignleft{
-	margin-right: 12px;
-	margin-bottom:5px;
-	float: left;
-}
-.alignright{
-	float:right;
-	margin-left: 12px;
-	margin-bottom:5px;
-}
-.aligncenter{
-	text-align:center;
-	margin: 0 auto
-}
 .amp-wp-author:before{
 	content: " <?php global $redux_builder_amp; echo $redux_builder_amp['amp-translator-by-text']; ?>  ";
 }

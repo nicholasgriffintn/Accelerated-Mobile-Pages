@@ -68,7 +68,6 @@ $template = new AMP_Post_Template( $post_id );?>
 			}
 		} endif;
 	if ( $enable_comments ) { ?>
-		<div class="ampforwp-comment-wrapper">
 			<?php
 			// TODO : Create a separate  function and add the comment code that and use DRY method instead of repeating the code. #682
 				global $redux_builder_amp;
@@ -80,97 +79,103 @@ $template = new AMP_Post_Template( $post_id );?>
 						'status' => 'approve' //Change this to the type of comments to be displayed
 				));
 			if ( $comments ) { ?>
-				<div class="amp-wp-content comments_list">
-				    <h3><?php global $redux_builder_amp; echo $redux_builder_amp['amp-translator-view-comments-text'] ?></h3>
-				    <ul>
-				    <?php
-						$page = (get_query_var('page')) ? get_query_var('page') : 1;
-						$total_comments = get_comments( array(
-							'orderby' 	=> 'post_date' ,
-							'order' 	=> 'DESC',
-							'post_id'	=> $postID,
-							'status' 	=> 'approve',
-							'parent'	=>0 )
-						);
-						$pages = ceil(count($total_comments)/AMPFORWP_COMMENTS_PER_PAGE);
-					    $pagination_args = array(
-							'base'         =>  @add_query_arg('page','%#%'),
-							'format'       => '?page=%#%',
-							'total'        => $pages,
-							'current'      => $page,
-							'show_all'     => False,
-							'end_size'     => 1,
-							'mid_size'     => 2,
-							'prev_next'    => True,
-							'prev_text'    => $redux_builder_amp['amp-translator-previous-text'],
-							'next_text'    => $redux_builder_amp['amp-translator-next-text'],
-							'type'         => 'plain'
-						);
+				<div class="ampforwp-comment-wrapper">
+					<div class="amp-wp-content comments_list">
+					    <h3><?php global $redux_builder_amp; echo $redux_builder_amp['amp-translator-view-comments-text'] ?></h3>
+					    <ul>
+					    <?php
+							$page = (get_query_var('page')) ? get_query_var('page') : 1;
+							$total_comments = get_comments( array(
+								'orderby' 	=> 'post_date' ,
+								'order' 	=> 'DESC',
+								'post_id'	=> $postID,
+								'status' 	=> 'approve',
+								'parent'	=>0 )
+							);
+							$pages = ceil(count($total_comments)/AMPFORWP_COMMENTS_PER_PAGE);
+						    $pagination_args = array(
+								'base'         =>  @add_query_arg('page','%#%'),
+								'format'       => '?page=%#%',
+								'total'        => $pages,
+								'current'      => $page,
+								'show_all'     => False,
+								'end_size'     => 1,
+								'mid_size'     => 2,
+								'prev_next'    => True,
+								'prev_text'    => $redux_builder_amp['amp-translator-previous-text'],
+								'next_text'    => $redux_builder_amp['amp-translator-next-text'],
+								'type'         => 'plain'
+							);
 
-						// Display the list of comments
-						function ampforwp_custom_translated_comment($comment, $args, $depth){
-							$GLOBALS['comment'] = $comment;
-							global $redux_builder_amp; ?>
-							<li id="li-comment-<?php comment_ID() ?>"
-							<?php comment_class(); ?> >
-								<article id="comment-<?php comment_ID(); ?>" class="comment-body">
-									<footer class="comment-meta">
-										<div class="comment-author vcard">
-											<?php
-											printf(__('<b class="fn">%s</b> <span class="says">'.$redux_builder_amp['amp-translator-says-text'].':</span>'), get_comment_author_link()) ?>
-										</div>
-										<!-- .comment-author -->
-										<div class="comment-metadata">
-											<a href="<?php echo htmlspecialchars( trailingslashit( get_comment_link( $comment->comment_ID ) ) ) ?>">
+							// Display the list of comments
+							function ampforwp_custom_translated_comment($comment, $args, $depth){
+								$GLOBALS['comment'] = $comment;
+								global $redux_builder_amp; ?>
+								<li id="li-comment-<?php comment_ID() ?>"
+								<?php comment_class(); ?> >
+									<article id="comment-<?php comment_ID(); ?>" class="comment-body">
+										<footer class="comment-meta">
+											<div class="comment-author vcard">
 												<?php
-												printf(__('%1$s '.$redux_builder_amp['amp-translator-at-text'].' %2$s'), get_comment_date(),  get_comment_time())
-												?>
-											</a>
-											<?php edit_comment_link(__('('.$redux_builder_amp['amp-translator-Edit-text'].')'),'  ','') ?>
+												printf(__('<b class="fn">%s</b> <span class="says">'.$redux_builder_amp['amp-translator-says-text'].':</span>'), get_comment_author_link()) ?>
+											</div>
+											<!-- .comment-author -->
+											<div class="comment-metadata">
+												<a href="<?php echo htmlspecialchars( trailingslashit( get_comment_link( $comment->comment_ID ) ) ) ?>">
+													<?php
+													printf(__('%1$s '.$redux_builder_amp['amp-translator-at-text'].' %2$s'), get_comment_date(),  get_comment_time())
+													?>
+												</a>
+												<?php edit_comment_link(__('('.$redux_builder_amp['amp-translator-Edit-text'].')'),'  ','') ?>
+											</div>
+											<!-- .comment-metadata -->
+										</footer>
+											<!-- .comment-meta -->
+										<div class="comment-content">
+					                        <p><?php
+					                          // $pattern = "~[^a-zA-Z0-9_ !@#$%^&*();\\\/|<>\"'+.,:?=-]~";
+					                          $emoji_content = get_comment_text();
+					                          // $emoji_free_comments = preg_replace($pattern,'',$emoji_content);
+					                          echo $emoji_content; ?>
+					                        </p>
 										</div>
-										<!-- .comment-metadata -->
-									</footer>
-										<!-- .comment-meta -->
-									<div class="comment-content">
-				                        <p><?php
-				                          // $pattern = "~[^a-zA-Z0-9_ !@#$%^&*();\\\/|<>\"'+.,:?=-]~";
-				                          $emoji_content = get_comment_text();
-				                          // $emoji_free_comments = preg_replace($pattern,'',$emoji_content);
-				                          echo $emoji_content; ?>
-				                        </p>
-									</div>
-										<!-- .comment-content -->
-								</article>
-							 <!-- .comment-body -->
-							</li>
-						<!-- #comment-## -->
-							<?php
-						}// end of ampforwp_custom_translated_comment()
-						wp_list_comments( array(
-						  'per_page' 			=> AMPFORWP_COMMENTS_PER_PAGE, //Allow comment pagination
-						  'page'              	=> $page,
-						  'style' 				=> 'li',
-						  'type'				=> 'comment',
-						  'max_depth'   		=> 5,
-						  'avatar_size'			=> 0,
-							'callback'				=> 'ampforwp_custom_translated_comment',
-						  'reverse_top_level' 	=> false //Show the latest comments at the top of the list
-						), $comments);
-						echo paginate_links( $pagination_args );?>
-				    </ul>
+											<!-- .comment-content -->
+									</article>
+								 <!-- .comment-body -->
+								</li>
+							<!-- #comment-## -->
+								<?php
+							}// end of ampforwp_custom_translated_comment()
+							wp_list_comments( array(
+							  'per_page' 			=> AMPFORWP_COMMENTS_PER_PAGE, //Allow comment pagination
+							  'page'              	=> $page,
+							  'style' 				=> 'li',
+							  'type'				=> 'comment',
+							  'max_depth'   		=> 5,
+							  'avatar_size'			=> 0,
+								'callback'				=> 'ampforwp_custom_translated_comment',
+							  'reverse_top_level' 	=> false //Show the latest comments at the top of the list
+							), $comments);
+							echo paginate_links( $pagination_args );?>
+					    </ul>
+					</div>
+					<div class="comment-button-wrapper">
+					    <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform' ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
+					</div>
 				</div>
-				<div class="comment-button-wrapper">
-				    <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform' ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
-				</div><?php
+				<?php
 			} else {
 			    if ( !comments_open() ) {
-			      return;
-				} ?>
-			    <div class="comment-button-wrapper">
-			       <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform'  ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
-			    </div>
-			<?php } ?>
-		</div> <?php
+						// Dont do Anything
+ 				  } else { ?>
+						<div class="ampforwp-comment-wrapper">
+					    <div class="comment-button-wrapper">
+					       <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform'  ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
+					    </div>
+						</div>
+			<?php }
+		  } ?>
+	<?php
 	} ?>
 
 	<div class="amp-wp-content post-pagination-meta">

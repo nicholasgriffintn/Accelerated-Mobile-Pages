@@ -34,6 +34,21 @@ a {
 }
 amp-iframe { max-width: 100%; margin-bottom : 20px; }
 
+.alignleft{
+    margin-right: 12px;
+    margin-bottom:5px;
+    float: left;
+}
+.alignright{
+    float:right;
+    margin-left: 12px;
+    margin-bottom:5px;
+}
+.aligncenter{
+    text-align:center;
+    margin: 0 auto
+}
+
 /* Template Styles */
 .amp-wp-content, .amp-wp-title-bar div {
     <?php if ( $content_max_width > 0 ) : ?>
@@ -694,9 +709,7 @@ table tr:hover td { background: #f2f2f2; background: -webkit-gradient(linear, le
     .comments_list ul li .comment-body{ width:auto }
 }
 @media screen and (max-width: 425px) {
-    .related_posts .related_link p{
-        display:none
-    }
+    .related_posts .related_link p{ display:none }
     .related_posts .related_link {
         margin: 13px 18px 14px 19px;
     }
@@ -820,20 +833,6 @@ amp-user-notification button {
 .amp-ad-2{ margin-bottom: 50px; }
 <?php } ?>
 /**/
-.alignleft{
-	margin-right: 12px;
-	margin-bottom:5px;
-	float: left;
-}
-.alignright{
-	float:right;
-	margin-left: 12px;
-	margin-bottom:5px;
-}
-.aligncenter{
-	text-align:center;
-	margin: 0 auto
-}
 .amp-wp-author:before{
 	content: " <?php global $redux_builder_amp; echo $redux_builder_amp['amp-translator-by-text']; ?>  ";
 }

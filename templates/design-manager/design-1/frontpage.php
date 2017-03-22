@@ -136,6 +136,7 @@ $template = new AMP_Post_Template( $post_id );?>
 					                        <p><?php
 					                          // $pattern = "~[^a-zA-Z0-9_ !@#$%^&*();\\\/|<>\"'+.,:?=-]~";
 					                          $emoji_content = get_comment_text();
+																		$emoji_content = ampforwp_sanitize_html_to_amphtml( $emoji_content );
 					                          // $emoji_free_comments = preg_replace($pattern,'',$emoji_content);
 					                          echo $emoji_content; ?>
 					                        </p>

@@ -70,6 +70,7 @@
 
 	// 0.9. AMP Design Manager Files
 	require 'design-manager.php';
+	require 'elements.php';
 	require 'customizer/customizer.php';
 	// Custom AMP Content
 	require 'custom-amp-content.php';

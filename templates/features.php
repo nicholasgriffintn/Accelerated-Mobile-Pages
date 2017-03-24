@@ -238,6 +238,9 @@ define('AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comm
             $file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/search.php';
         }
 
+				if( (ampforwp_design_selector() == 3) && ( is_archive() || is_search() )) {
+					$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/index.php';
+				}
 
 		// Custom Single file
 	    if ( is_single() || is_page() ) {

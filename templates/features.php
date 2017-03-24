@@ -249,6 +249,9 @@ define('AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comm
 			 	$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/single.php';
 		 	}
 		}
+	    if ( is_front_page() && ampforwp_design_selector() == 3) {
+			 	$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/single.php';
+		}
 	    return $file;
 	}
 

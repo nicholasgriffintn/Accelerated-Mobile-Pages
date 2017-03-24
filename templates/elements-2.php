@@ -268,7 +268,7 @@ function ampforwp_rel_canonical() {
       $current_archive_url = home_url( $wp->request );
       $amp_url 	= trailingslashit($current_archive_url);
       $remove 	= '/'. AMPFORWP_AMP_QUERY_VAR;
-      // $amp_url 	= str_replace( $remove, '', $amp_url) ;
+      $amp_url 	= str_replace( $remove, '', $amp_url) ;
     }
 
     if( is_search() ){

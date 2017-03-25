@@ -224,11 +224,11 @@
 			 	}
 			}
 
-			if( (ampforwp_design_selector() == 3) && ( is_archive() || is_search() )) {
+			if( ( ampforwp_design_selector() == 3 ) && ( is_home() || is_archive() || is_search() )) {
 				$file = AMPFORWP_INDEX_FILE ;
 			}
 
-	    if ( is_front_page() && ampforwp_design_selector() == 3) {
+	    if ( $redux_builder_amp['amp-frontpage-select-option'] && is_front_page() && ampforwp_design_selector() == 3) {
 			 	$file = AMPFORWP_SINGLE_FILE;
 		  }
 
@@ -615,64 +615,64 @@
 			add_filter( 'the_content', 'ampforwp_the_content_filter', 2 );
 		}
 		function ampforwp_the_content_filter( $content ) {
-				 $content = preg_replace('/property=[^>]*/', '', $content);
-				 $content = preg_replace('/vocab=[^>]*/', '', $content);
-				//  $content = preg_replace('/type=[^>]*/', '', $content);
-				 $content = preg_replace('/value=[^>]*/', '', $content);
-				//  $content = preg_replace('/date=[^>]*/', '', $content);
-				 $content = preg_replace('/noshade=[^>]*/', '', $content);
-				 $content = preg_replace('/contenteditable=[^>]*/', '', $content);
-				//  $content = preg_replace('/time=[^>]*/', '', $content);
-				 $content = preg_replace('/non-refundable=[^>]*/', '', $content);
-				 $content = preg_replace('/security=[^>]*/', '', $content);
-				 $content = preg_replace('/deposit=[^>]*/', '', $content);
-				 $content = preg_replace('/for=[^>]*/', '', $content);
-				 $content = preg_replace('/nowrap="nowrap"/', '', $content);
-				 $content = preg_replace('#<comments-count.*?>(.*?)</comments-count>#i', '', $content);
-				 $content = preg_replace('#<time.*?>(.*?)</time>#i', '', $content);
-				 $content = preg_replace('#<badge.*?>(.*?)</badge>#i', '', $content);
-				 $content = preg_replace('#<plusone.*?>(.*?)</plusone>#i', '', $content);
-				 $content = preg_replace('#<col.*?>#i', '', $content);
-				 $content = preg_replace('#<table.*?>#i', '<table width="100%">', $content);
-				 /* Removed So Inline style can work
-				 $content = preg_replace('#<style scoped.*?>(.*?)</style>#i', '', $content); */
-				 $content = preg_replace('/href="javascript:void*/', ' ', $content);
-				 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
-				 //for removing attributes within html tags
-				 $content = preg_replace('/(<[^>]+) onclick=".*?"/', '$1', $content);
-				 /* Removed So Inline style can work
-				 $content = preg_replace('/(<[^>]+) style=".*?"/', '$1', $content);
-				 */
-				 $content = preg_replace('/(<[^>]+) rel=".*?"/', '$1', $content);
-				 $content = preg_replace('/(<[^>]+) ref=".*?"/', '$1', $content);
-				 $content = preg_replace('/(<[^>]+) date=".*?"/', '$1', $content);
-				 $content = preg_replace('/(<[^>]+) time=".*?"/', '$1', $content);
-				 $content = preg_replace('/(<[^>]+) imap=".*?"/', '$1', $content);
-				 $content = preg_replace('/(<[^>]+) date/', '$1', $content);
-				 $content = preg_replace('/(<[^>]+) spellcheck/', '$1', $content);
-				 $content = preg_replace('/<font(.*?)>(.*?)<\/font>/', '$2', $content);
+			 $content = preg_replace('/property=[^>]*/', '', $content);
+			 $content = preg_replace('/vocab=[^>]*/', '', $content);
+			//  $content = preg_replace('/type=[^>]*/', '', $content);
+			 $content = preg_replace('/value=[^>]*/', '', $content);
+			//  $content = preg_replace('/date=[^>]*/', '', $content);
+			 $content = preg_replace('/noshade=[^>]*/', '', $content);
+			 $content = preg_replace('/contenteditable=[^>]*/', '', $content);
+			//  $content = preg_replace('/time=[^>]*/', '', $content);
+			 $content = preg_replace('/non-refundable=[^>]*/', '', $content);
+			 $content = preg_replace('/security=[^>]*/', '', $content);
+			 $content = preg_replace('/deposit=[^>]*/', '', $content);
+			 $content = preg_replace('/for=[^>]*/', '', $content);
+			 $content = preg_replace('/nowrap="nowrap"/', '', $content);
+			 $content = preg_replace('#<comments-count.*?>(.*?)</comments-count>#i', '', $content);
+			 $content = preg_replace('#<time.*?>(.*?)</time>#i', '', $content);
+			 $content = preg_replace('#<badge.*?>(.*?)</badge>#i', '', $content);
+			 $content = preg_replace('#<plusone.*?>(.*?)</plusone>#i', '', $content);
+			 $content = preg_replace('#<col.*?>#i', '', $content);
+			 $content = preg_replace('#<table.*?>#i', '<table width="100%">', $content);
+			 /* Removed So Inline style can work
+			 $content = preg_replace('#<style scoped.*?>(.*?)</style>#i', '', $content); */
+			 $content = preg_replace('/href="javascript:void*/', ' ', $content);
+			 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
+			 //for removing attributes within html tags
+			 $content = preg_replace('/(<[^>]+) onclick=".*?"/', '$1', $content);
+			 /* Removed So Inline style can work
+			 $content = preg_replace('/(<[^>]+) style=".*?"/', '$1', $content);
+			 */
+			 $content = preg_replace('/(<[^>]+) rel=".*?"/', '$1', $content);
+			 $content = preg_replace('/(<[^>]+) ref=".*?"/', '$1', $content);
+			 $content = preg_replace('/(<[^>]+) date=".*?"/', '$1', $content);
+			 $content = preg_replace('/(<[^>]+) time=".*?"/', '$1', $content);
+			 $content = preg_replace('/(<[^>]+) imap=".*?"/', '$1', $content);
+			 $content = preg_replace('/(<[^>]+) date/', '$1', $content);
+			 $content = preg_replace('/(<[^>]+) spellcheck/', '$1', $content);
+			 $content = preg_replace('/<font(.*?)>(.*?)<\/font>/', '$2', $content);
 
-				 //removing scripts and rel="nofollow" from Body and from divs
-				 //issue #268
-				 $content = str_replace(' rel="nofollow"',"",$content);
-				 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
-				/// simpy add more elements to simply strip tag but not the content as so
-				/// Array ("p","font");
-				$tags_to_strip = Array("thrive_headline","type","date","time","place","state","city" );
-				foreach ($tags_to_strip as $tag)
-				{
-				   $content = preg_replace("/<\\/?" . $tag . "(.|\\s)*?>/",'',$content);
-				}
-				// regex on steroids from here on
-				 // issue #420
-				 $content = preg_replace("/<div\s(class=.*?)(href=((".'"|'."'".')(.*?)("|'."'".')))\s(width=("|'."'".')(.*?)("|'."'"."))>(.*)<\/div>/i", '<div $1>$11</div>', $content);
-				 $content = preg_replace('/<like\s(.*?)>(.*)<\/like>/i', '', $content);
-				 $content = preg_replace('/<g:plusone\s(.*?)>(.*)<\/g:plusone>/i', '', $content);
-				 $content = preg_replace('/imageanchor="1"/i', '', $content);
-				 $content = preg_replace('/<plusone\s(.*?)>(.*?)<\/plusone>/', '', $content);
+			 //removing scripts and rel="nofollow" from Body and from divs
+			 //issue #268
+			 $content = str_replace(' rel="nofollow"',"",$content);
+			 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
+			/// simpy add more elements to simply strip tag but not the content as so
+			/// Array ("p","font");
+			$tags_to_strip = Array("thrive_headline","type","date","time","place","state","city" );
+			foreach ($tags_to_strip as $tag)
+			{
+			   $content = preg_replace("/<\\/?" . $tag . "(.|\\s)*?>/",'',$content);
+			}
+			// regex on steroids from here on
+			 // issue #420
+			 $content = preg_replace("/<div\s(class=.*?)(href=((".'"|'."'".')(.*?)("|'."'".')))\s(width=("|'."'".')(.*?)("|'."'"."))>(.*)<\/div>/i", '<div $1>$11</div>', $content);
+			 $content = preg_replace('/<like\s(.*?)>(.*)<\/like>/i', '', $content);
+			 $content = preg_replace('/<g:plusone\s(.*?)>(.*)<\/g:plusone>/i', '', $content);
+			 $content = preg_replace('/imageanchor="1"/i', '', $content);
+			 $content = preg_replace('/<plusone\s(.*?)>(.*?)<\/plusone>/', '', $content);
 
-				//				 $content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
-				return $content;
+			//				 $content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
+			return $content;
 		}
 
 

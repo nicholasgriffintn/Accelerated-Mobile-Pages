@@ -12,7 +12,7 @@ define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/element
 define( 'AMPFORWP_CUSTOMIZER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/customizer/customizer.php');
 define( 'AMPFORWP_CUSTOM_AMP_CONTENT_FILE', AMPFORWP_PLUGIN_DIR . 'templates/custom-amp-content.php');
 define('AMPFORWP_DISQUS_URL', AMPFORWP_PLUGIN_DIR.'includes/disqus.php');
-define('AMPFORWP_IMAGE_DIR', AMPFORWP_PLUGIN_DIR.'images');
+define('AMPFORWP_IMAGE_DIR', WP_PLUGIN_URL.'/accelerated-mobile-pages/images');
 
 // 3rd Party plugin File Names with their plugin folder
 define( 'AMPFORWP_CUSTOM_POST_TYPE_PLUGIN', 'amp-custom-post-type/amp-custom-post-type.php' );

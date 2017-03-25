@@ -14,12 +14,13 @@ License: GPL2
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 define('AMPFORWP_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
-define('AMPFORWP_DISQUS_URL',plugin_dir_url(__FILE__).'includes/disqus.php');
-define('AMPFORWP_IMAGE_DIR',plugin_dir_url(__FILE__).'images');
+define('AMPFORWP_CONSTANTS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/constants.php' );
+define('AMPFORWP_DISQUS_URL', AMPFORWP_PLUGIN_DIR.'includes/disqus.php');
+define('AMPFORWP_IMAGE_DIR', AMPFORWP_PLUGIN_DIR.'images');
 define('AMPFORWP_VERSION','0.9.45.1');
 // any changes to AMP_QUERY_VAR should be refelected here
 define('AMPFORWP_AMP_QUERY_VAR', apply_filters( 'amp_query_var', 'amp' ) );
-
+require_once AMPFORWP_CONSTANTS_FILE;
 
 // Rewrite the Endpoints after the plugin is activate, as priority is set to 11
 function ampforwp_add_custom_post_support() {
@@ -140,7 +141,7 @@ if ( is_admin() ) {
 
 	// Include Welcome page only on Admin pages
 	require AMPFORWP_PLUGIN_DIR .'/includes/welcome.php';
-    
+
     add_action('init','ampforwp_plugin_notice');
 	function  ampforwp_plugin_notice() {
 

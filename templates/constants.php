@@ -1,6 +1,7 @@
 <?php
 // Global Constants -- Start Here --
 
+global $redux_builder_amp;
 // General Constants
 define('AMPFORWP_VERSION','0.9.45.1');
 
@@ -68,12 +69,9 @@ function ampforwp_defining_constants() {
   define( 'AMPFORWP_DESIGN_SPECIFIC_SEARCH_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/search.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/single.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_HEADER_BAR_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/header-bar.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_FOOTER_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/footer.php');
   define( 'AMPFORWP_INDEX_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/index.php');
   define( 'AMPFORWP_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/single.php');
   define( 'AMPFORWP_EMPTY_FILTER_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/empty-filter.php');
-
-
-  // Constants Based on Filters
-  define( 'AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comments'] );
 
 }

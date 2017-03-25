@@ -4,7 +4,7 @@
 /********************************************/
 require_once( WP_PLUGIN_DIR . '/amp/amp.php' );
 amp_load_classes();
-
+global $redux_builder_amp;
 
 // # Util Function
 if ( !function_exists( 'ampforwp_get_template_data_object' ) ) {
@@ -15,6 +15,9 @@ if ( !function_exists( 'ampforwp_get_template_data_object' ) ) {
     return  $amp_post_template_object ;
   }
 }
+
+// Global Number of Comments Constant 
+define( 'AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comments'] );
 /********************************************/
 
 

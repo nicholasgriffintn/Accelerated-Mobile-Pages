@@ -342,32 +342,33 @@
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_footer', 10, 3 );
 	function ampforwp_custom_footer( $file, $type, $post ) {
 		if ( 'footer' === $type ) {
-			$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/footer.php';
+			$file = AMPFORWP_DESIGN_SPECIFIC_FOOTER_FILE;
 		}
 		return $file;
 	}
 
 	add_action('ampforwp_global_after_footer','ampforwp_footer');
 	function ampforwp_footer() {
-			global $redux_builder_amp; ?>
-		<!--Plugin Version :<?php echo (AMPFORWP_VERSION); ?> -->
-	<?php if($redux_builder_amp['amp-enable-notifications'] == true)  { ?>
-		<!-- Thanks to @nicholasgriffintn for Cookie Notification Code-->
-	  <amp-user-notification layout=nodisplay id="amp-user-notification1">
+		global $redux_builder_amp; ?>
+		<!--Plugin Version :<?php echo (AMPFORWP_VERSION); ?> --> <?php
+		if($redux_builder_amp['amp-enable-notifications'] == true)  { ?>
+			<!-- Thanks to @nicholasgriffintn for Cookie Notification Code-->
+		  <amp-user-notification layout=nodisplay id="amp-user-notification1">
 	       <p><?php echo $redux_builder_amp['amp-notification-text']; ?> </p>
 	       <button on="tap:amp-user-notification1.dismiss"><?php echo $redux_builder_amp['amp-accept-button-text']; ?></button>
-	  </amp-user-notification>
-	<?php }
+		  </amp-user-notification> <?php
+    }
 	}
+
 
 	// 8. Add Main tag as a Wrapper
 	// Removed this code after moving to design manager
+
 
 	// 9. Advertisement code
 		// Below Header Global
 		add_action('ampforwp_after_header','ampforwp_header_advert');
 		add_action('ampforwp_design_1_after_header','ampforwp_header_advert');
-
 		function ampforwp_header_advert() {
 			global $redux_builder_amp;
 
@@ -396,12 +397,12 @@
 	      		}
 				$output = '<div class="amp-ad-wrapper amp_ad_1">';
 				$output	.=	'<amp-ad class="amp-ad-1"
-							type="adsense"
-							width='. $advert_width .' height='. $advert_height . '
-							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-1'].'"
-							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-1'] .'">';
+											type="adsense"
+											width='. $advert_width .' height='. $advert_height . '
+											data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-1'].'"
+											data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-1'] .'">';
 				$output	.=	'</amp-ad>';
-				$output	.=   ' </div>';
+				$output	.= '</div>';
 				echo $output;
 			}
 		}
@@ -441,12 +442,12 @@
 	      		}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-2"
-							type="adsense"
-							width='. $advert_width .' height='. $advert_height . '
-							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-2'].'"
-							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-2'] .'">';
+											type="adsense"
+											width='. $advert_width .' height='. $advert_height . '
+											data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-2'].'"
+											data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-2'] .'">';
 				$output	.=	'</amp-ad>';
-				$output	.=   ' </div>';
+				$output	.= '</div>';
 				echo $output;
 			}
 		}
@@ -483,12 +484,12 @@
 	      		}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-3"
-							type="adsense"
-							width='. $advert_width .' height='. $advert_height . '
-							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-3'].'"
-							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-3'] .'">';
+											type="adsense"
+											width='. $advert_width .' height='. $advert_height . '
+											data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-3'].'"
+											data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-3'] .'">';
 				$output	.=	'</amp-ad>';
-				$output	.=   ' </div>';
+				$output	.= '</div>';
 				echo $output;
 			}
 		}
@@ -524,93 +525,89 @@
 	      		}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-4"
-							type="adsense"
-							width='. $advert_width .' height='. $advert_height . '
-							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-4'].'"
-							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-4'] .'">';
+											type="adsense"
+											width='. $advert_width .' height='. $advert_height . '
+											data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-4'].'"
+											data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-4'] .'">';
 				$output	.=	'</amp-ad>';
-				$output	.=   ' </div>';
+				$output	.= '</div>';
 				echo $output;
 			}
 		}
 
+
 	// 10. Analytics Area
 		add_action('amp_post_template_footer','ampforwp_analytics',11);
 		function ampforwp_analytics() {
-
 			// 10.1 Analytics Support added for Google Analytics
-				global $redux_builder_amp;
-				if ( $redux_builder_amp['amp-analytics-select-option']=='1' ){ ?>
-						<amp-analytics type="googleanalytics" id="analytics1">
-							<script type="application/json">
-							{
-							  "vars": {
-							    "account": "<?php global $redux_builder_amp; echo $redux_builder_amp['ga-feild']; ?>"
-							  },
-							  "triggers": {
-							    "trackPageview": {
-							      "on": "visible",
-							      "request": "pageview"
-							    }
-							  }
-							}
-							</script>
-						</amp-analytics>
-						<?php
-					}//code ends for supporting Google Analytics
+			global $redux_builder_amp;
+			if ( $redux_builder_amp['amp-analytics-select-option']=='1' ){ ?>
+					<amp-analytics type="googleanalytics" id="analytics1">
+						<script type="application/json">
+						{
+						  "vars": {
+						    "account": "<?php global $redux_builder_amp; echo $redux_builder_amp['ga-feild']; ?>"
+						  },
+						  "triggers": {
+						    "trackPageview": {
+						      "on": "visible",
+						      "request": "pageview"
+						    }
+						  }
+						}
+						</script>
+					</amp-analytics> <?php
+				}//code ends for supporting Google Analytics
 
 			// 10.2 Analytics Support added for segment.com
-				if ( $redux_builder_amp['amp-analytics-select-option']=='2' ) { ?>
-						<amp-analytics type="segment">
-							<script>
-							{
-							  "vars": {
-							    "writeKey": "<?php global $redux_builder_amp; echo $redux_builder_amp['sa-feild']; ?>",
-									"name": "<?php echo the_title(); ?>"
-							  }
-							}
-							</script>
-						</amp-analytics>
-						<?php
-					}
+			if ( $redux_builder_amp['amp-analytics-select-option']=='2' ) { ?>
+					<amp-analytics type="segment">
+						<script>
+						{
+						  "vars": {
+						    "writeKey": "<?php global $redux_builder_amp; echo $redux_builder_amp['sa-feild']; ?>",
+								"name": "<?php echo the_title(); ?>"
+						  }
+						}
+						</script>
+					</amp-analytics> <?php
+			}
 
 			// 10.3 Analytics Support added for Piwik
-				if( $redux_builder_amp['amp-analytics-select-option']=='3' ) { ?>
-						<amp-pixel src="<?php global $redux_builder_amp; echo $redux_builder_amp['pa-feild']; ?>"></amp-pixel>
-				<?php }
+			if( $redux_builder_amp['amp-analytics-select-option']=='3' ) { ?>
+					<amp-pixel src="<?php global $redux_builder_amp; echo $redux_builder_amp['pa-feild']; ?>"></amp-pixel> <?php
+			}
 
-				// 10.4 Analytics Support added for quantcast
-					if ( $redux_builder_amp['amp-analytics-select-option']=='4' ) { ?>
-							<amp-analytics type="quantcast">
-								<script type="application/json">
-								{
-								  "vars": {
-								    "pcode": "<?php echo $redux_builder_amp['amp-quantcast-analytics-code']; ?>",
-										"labels": [ "AMPProject" ]
-								  }
-								}
-								</script>
-							</amp-analytics>
-							<?php
+			// 10.4 Analytics Support added for quantcast
+			if ( $redux_builder_amp['amp-analytics-select-option']=='4' ) { ?>
+					<amp-analytics type="quantcast">
+						<script type="application/json">
+						{
+						  "vars": {
+						    "pcode": "<?php echo $redux_builder_amp['amp-quantcast-analytics-code']; ?>",
+								"labels": [ "AMPProject" ]
+						  }
 						}
+						</script>
+					</amp-analytics> <?php
+				}
 
-				// 10.5 Analytics Support added for comscore
-					if ( $redux_builder_amp['amp-analytics-select-option']=='5' ) { ?>
-							<amp-analytics type="comscore">
-								<script type="application/json">
-								{
-								  "vars": {
-								    "c1": "<?php echo $redux_builder_amp['amp-comscore-analytics-code-c1']; ?>",
-								    "c2": "<?php echo $redux_builder_amp['amp-comscore-analytics-code-c2']; ?>"
-								  }
-								}
-								</script>
-							</amp-analytics>
-							<?php
+			// 10.5 Analytics Support added for comscore
+			if ( $redux_builder_amp['amp-analytics-select-option']=='5' ) { ?>
+					<amp-analytics type="comscore">
+						<script type="application/json">
+						{
+						  "vars": {
+						    "c1": "<?php echo $redux_builder_amp['amp-comscore-analytics-code-c1']; ?>",
+						    "c2": "<?php echo $redux_builder_amp['amp-comscore-analytics-code-c2']; ?>"
+						  }
 						}
-
+						</script>
+					</amp-analytics> <?php
+				}
 
 		}//analytics function ends here
+
 
 	// 11. Strip unwanted codes and tags from the_content
 		add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content');

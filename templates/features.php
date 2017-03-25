@@ -186,57 +186,55 @@
 	// Add Homepage AMP file code
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_template', 10, 3 );
 	function ampforwp_custom_template( $file, $type, $post ) {
-	   	// Custom Homepage and Archive file
+   	// Custom Homepage and Archive file
+      global $redux_builder_amp;
+      // Homepage and FrontPage
+      if($redux_builder_amp['amp-frontpage-select-option'] == 0)  {
+          if ( is_home() ) {
+              if ( 'single' === $type ) {
+              	$file = AMPFORWP_DESIGN_SPECIFIC_INDEX_FILE ;
+              }
+          }
+      } elseif ($redux_builder_amp['amp-frontpage-select-option'] == 1) {
+          if ( is_home() ) {
+              if ( 'single' === $type ) {
+                $file = AMPFORWP_DESIGN_SPECIFIC_FRONTPAGE_FILE ;
+              }
+          }
+      }
 
-        global $redux_builder_amp;
-        // Homepage and FrontPage
-        if($redux_builder_amp['amp-frontpage-select-option'] == 0)  {
-            if ( is_home() ) {
-                if ( 'single' === $type ) {
-                	$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/index.php';
-                }
-            }
-        } elseif ($redux_builder_amp['amp-frontpage-select-option'] == 1) {
-            if ( is_home() ) {
-                if ( 'single' === $type ) {
-                    $file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/frontpage.php';
-                }
-            }
+      // Archive Pages
+      if ( is_archive() && $redux_builder_amp['ampforwp-archive-support'] )  {
+          $file = AMPFORWP_DESIGN_SPECIFIC_ARCHIVE_FILE;
+      }
 
-        }
+			// Search pages
+    	if ( is_search() &&
+					( $redux_builder_amp['amp-design-1-search-feature'] ||
+					  $redux_builder_amp['amp-design-2-search-feature'] ||
+						$redux_builder_amp['amp-design-3-search-feature'] )
+					)  {
+          $file = AMPFORWP_DESIGN_SPECIFIC_SEARCH_FILE ;
+      }
 
-        // Archive Pages
-        if ( is_archive() && $redux_builder_amp['ampforwp-archive-support'] )  {
-
-            $file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/archive.php';
-        }
-
-
-				// Search pages
-      	if ( is_search() &&
-						( $redux_builder_amp['amp-design-1-search-feature'] ||
-						  $redux_builder_amp['amp-design-2-search-feature'] ||
-							$redux_builder_amp['amp-design-3-search-feature'] )
-						)  {
-            $file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/search.php';
-        }
-
-				if( (ampforwp_design_selector() == 3) && ( is_archive() || is_search() )) {
-					$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/index.php';
-				}
-
-		// Custom Single file
+		  // Custom Single file
 	    if ( is_single() || is_page() ) {
+				if('single' === $type && !('product' === $post->post_type )) {
+				 	$file = AMPFORWP_DESIGN_SPECIFIC_SINGLE_FILE;
+			 	}
+			}
 
-			if('single' === $type && !('product' === $post->post_type )) {
-			 	$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/single.php';
-		 	}
-		}
+			if( (ampforwp_design_selector() == 3) && ( is_archive() || is_search() )) {
+				$file = AMPFORWP_INDEX_FILE ;
+			}
+
 	    if ( is_front_page() && ampforwp_design_selector() == 3) {
-			 	$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/single.php';
-		}
+			 	$file = AMPFORWP_SINGLE_FILE;
+		  }
+
 	    return $file;
 	}
+
 
 	// 3. Custom Style files
 	add_filter( 'amp_post_template_file', 'ampforwp_set_custom_style', 10, 3 );

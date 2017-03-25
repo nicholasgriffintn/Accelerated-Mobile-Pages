@@ -55,6 +55,16 @@ function ampforwp_defining_constants() {
   define( 'AMPFORWP_DESIGN_SPECIFIC_RELEATED_POST_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager/design-'. ampforwp_design_selector() .'/elements/related-posts.php');
 
 
+  //Main Files Constants
+  define( 'AMPFORWP_DESIGN_SPECIFIC_INDEX_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/index.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_FRONTPAGE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/frontpage.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_ARCHIVE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/archive.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_SEARCH_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/search.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/single.php');
+  define( 'AMPFORWP_INDEX_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/index.php');
+  define( 'AMPFORWP_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/single.php');
+
+
   // Constants Based on Filters
   define( 'AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comments'] );
 

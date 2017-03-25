@@ -17,6 +17,12 @@ define('AMPFORWP_IMAGE_DIR', AMPFORWP_PLUGIN_DIR.'images');
 define( 'AMPFORWP_CUSTOM_POST_TYPE_PLUGIN', 'amp-custom-post-type/amp-custom-post-type.php' );
 define( 'AMPFORWP_WOO_COMMERCE_PLUGIN', 'amp-woocommerce/amp-woocommerce.php' );
 
+// Scripts Constants
+define( 'AMPFORWP_FORM_SCRIPT', 'https://cdn.ampproject.org/v0/amp-form-0.1.js' );
+define( 'AMPFORWP_SOCIAL_SHARE_SCRIPT', 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js' );
+define( 'AMPFORWP_ANALYTICS_SCRIPT', 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js' );
+define( 'AMPFORWP_SIDE_BAR_SCRIPT', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
+
 // Global Constants -- End Here --
 
 
@@ -61,8 +67,10 @@ function ampforwp_defining_constants() {
   define( 'AMPFORWP_DESIGN_SPECIFIC_ARCHIVE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/archive.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_SEARCH_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/search.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/single.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_HEADER_BAR_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/header-bar.php');
   define( 'AMPFORWP_INDEX_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/index.php');
   define( 'AMPFORWP_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/single.php');
+  define( 'AMPFORWP_EMPTY_FILTER_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/empty-filter.php');
 
 
   // Constants Based on Filters

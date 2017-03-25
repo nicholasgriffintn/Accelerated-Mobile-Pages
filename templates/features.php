@@ -249,16 +249,17 @@
 	add_filter( 'amp_post_template_file', 'ampforwp_empty_filter', 10, 3 );
 	function ampforwp_empty_filter( $file, $type, $post ) {
 		if ( 'empty-filter' === $type ) {
-			$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/empty-filter.php';
+			$file = AMPFORWP_EMPTY_FILTER_FILE;
 		}
 		return $file;
 	}
+
 
 	// 4. Custom Header files
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_header', 10, 3 );
 	function ampforwp_custom_header( $file, $type, $post ) {
 		if ( 'header-bar' === $type ) {
-			$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/header-bar.php';
+			$file = AMPFORWP_DESIGN_SPECIFIC_HEADER_BAR_FILE;
 		}
 		return $file;
 	}
@@ -267,7 +268,7 @@
 	add_filter( 'amp_post_template_file', 'ampforwp_set_custom_meta_author', 10, 3 );
 	function ampforwp_set_custom_meta_author( $file, $type, $post ) {
 		if ( 'meta-author' === $type ) {
-			$file = AMPFORWP_PLUGIN_DIR . '/templates/design-manager/empty-filter.php';
+			$file = AMPFORWP_EMPTY_FILTER_FILE;
 		}
 		return $file;
 	}
@@ -275,7 +276,7 @@
 	add_filter( 'amp_post_template_file', 'ampforwp_set_custom_meta_taxonomy', 10, 3 );
 	function ampforwp_set_custom_meta_taxonomy( $file, $type, $post ) {
 		if ( 'meta-taxonomy' === $type ) {
-			$file = AMPFORWP_PLUGIN_DIR . 'templates/design-manager/empty-filter.php';
+			$file = AMPFORWP_EMPTY_FILTER_FILE;
 		}
 		return $file;
 	}
@@ -290,39 +291,40 @@
 		return 1000;
 	}
 
+
 	// 6. Add required Javascripts for extra AMP features
 	add_action('amp_post_template_head','ampforwp_register_additional_scripts', 20);
 	function ampforwp_register_additional_scripts() {
 		global $redux_builder_amp;
 		if( is_page() ) { ?>
-			<script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
-		<?php } ?>
+			<script async custom-element="amp-form" src="<?php echo AMPFORWP_FORM_SCRIPT; ?>"></script> <?php
+		}
 
-		<?php if( $redux_builder_amp['enable-single-social-icons'] == true || AMPFORWP_DM_SOCIAL_CHECK === 'true' )  { ?>
-			<?php if( is_singular() ) {
-							if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
-				<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
-			<?php   }
-						}
-		} ?>
-		<?php if($redux_builder_amp['amp-frontpage-select-option'] == 1)  { ?>
-			<?php if( $redux_builder_amp['enable-single-social-icons'] == true || AMPFORWP_DM_SOCIAL_CHECK === 'true' )  {
-							if( is_home() ) {
-								if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
-								<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
-					<?php }
-							}
-						}
-					}
+		if( $redux_builder_amp['enable-single-social-icons'] == true || AMPFORWP_DM_SOCIAL_CHECK === 'true' )  {
+			if( is_singular() ) {
+				if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
+					<script async custom-element="amp-social-share" src="<?php echo AMPFORWP_SOCIAL_SHARE_SCRIPT; ?>"></script> <?php
+         }
+			}
+		}
+
+		if($redux_builder_amp['amp-frontpage-select-option'] == 1)  {
+			 if( $redux_builder_amp['enable-single-social-icons'] == true || AMPFORWP_DM_SOCIAL_CHECK === 'true' )  {
+				if( is_home() ) {
+					if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
+					<script async custom-element="amp-social-share" src="<?php echo AMPFORWP_SOCIAL_SHARE_SCRIPT; ?>"></script> <?php
+				 }
+				}
+			}
+		}
 		// Check if any of the ads are enabled then only load ads script
 		//	moved this code to its own function and done the AMP way
 	}
+
 	// 6.1 Adding Analytics Scripts
 	add_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
 	function ampforwp_register_analytics_script(){ ?>
-		<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
-		<?php
-
+		<script async custom-element="amp-analytics" src="<?php echo AMPFORWP_ANALYTICS_SCRIPT; ?>"></script> <?php
 	}
 
 	add_filter( 'amp_post_template_data', 'ampforwp_add_amp_related_scripts', 20 );
@@ -330,11 +332,11 @@
 		global $redux_builder_amp;
 		// Adding Sidebar Script
 		if ( empty( $data['amp_component_scripts']['amp-sidebar'] ) ) {
-			$data['amp_component_scripts']['amp-sidebar'] = 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js';
+			$data['amp_component_scripts']['amp-sidebar'] = AMPFORWP_SIDE_BAR_SCRIPT;
 		}
-
 		return $data;
 	}
+
 
 	// 7. Footer for AMP Pages
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_footer', 10, 3 );

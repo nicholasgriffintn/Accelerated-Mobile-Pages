@@ -285,4 +285,4 @@ add_action('init','ampforwp_plugin_init',9);
 * customized output widget
 * to be used be used in before or after Loop
 */
-require AMPFORWP_PLUGIN_DIR.'/templates/widget.php';
+require AMPFORWP_WIDGET_FILE;

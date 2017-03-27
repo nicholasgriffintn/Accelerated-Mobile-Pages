@@ -253,20 +253,16 @@ if ( is_admin() ) {
 		return false !== get_query_var( 'amp', false );
 	}
 
+
 if ( ! class_exists( 'Ampforwp_Init', false ) ) {
 	class Ampforwp_Init {
-
 		public function __construct(){
-
 			// Load Files required for the plugin to run
-			require AMPFORWP_PLUGIN_DIR .'/includes/includes.php';
-
+			require AMPFORWP_INCLUDES_FILE;
 			// Redirection Code added
-			require AMPFORWP_PLUGIN_DIR.'/includes/redirect.php';
-
-			require AMPFORWP_PLUGIN_DIR .'/classes/class-init.php';
+			require AMPFORWP_REDIRECTION_FILE;
+			require AMPFORWP_CLASS_INIT_FILE;
 			new Ampforwp_Loader;
-
 		}
 	}
 }
@@ -280,6 +276,7 @@ function ampforwp_plugin_init() {
 	}
 }
 add_action('init','ampforwp_plugin_init',9);
+
 
 /*
 * customized output widget

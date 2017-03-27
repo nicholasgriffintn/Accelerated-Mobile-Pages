@@ -18,7 +18,7 @@ define('AMPFORWP_BUG_REPORT_FILE', AMPFORWP_PLUGIN_DIR .'templates/features/gene
 define('AMPFORWP_REDUX_ADMIN_CONFIG_FILE', AMPFORWP_PLUGIN_DIR . '/includes/options/admin-config.php');
 define('AMPFORWP_REDUX_CORE_FILE', AMPFORWP_PLUGIN_DIR . '/includes/options/redux-core/framework.php');
 define('AMPFORWP_WELCOME_FILE', AMPFORWP_PLUGIN_DIR .'/includes/welcome.php');
-define('AMPFORWP_WIDGET_FILE', AMPFORWP_PLUGIN_DIR.'/templates/widget.php');
+define('AMPFORWP_WIDGET_FILE', AMPFORWP_PLUGIN_DIR.'/templates/features/general/widget.php');
 define('AMPFORWP_FEATURES_FILE', AMPFORWP_PLUGIN_DIR . '/templates/features/features.php');
 
 //includes related files

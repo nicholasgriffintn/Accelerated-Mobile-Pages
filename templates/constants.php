@@ -6,13 +6,25 @@ global $redux_builder_amp;
 define('AMPFORWP_VERSION','0.9.45.1');
 
 // Constants For Important Files
-define( 'AMPFORWP_DESIGN_MANGER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager.php');
+define( 'AMPFORWP_DESIGN_MANGER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/design-manager.php');
 define( 'AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-single.php');
 define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-general.php');
 define( 'AMPFORWP_CUSTOMIZER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/customizer/customizer.php');
-define( 'AMPFORWP_CUSTOM_AMP_CONTENT_FILE', AMPFORWP_PLUGIN_DIR . 'templates/custom-amp-content.php');
+define( 'AMPFORWP_CUSTOM_AMP_CONTENT_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/custom-amp-content.php');
+define( 'AMPFORWP_SEARCH_FUNCTION_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/search-functions.php');
 define('AMPFORWP_DISQUS_URL', AMPFORWP_PLUGIN_DIR.'includes/disqus.php');
 define('AMPFORWP_IMAGE_DIR', WP_PLUGIN_URL.'/accelerated-mobile-pages/images');
+define('AMPFORWP_BUG_REPORT_FILE', AMPFORWP_PLUGIN_DIR .'templates/features/general/report-bugs.php');
+define('AMPFORWP_REDUX_ADMIN_CONFIG_FILE', AMPFORWP_PLUGIN_DIR . '/includes/options/admin-config.php');
+define('AMPFORWP_REDUX_CORE_FILE', AMPFORWP_PLUGIN_DIR . '/includes/options/redux-core/framework.php');
+define('AMPFORWP_WELCOME_FILE', AMPFORWP_PLUGIN_DIR .'/includes/welcome.php');
+define('AMPFORWP_WIDGET_FILE', AMPFORWP_PLUGIN_DIR.'/templates/widget.php');
+define('AMPFORWP_FEATURES_FILE', AMPFORWP_PLUGIN_DIR . '/templates/features/features.php');
+
+//includes related files
+define('AMPFORWP_INCLUDES_FILE', AMPFORWP_PLUGIN_DIR .'/includes/includes.php');
+define('AMPFORWP_REDIRECTION_FILE', AMPFORWP_PLUGIN_DIR.'/includes/redirect.php');
+define('AMPFORWP_CLASS_INIT_FILE', AMPFORWP_PLUGIN_DIR .'/classes/class-init.php');
 
 // 3rd Party plugin File Names with their plugin folder
 define( 'AMPFORWP_CUSTOM_POST_TYPE_PLUGIN', 'amp-custom-post-type/amp-custom-post-type.php' );

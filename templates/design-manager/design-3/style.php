@@ -1303,9 +1303,9 @@ amp-user-notification button { background-color:  <?php echo $redux_builder_amp[
 <?php if( $redux_builder_amp['enable-single-social-icons'] == true && is_socialshare_or_socialsticky_enabled_in_ampforwp() )  { ?>
 .single-post footer { padding-bottom: 41px;}
 <?php } ?>
-.single-post amp-img.alignleft{ margin-right: 15px; margin-bottom:5px; float: left;}
-.single-post amp-img.alignright{ float:right; margin-left: 15px; margin-bottom:5px;}
-.single-post amp-img.aligncenter{ text-align:center; margin: 0 auto}
+.single-post amp-img.alignleft, amp-anim.alignleft{ margin-right: 15px; margin-bottom:5px; float: left;}
+.single-post amp-img.alignright, amp-anim.alignright{ float:right; margin-left: 15px; margin-bottom:5px;}
+.single-post amp-img.aligncenter, amp-anim.aligncenter{ text-align:center; margin: 0 auto}
 .amp-wp-author:before{ content: " <?php global $redux_builder_amp; echo $redux_builder_amp['amp-translator-published-by'];?>  ";}
 .ampforwp-tax-category span:last-child:after { content: ' ';}
 .ampforwp-tax-category span:after{ content: ', ';}

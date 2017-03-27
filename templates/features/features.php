@@ -734,7 +734,7 @@
 							$metadata['description'] = $desc;
 						}
 
-						// Code for Custom Frontpage Yoast SEO Description 
+						// Code for Custom Frontpage Yoast SEO Description
 						$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
 						if ( class_exists('WPSEO_Meta') ) {
 							$custom_fp_desc = WPSEO_Meta::get_value('metadesc', $post_id );
@@ -743,7 +743,7 @@
 									$metadata['description'] = $custom_fp_desc;
 								} else {
 									unset( $metadata['description'] );
-								}						
+								}
 							}
 						}
 					}
@@ -1227,23 +1227,23 @@ function ampforwp_remove_title_tags(){
 				$front = WPSEO_Frontend::get_instance();
 				$title = $front->title( $site_title );
 
-					// Code for Custom Frontpage Yoast SEO Title 
+					// Code for Custom Frontpage Yoast SEO Title
 					if ( class_exists('WPSEO_Meta') ) {
 						// Yoast SEO Title
 						$yaost_title = WPSEO_Options::get_option( 'wpseo' );
 						if ( $yaost_title['website_name']) {
-							$site_title  = $yaost_title['website_name']; 
+							$site_title  = $yaost_title['website_name'];
 						} else {
-							$site_title  =  get_bloginfo('name'); 
+							$site_title  =  get_bloginfo('name');
 						}
 						// Yoast SEO Title Seperator
 						$wpseo_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-						$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options(); 
+						$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
 						if ( $wpseo_titles['separator'] ) {
 							$seperator = $seperator_options[ $wpseo_titles['separator'] ];
 						} else {
 							$seperator = ' - ';
-						}		
+						}
 
 						$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
 						$custom_fp_title = WPSEO_Meta::get_value('title', $post_id );
@@ -1252,7 +1252,7 @@ function ampforwp_remove_title_tags(){
 								$title = $custom_fp_title;
 							} else {
 								$title = get_the_title($post_id) .' '. $seperator .' '. $site_title ;
-							}						
+							}
 						}
 					}
 
@@ -1736,7 +1736,7 @@ function ampforwp_search_or_homepage_or_staticpage_metadata( $metadata, $post ) 
 
 
 // 46. search search search everywhere #615
-require 'search-functions.php';
+require AMPFORWP_SEARCH_FUNCTION_FILE;
 
 // 47. social js properly adding when required
 if( !function_exists( 'is_socialshare_or_socialsticky_enabled_in_ampforwp' ) ) {

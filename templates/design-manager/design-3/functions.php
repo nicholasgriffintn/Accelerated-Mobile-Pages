@@ -33,7 +33,7 @@ class AMPforWP_Menu_Walker extends Walker_Nav_Menu {
 			$this->start_accordion( $output, $depth );
 
 			$output .= '<h6 ' . $class_names . '>';
-			$output .= $this->get_anchor_tag( $item, $depth, $args, $id );
+			$output .= strip_tags( $this->get_anchor_tag( $item, $depth, $args, $id ) , '<a>');
 			$output .= '</h6>';
 
 			$this->start_accordion_child_wrapper( $output, $depth );
@@ -41,7 +41,7 @@ class AMPforWP_Menu_Walker extends Walker_Nav_Menu {
 		} else {
 
 			$output .= '<li ' . $class_names . '>';
-			$output .= $this->get_anchor_tag( $item, $depth, $args, $id );
+			$output .= strip_tags( $this->get_anchor_tag( $item, $depth, $args, $id ) , '<a>');
 			$output .= '</li>';
 
 		}
@@ -114,6 +114,7 @@ class AMPforWP_Menu_Walker extends Walker_Nav_Menu {
 		$item_output .= $args->link_before . $title . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
+		$item_output =  $item_output ;
 		return $item_output;
 	}
 }

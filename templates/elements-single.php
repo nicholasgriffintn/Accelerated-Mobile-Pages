@@ -16,7 +16,7 @@ if ( !function_exists( 'ampforwp_get_template_data_object' ) ) {
   }
 }
 
-// Global Number of Comments Constant 
+// Global Number of Comments Constant
 define( 'AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comments'] );
 /********************************************/
 
@@ -28,16 +28,6 @@ if ( !function_exists( 'ampforwp_is_comments_enabled' ) ) {
     if ( !comments_open() ) {
       return;
     }
-  }
-}
-
-
-// # Util Function
-// Function to Check Plugin Enabled or Not
-if ( !function_exists( 'ampforwp_is_plugin_active' ) ) {
-  function ampforwp_is_plugin_active( $plugin_name ) {
-    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    return is_plugin_active( $plugin_name );
   }
 }
 

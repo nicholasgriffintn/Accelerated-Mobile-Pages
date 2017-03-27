@@ -7,8 +7,8 @@ define('AMPFORWP_VERSION','0.9.45.1');
 
 // Constants For Important Files
 define( 'AMPFORWP_DESIGN_MANGER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager.php');
-define( 'AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-1.php');
-define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-2.php');
+define( 'AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-single.php');
+define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-general.php');
 define( 'AMPFORWP_CUSTOMIZER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/customizer/customizer.php');
 define( 'AMPFORWP_CUSTOM_AMP_CONTENT_FILE', AMPFORWP_PLUGIN_DIR . 'templates/custom-amp-content.php');
 define('AMPFORWP_DISQUS_URL', AMPFORWP_PLUGIN_DIR.'includes/disqus.php');

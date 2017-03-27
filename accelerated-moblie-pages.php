@@ -18,46 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 define('AMPFORWP_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
 define('AMPFORWP_CONSTANTS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/constants.php' );
 require AMPFORWP_CONSTANTS_FILE;
-
 /******************************************/
 
 
-/******************************************/
-//Very Important Global Functions
-
-// # Util Function
-// Function to Check Plugin Enabled or Not
-if ( !function_exists( 'ampforwp_is_plugin_active' ) ) {
-  function ampforwp_is_plugin_active( $plugin_name ) {
-    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    return is_plugin_active( $plugin_name );
-  }
-}
-
-
-// # Util Function
-// AMP endpoint Verifier
-if ( !function_exists( 'ampforwp_is_amp_endpoint' ) ) {
-  function ampforwp_is_amp_endpoint() {
-  	return false !== get_query_var( 'amp', false );
-  }
-}
-/******************************************/
+//Very Important Global Functions defined Here
+require_once AMPFORWP_GLOBAL_UTILS_FILE;
 
 
 //All rewrites in this file
 require_once AMPFORWP_REWRITES_FILE;
-
-
-add_action( 'admin_init','ampforwp_parent_plugin_check');
-function ampforwp_parent_plugin_check() {
-	$amp_plugin_activation_check = ampforwp_is_plugin_active( AMPFORWP_WP_AMP_PLUGIN );
-	if ( $amp_plugin_activation_check ) {
-		// set_transient( 'ampforwp_parent_plugin_check', true, 30 );
-	} else {
-		delete_option( 'ampforwp_parent_plugin_check');
-	}
-}
 
 
 // Redux panel inclusion code

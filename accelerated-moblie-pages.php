@@ -53,7 +53,7 @@ require_once AMPFORWP_REWRITES_FILE;
 
 add_action( 'admin_init','ampforwp_parent_plugin_check');
 function ampforwp_parent_plugin_check() {
-	$amp_plugin_activation_check = ampforwp_is_plugin_active( 'amp/amp.php' );
+	$amp_plugin_activation_check = ampforwp_is_plugin_active( AMPFORWP_WP_AMP_PLUGIN );
 	if ( $amp_plugin_activation_check ) {
 		// set_transient( 'ampforwp_parent_plugin_check', true, 30 );
 	} else {

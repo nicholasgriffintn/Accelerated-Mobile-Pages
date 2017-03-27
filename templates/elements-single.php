@@ -36,7 +36,7 @@ if ( !function_exists( 'ampforwp_is_comments_enabled' ) ) {
 // Function to Output Button Code
 if ( !function_exists( 'ampforwp_button_code' ) ) {
   function ampforwp_button_code() { global $redux_builder_amp ;
-    if( ! ampforwp_is_plugin_active( 'amp-comments/amp-comments.php' ) ) { ?>
+    if( ! ampforwp_is_plugin_active( AMPFORWP_COMMENTS_PLUGIN ) ) { ?>
     <div class="comment-button-wrapper">
          <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform'  ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
      </div>

@@ -70,9 +70,8 @@ if (!comments_open() || $redux_builder_amp['ampforwp-disqus-comments-support']) 
 				  'reverse_top_level' 	=> true //Show the latest comments at the top of the list
 				), $comments);  ?>
 		    </ul>
-		</div>
-    <?php include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    if( ! is_plugin_active( 'amp-comments/amp-comments.php' ) ) { ?>
+		</div> <?php
+    if( ! ampforwp_is_plugin_active( AMPFORWP_COMMENTS_PLUGIN ) ) { ?>
   		<div class="comment-button-wrapper">
   		    <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform' ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
   		</div>
@@ -81,9 +80,8 @@ if (!comments_open() || $redux_builder_amp['ampforwp-disqus-comments-support']) 
        global $redux_builder_amp ;
        if (!comments_open()) {
          return;
-       } ?>
-       <?php include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-       if( ! is_plugin_active( 'amp-comments/amp-comments.php' ) ) { ?>
+       }
+       if( ! ampforwp_is_plugin_active( AMPFORWP_COMMENTS_PLUGIN ) ) { ?>
          <div class="comment-button-wrapper">
   	        <a href="<?php echo get_permalink().'?nonamp=1'.'#commentform' ?>" rel="nofollow"><?php esc_html_e( $redux_builder_amp['amp-translator-leave-a-comment-text']  ); ?></a>
           </div>

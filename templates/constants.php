@@ -32,6 +32,9 @@ define('AMPFORWP_CLASS_INIT_FILE', AMPFORWP_PLUGIN_DIR .'/classes/class-init.php
 // 3rd Party plugin File Names with their plugin folder
 define( 'AMPFORWP_CUSTOM_POST_TYPE_PLUGIN', 'amp-custom-post-type/amp-custom-post-type.php' );
 define( 'AMPFORWP_WOO_COMMERCE_PLUGIN', 'amp-woocommerce/amp-woocommerce.php' );
+define( 'AMPFORWP_WP_AMP_PLUGIN', 'amp/amp.php' );
+define( 'AMPFORWP_ADS_PLUGIN', 'amp-incontent-ads/amptoolkit-incontent-ads.php' );
+define( 'AMPFORWP_COMMENTS_PLUGIN', 'amp-comments/amp-comments.php' );
 
 // Scripts Constants
 define( 'AMPFORWP_FORM_SCRIPT', 'https://cdn.ampproject.org/v0/amp-form-0.1.js' );

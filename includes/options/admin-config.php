@@ -765,8 +765,7 @@ Redux::setArgs( "redux_builder_amp", $args );
 
     $AD_URL = "http://ampforwp.com/advanced-amp-ads/#utm_source=options-panel&utm_medium=advertisement-tab&utm_campaign=AMP%20Plugin";
     $desc = '';
-    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    if(!is_plugin_active( 'amp-incontent-ads/amptoolkit-incontent-ads.php' ) ){
+    if( !ampforwp_is_plugin_active( AMPFORWP_ADS_PLUGIN ) ){
 
         $desc = '<a href="'.$AD_URL.'"  target="_blank"><img class="ampforwp-ad-img-banner" src="'.AMPFORWP_IMAGE_DIR . '/amp-ads-retina.png" width="560" height="85" /></a>';
         }

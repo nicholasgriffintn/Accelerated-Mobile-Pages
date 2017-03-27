@@ -92,12 +92,12 @@ if ( is_admin() ) {
 
 	 					$settings = array('settings' => '<a href="admin.php?page=amp_options&tab=8">' . __('Settings', 'ampforwp') . '</a> | <a href="https://ampforwp.com/priority-support/#utm_source=options-panel&utm_medium=extension-tab_priority_support&utm_campaign=AMP%20Plugin">' . __('Premium Support', 'ampforwp') . '</a>');
 
-						if ( ampforwp_is_plugin_active( 'amp/amp.php' ) ) {
+						if ( ampforwp_is_plugin_active( AMPFORWP_WP_AMP_PLUGIN ) ) {
 						    //if parent plugin is activated
 								$actions = array_merge( $actions, $settings );
 						} else{
 
-							if(is_plugin_active( 'amp/amp.php' )){
+							if( ampforwp_is_plugin_active( AMPFORWP_WP_AMP_PLUGIN ) ){
 								$actions = array_merge( $actions, $settings );
 							}else{
 								$please_activate_parent_plugin = array('Please Activate Parent plugin' => '<a href="'.get_admin_url() .'index.php?page=ampforwp-welcome-page">' . __('<span style="color:#b30000">Action Required: Continue Installation</span>', 'ampforwp') . '</a>');

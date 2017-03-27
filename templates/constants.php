@@ -20,6 +20,9 @@ define('AMPFORWP_REDUX_CORE_FILE', AMPFORWP_PLUGIN_DIR . '/includes/options/redu
 define('AMPFORWP_WELCOME_FILE', AMPFORWP_PLUGIN_DIR .'/includes/welcome.php');
 define('AMPFORWP_WIDGET_FILE', AMPFORWP_PLUGIN_DIR.'/templates/features/general/widget.php');
 define('AMPFORWP_FEATURES_FILE', AMPFORWP_PLUGIN_DIR . '/templates/features/features.php');
+define('AMPFORWP_SETTINGS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/settings.php');
+define('AMPFORWP_REWRITES_FILE', AMPFORWP_PLUGIN_DIR . 'templates/rewrites.php');
+
 
 //includes related files
 define('AMPFORWP_INCLUDES_FILE', AMPFORWP_PLUGIN_DIR .'/includes/includes.php');

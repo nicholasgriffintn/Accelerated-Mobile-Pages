@@ -125,11 +125,11 @@ function ampforwp_parent_plugin_check() {
 
 // Redux panel inclusion code
 	if ( !class_exists( 'ReduxFramework' ) ) {
-	    require_once dirname( __FILE__ ).'/includes/options/redux-core/framework.php';
+	    require_once AMPFORWP_REDUX_CORE_FILE;
 	}
 	// Register all the main options
-	require_once dirname( __FILE__ ).'/includes/options/admin-config.php';
-	require_once  AMPFORWP_PLUGIN_DIR .'templates/report-bugs.php' ;
+	require_once AMPFORWP_REDUX_ADMIN_CONFIG_FILE;
+	require_once  AMPFORWP_BUG_REPORT_FILE;
 
 
 /*
@@ -139,7 +139,7 @@ function ampforwp_parent_plugin_check() {
 if ( is_admin() ) {
 
 	// Include Welcome page only on Admin pages
-	require AMPFORWP_PLUGIN_DIR .'/includes/welcome.php';
+	require AMPFORWP_WELCOME_FILE;
 
     add_action('init','ampforwp_plugin_notice');
 	function  ampforwp_plugin_notice() {
@@ -177,29 +177,27 @@ if ( is_admin() ) {
 							color: #fff;
 							border-radius: 10px;
 							font-size: 9px;
-						    line-height: 17px;
-						    font-weight: 600;
-						    padding: 3px 7px;
-						    margin-left: 5px;
+					    line-height: 17px;
+					    font-weight: 600;
+					    padding: 3px 7px;
+					    margin-left: 5px;
 						}
-					</style>
-					<?php
-				}
-				?>
+					</style> <?php
+				} ?>
 				<style>
-                    .notice, .notice-error, .is-dismissible, .ampinstallation{}
+	        .notice, .notice-error, .is-dismissible, .ampinstallation{}
 					.plugin-card.plugin-card-amp:before{
-                        content: "FINISH INSTALLATION: Install & Activate this plugin ↓";
-                        font-weight: bold;
-                        float: right;
-                        position: relative;
-                        color: #dc3232;
-                        top: -28px;
-                        font-size: 18px;
+            content: "FINISH INSTALLATION: Install & Activate this plugin ↓";
+            font-weight: bold;
+            float: right;
+            position: relative;
+            color: #dc3232;
+            top: -28px;
+            font-size: 18px;
 					}
-                    .plugin-action-buttons a{
-                        color: #fff
-                    }
+          .plugin-action-buttons a{
+            color: #fff
+          }
 					.plugin-card.plugin-card-amp {
 						background: rgb(0, 165, 92);
 						color: #fff;
@@ -219,9 +217,7 @@ if ( is_admin() ) {
 
  	// Add Settings Button in Plugin backend
  	if ( ! function_exists( 'ampforwp_plugin_settings_link' ) ) {
-
  		add_filter( 'plugin_action_links', 'ampforwp_plugin_settings_link', 10, 5 );
-
  		function ampforwp_plugin_settings_link( $actions, $plugin_file )  {
  			static $plugin;
  			if (!isset($plugin))
@@ -248,10 +244,11 @@ if ( is_admin() ) {
 
 } // is_admin() closing
 
-	// AMP endpoint Verifier
-	function ampforwp_is_amp_endpoint() {
-		return false !== get_query_var( 'amp', false );
-	}
+
+// AMP endpoint Verifier
+function ampforwp_is_amp_endpoint() {
+	return false !== get_query_var( 'amp', false );
+}
 
 
 if ( ! class_exists( 'Ampforwp_Init', false ) ) {

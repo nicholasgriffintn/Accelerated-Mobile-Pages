@@ -4,6 +4,8 @@
 global $redux_builder_amp;
 // General Constants
 define('AMPFORWP_VERSION','0.9.45.1');
+// any changes to AMP_QUERY_VAR should be refelected here
+define('AMPFORWP_AMP_QUERY_VAR', apply_filters( 'amp_query_var', 'amp' ) );
 
 // Constants For Important Files
 define( 'AMPFORWP_DESIGN_MANGER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/design-manager.php');

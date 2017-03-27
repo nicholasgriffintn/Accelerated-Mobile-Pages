@@ -19,8 +19,6 @@ define('AMPFORWP_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
 define('AMPFORWP_CONSTANTS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/constants.php' );
 require AMPFORWP_CONSTANTS_FILE;
 
-// any changes to AMP_QUERY_VAR should be refelected here
-define('AMPFORWP_AMP_QUERY_VAR', apply_filters( 'amp_query_var', 'amp' ) );
 /******************************************/
 
 

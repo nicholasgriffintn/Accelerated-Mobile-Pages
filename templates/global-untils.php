@@ -28,3 +28,41 @@ function ampforwp_parent_plugin_check() {
 		delete_option( 'ampforwp_parent_plugin_check');
 	}
 }
+
+
+// # Util Function
+//52. Adding a generalized sanitizer function for purifiying normal html to amp-html
+// @param $input : content to be sanitized
+function ampforwp_sanitize_html_to_amphtml( $input ) {
+	$amp_custom_post_content_input = $input;
+	if ( !empty( $amp_custom_post_content_input ) ) {
+		$amp_custom_content = new AMP_Content( $amp_custom_post_content_input,
+				apply_filters( 'amp_content_embed_handlers', array(
+						'AMP_Twitter_Embed_Handler' => array(),
+						'AMP_YouTube_Embed_Handler' => array(),
+						'AMP_Instagram_Embed_Handler' => array(),
+						'AMP_Vine_Embed_Handler' => array(),
+						'AMP_Facebook_Embed_Handler' => array(),
+						'AMP_Gallery_Embed_Handler' => array(),
+				) ),
+				apply_filters(  'amp_content_sanitizers', array(
+						 'AMP_Style_Sanitizer' => array(),
+						 'AMP_Blacklist_Sanitizer' => array(),
+						 'AMP_Img_Sanitizer' => array(),
+						 'AMP_Video_Sanitizer' => array(),
+						 'AMP_Audio_Sanitizer' => array(),
+						 'AMP_Iframe_Sanitizer' => array(
+							 'add_placeholder' => true,
+						 ),
+				)  )
+		);
+
+		if ( $amp_custom_content ) {
+			global $data;
+			$data['amp_component_scripts'] 	= $amp_custom_content->get_amp_scripts();
+			$data['post_amp_styles'] 		= $amp_custom_content->get_amp_styles();
+			return $amp_custom_content->get_amp_content();
+		}
+		return '';
+	}
+}

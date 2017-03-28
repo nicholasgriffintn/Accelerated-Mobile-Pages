@@ -547,342 +547,345 @@
 
 
 	// 11. Strip unwanted codes and tags from the_content
-		add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content');
-		function ampforwp_strip_invalid_content() {
-			add_filter( 'the_content', 'ampforwp_the_content_filter', 2 );
+	add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content');
+	function ampforwp_strip_invalid_content() {
+		add_filter( 'the_content', 'ampforwp_the_content_filter', 2 );
+	}
+	function ampforwp_the_content_filter( $content ) {
+		 $content = preg_replace('/property=[^>]*/', '', $content);
+		 $content = preg_replace('/vocab=[^>]*/', '', $content);
+		 $content = preg_replace('/value=[^>]*/', '', $content);
+		 $content = preg_replace('/noshade=[^>]*/', '', $content);
+		 $content = preg_replace('/contenteditable=[^>]*/', '', $content);
+		 $content = preg_replace('/non-refundable=[^>]*/', '', $content);
+		 $content = preg_replace('/security=[^>]*/', '', $content);
+		 $content = preg_replace('/deposit=[^>]*/', '', $content);
+		 $content = preg_replace('/for=[^>]*/', '', $content);
+		 $content = preg_replace('/nowrap="nowrap"/', '', $content);
+		 $content = preg_replace('#<comments-count.*?>(.*?)</comments-count>#i', '', $content);
+		 $content = preg_replace('#<time.*?>(.*?)</time>#i', '', $content);
+		 $content = preg_replace('#<badge.*?>(.*?)</badge>#i', '', $content);
+		 $content = preg_replace('#<plusone.*?>(.*?)</plusone>#i', '', $content);
+		 $content = preg_replace('#<col.*?>#i', '', $content);
+		 $content = preg_replace('#<table.*?>#i', '<table width="100%">', $content);
+		 $content = preg_replace('/href="javascript:void*/', ' ', $content);
+		 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
+		 //for removing attributes within html tags
+		 $content = preg_replace('/(<[^>]+) onclick=".*?"/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) rel=".*?"/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) ref=".*?"/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) date=".*?"/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) time=".*?"/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) imap=".*?"/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) date/', '$1', $content);
+		 $content = preg_replace('/(<[^>]+) spellcheck/', '$1', $content);
+		 $content = preg_replace('/<font(.*?)>(.*?)<\/font>/', '$2', $content);
+		 //removing scripts and rel="nofollow" from Body and from divs
+		 //issue #268
+		 $content = str_replace(' rel="nofollow"',"",$content);
+		 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
+		/// simpy add more elements to simply strip tag but not the content as so
+		/// Array ("p","font");
+		$tags_to_strip = Array("thrive_headline","type","date","time","place","state","city" );
+		foreach ($tags_to_strip as $tag)
+		{
+		   $content = preg_replace("/<\\/?" . $tag . "(.|\\s)*?>/",'',$content);
 		}
-		function ampforwp_the_content_filter( $content ) {
-			 $content = preg_replace('/property=[^>]*/', '', $content);
-			 $content = preg_replace('/vocab=[^>]*/', '', $content);
-			//  $content = preg_replace('/type=[^>]*/', '', $content);
-			 $content = preg_replace('/value=[^>]*/', '', $content);
-			//  $content = preg_replace('/date=[^>]*/', '', $content);
-			 $content = preg_replace('/noshade=[^>]*/', '', $content);
-			 $content = preg_replace('/contenteditable=[^>]*/', '', $content);
-			//  $content = preg_replace('/time=[^>]*/', '', $content);
-			 $content = preg_replace('/non-refundable=[^>]*/', '', $content);
-			 $content = preg_replace('/security=[^>]*/', '', $content);
-			 $content = preg_replace('/deposit=[^>]*/', '', $content);
-			 $content = preg_replace('/for=[^>]*/', '', $content);
-			 $content = preg_replace('/nowrap="nowrap"/', '', $content);
-			 $content = preg_replace('#<comments-count.*?>(.*?)</comments-count>#i', '', $content);
-			 $content = preg_replace('#<time.*?>(.*?)</time>#i', '', $content);
-			 $content = preg_replace('#<badge.*?>(.*?)</badge>#i', '', $content);
-			 $content = preg_replace('#<plusone.*?>(.*?)</plusone>#i', '', $content);
-			 $content = preg_replace('#<col.*?>#i', '', $content);
-			 $content = preg_replace('#<table.*?>#i', '<table width="100%">', $content);
-			 /* Removed So Inline style can work
-			 $content = preg_replace('#<style scoped.*?>(.*?)</style>#i', '', $content); */
-			 $content = preg_replace('/href="javascript:void*/', ' ', $content);
-			 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
-			 //for removing attributes within html tags
-			 $content = preg_replace('/(<[^>]+) onclick=".*?"/', '$1', $content);
-			 /* Removed So Inline style can work
-			 $content = preg_replace('/(<[^>]+) style=".*?"/', '$1', $content);
-			 */
-			 $content = preg_replace('/(<[^>]+) rel=".*?"/', '$1', $content);
-			 $content = preg_replace('/(<[^>]+) ref=".*?"/', '$1', $content);
-			 $content = preg_replace('/(<[^>]+) date=".*?"/', '$1', $content);
-			 $content = preg_replace('/(<[^>]+) time=".*?"/', '$1', $content);
-			 $content = preg_replace('/(<[^>]+) imap=".*?"/', '$1', $content);
-			 $content = preg_replace('/(<[^>]+) date/', '$1', $content);
-			 $content = preg_replace('/(<[^>]+) spellcheck/', '$1', $content);
-			 $content = preg_replace('/<font(.*?)>(.*?)<\/font>/', '$2', $content);
+		// regex on steroids from here on
+		 // issue #420
+		 $content = preg_replace("/<div\s(class=.*?)(href=((".'"|'."'".')(.*?)("|'."'".')))\s(width=("|'."'".')(.*?)("|'."'"."))>(.*)<\/div>/i", '<div $1>$11</div>', $content);
+		 $content = preg_replace('/<like\s(.*?)>(.*)<\/like>/i', '', $content);
+		 $content = preg_replace('/<g:plusone\s(.*?)>(.*)<\/g:plusone>/i', '', $content);
+		 $content = preg_replace('/imageanchor="1"/i', '', $content);
+		 $content = preg_replace('/<plusone\s(.*?)>(.*?)<\/plusone>/', '', $content);
+		 // $content = preg_replace('/date=[^>]*/', '', $content);
+		 // $content = preg_replace('/type=[^>]*/', '', $content);
+		 // $content = preg_replace('/time=[^>]*/', '', $content);
+		 // $content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
 
-			 //removing scripts and rel="nofollow" from Body and from divs
-			 //issue #268
-			 $content = str_replace(' rel="nofollow"',"",$content);
-			 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
-			/// simpy add more elements to simply strip tag but not the content as so
-			/// Array ("p","font");
-			$tags_to_strip = Array("thrive_headline","type","date","time","place","state","city" );
-			foreach ($tags_to_strip as $tag)
-			{
-			   $content = preg_replace("/<\\/?" . $tag . "(.|\\s)*?>/",'',$content);
-			}
-			// regex on steroids from here on
-			 // issue #420
-			 $content = preg_replace("/<div\s(class=.*?)(href=((".'"|'."'".')(.*?)("|'."'".')))\s(width=("|'."'".')(.*?)("|'."'"."))>(.*)<\/div>/i", '<div $1>$11</div>', $content);
-			 $content = preg_replace('/<like\s(.*?)>(.*)<\/like>/i', '', $content);
-			 $content = preg_replace('/<g:plusone\s(.*?)>(.*)<\/g:plusone>/i', '', $content);
-			 $content = preg_replace('/imageanchor="1"/i', '', $content);
-			 $content = preg_replace('/<plusone\s(.*?)>(.*?)<\/plusone>/', '', $content);
+		 /* Removed So Inline style can work
+		 $content = preg_replace('#<style scoped.*?>(.*?)</style>#i', '', $content); */
+		 /* Removed So Inline style can work
+		 $content = preg_replace('/(<[^>]+) style=".*?"/', '$1', $content);
+		 */
 
-			//				 $content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
-			return $content;
-		}
+		return $content;
+	}
 
 
 	// 11.1 Strip unwanted codes and tags from wp_footer for better compatibility with Plugins
-		if ( ! is_customize_preview() ) {
-			add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_footer');
-		}
-		function ampforwp_strip_invalid_content_footer() {
-			add_filter( 'wp_footer', 'ampforwp_the_content_filter_footer', 1 );
-		}
-		function ampforwp_the_content_filter_footer( $content ) {
-            remove_all_actions('wp_footer');
-				return $content;
-		}
+	if ( ! is_customize_preview() ) {
+		add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_footer');
+	}
+	function ampforwp_strip_invalid_content_footer() {
+		add_filter( 'wp_footer', 'ampforwp_the_content_filter_footer', 1 );
+	}
+	function ampforwp_the_content_filter_footer( $content ) {
+    remove_all_actions('wp_footer');
+		return $content;
+	}
 
 	// 11.5 Strip unwanted codes the_content of Frontpage
-    add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_frontpage');
-        function ampforwp_strip_invalid_content_frontpage(){
-            if ( is_front_page() || is_home() ) {
+  add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_frontpage');
+	function ampforwp_strip_invalid_content_frontpage(){
+    if ( is_front_page() || is_home() ) {
 			add_filter( 'the_content', 'ampforwp_the_content_filter_frontpage', 20 );
-            }
-		}
-		function ampforwp_the_content_filter_frontpage( $content ) {
-				 $content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
-				return $content;
-		}
+    }
+	}
+	function ampforwp_the_content_filter_frontpage( $content ) {
+		$content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
+		return $content;
+	}
+
 
 	// 12. Add Logo URL in the structured metadata
-		add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata', 10, 2 );
-		function ampforwp_update_metadata( $metadata, $post ) {
-				global $redux_builder_amp;
+	add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata', 10, 2 );
+	function ampforwp_update_metadata( $metadata, $post ) {
+		global $redux_builder_amp;
 
-				if (! empty( $redux_builder_amp['opt-media']['url'] ) ) {
-					$structured_data_main_logo = $redux_builder_amp['opt-media']['url'];
+		if (! empty( $redux_builder_amp['opt-media']['url'] ) ) {
+			$structured_data_main_logo = $redux_builder_amp['opt-media']['url'];
+		}
+
+		if (! empty( $redux_builder_amp['amp-structured-data-logo']['url'] ) ) {
+			$structured_data_logo = $redux_builder_amp['amp-structured-data-logo']['url'];
+		}
+
+		if ( $structured_data_logo ) {
+			$structured_data_logo = $structured_data_logo;
+		} else {
+			$structured_data_logo = $structured_data_main_logo;
+		}
+
+		$metadata['publisher']['logo'] = array(
+			'@type' 	=> 'ImageObject',
+			'url' 		=>  $structured_data_logo ,
+			'height' 	=> 36,
+			'width' 	=> 190,
+		);
+
+		//code for adding 'description' meta from Yoast SEO
+		if($redux_builder_amp['ampforwp-seo-yoast-custom-description']){
+			if ( class_exists('WPSEO_Frontend') ) {
+				$front = WPSEO_Frontend::get_instance();
+				$desc = $front->metadesc( false );
+				if ( $desc ) {
+					$metadata['description'] = $desc;
 				}
 
-				if (! empty( $redux_builder_amp['amp-structured-data-logo']['url'] ) ) {
-					$structured_data_logo = $redux_builder_amp['amp-structured-data-logo']['url'];
-				}
-				if ( $structured_data_logo ) {
-					$structured_data_logo = $structured_data_logo;
-				} else {
-					$structured_data_logo = $structured_data_main_logo;
-				}
-				$metadata['publisher']['logo'] = array(
-					'@type' 	=> 'ImageObject',
-					'url' 		=>  $structured_data_logo ,
-					'height' 	=> 36,
-					'width' 	=> 190,
-				);
-
-				//code for adding 'description' meta from Yoast SEO
-
-				if($redux_builder_amp['ampforwp-seo-yoast-custom-description']){
-					if ( class_exists('WPSEO_Frontend') ) {
-						$front = WPSEO_Frontend::get_instance();
-						$desc = $front->metadesc( false );
-						if ( $desc ) {
-							$metadata['description'] = $desc;
-						}
-
-						// Code for Custom Frontpage Yoast SEO Description
-						$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
-						if ( class_exists('WPSEO_Meta') ) {
-							$custom_fp_desc = WPSEO_Meta::get_value('metadesc', $post_id );
-							if ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) {
-								if ( $custom_fp_desc ) {
-									$metadata['description'] = $custom_fp_desc;
-								} else {
-									unset( $metadata['description'] );
-								}
-							}
+				// Code for Custom Frontpage Yoast SEO Description
+				$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
+				if ( class_exists('WPSEO_Meta') ) {
+					$custom_fp_desc = WPSEO_Meta::get_value('metadesc', $post_id );
+					if ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) {
+						if ( $custom_fp_desc ) {
+							$metadata['description'] = $custom_fp_desc;
+						} else {
+							unset( $metadata['description'] );
 						}
 					}
 				}
-				//End of code for adding 'description' meta from Yoast SEO
+			}
+		} //End of code for adding 'description' meta from Yoast SEO
 
-				return $metadata;
-		}
+		return $metadata;
+	}
 
 
 	// 13. Add Custom Placeholder Image for Structured Data.
 	// if there is no image in the post, then use this image to validate Structured Data.
 	add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata_featured_image', 10, 2 );
 	function ampforwp_update_metadata_featured_image( $metadata, $post ) {
-			global $redux_builder_amp;
-			global $post;
-			$post_id = get_the_ID() ;
-			$post_image_id = get_post_thumbnail_id( $post_id );
-			$structured_data_image = wp_get_attachment_image_src( $post_image_id, 'full' );
-			$post_image_check = $structured_data_image;
+		global $redux_builder_amp;
+		global $post;
+		$post_id = get_the_ID() ;
+		$post_image_id = get_post_thumbnail_id( $post_id );
+		$structured_data_image = wp_get_attachment_image_src( $post_image_id, 'full' );
+		$post_image_check = $structured_data_image;
 
-			if ( $post_image_check == false) {
-				if (! empty( $redux_builder_amp['amp-structured-data-placeholder-image']['url'] ) ) {
-					$structured_data_image_url = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
-				}
-					$structured_data_image = $structured_data_image_url;
-					$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
-					$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
-
-					$metadata['image'] = array(
-						'@type' 	=> 'ImageObject',
-						'url' 		=> $structured_data_image ,
-						'height' 	=> $structured_data_height,
-						'width' 	=> $structured_data_width,
-					);
+		if ( $post_image_check == false) {
+			if (! empty( $redux_builder_amp['amp-structured-data-placeholder-image']['url'] ) ) {
+				$structured_data_image_url = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
 			}
-			// Custom Structured Data information for Archive, Categories and tag pages.
-			if ( is_archive() ) {
-					$structured_data_image = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
-					$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
-					$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
+				$structured_data_image = $structured_data_image_url;
+				$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
+				$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
 
-					$structured_data_archive_title 	= "Archived Posts";
-					$structured_data_author				=  get_userdata( 1 );
-							if ( $structured_data_author ) {
-								$structured_data_author 		= $structured_data_author->display_name ;
-							} else {
-								$structured_data_author 		= "admin";
-							}
+				$metadata['image'] = array(
+					'@type' 	=> 'ImageObject',
+					'url' 		=> $structured_data_image ,
+					'height' 	=> $structured_data_height,
+					'width' 	=> $structured_data_width,
+				);
+		}
+		// Custom Structured Data information for Archive, Categories and tag pages.
+		if ( is_archive() ) {
+				$structured_data_image = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
+				$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
+				$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
 
-					$metadata['image'] = array(
-						'@type' 	=> 'ImageObject',
-						'url' 		=> $structured_data_image ,
-						'height' 	=> $structured_data_height,
-						'width' 	=> $structured_data_width,
-					);
-					$metadata['author'] = array(
-						'@type' 	=> 'Person',
-						'name' 		=> $structured_data_author ,
-					);
-					$metadata['headline'] = $structured_data_archive_title;
-			}
+				$structured_data_archive_title 	= "Archived Posts";
+				$structured_data_author				=  get_userdata( 1 );
+						if ( $structured_data_author ) {
+							$structured_data_author 		= $structured_data_author->display_name ;
+						} else {
+							$structured_data_author 		= "admin";
+						}
 
-			if ( $metadata['image']['width'] < 696 ) {
-	 			$metadata['image']['width'] = 700 ;
-     	}
+				$metadata['image'] = array(
+					'@type' 	=> 'ImageObject',
+					'url' 		=> $structured_data_image ,
+					'height' 	=> $structured_data_height,
+					'width' 	=> $structured_data_width,
+				);
+				$metadata['author'] = array(
+					'@type' 	=> 'Person',
+					'name' 		=> $structured_data_author ,
+				);
+				$metadata['headline'] = $structured_data_archive_title;
+		}
 
-			return $metadata;
+		if ( $metadata['image']['width'] < 696 ) {
+ 			$metadata['image']['width'] = 700 ;
+   	}
+
+		return $metadata;
 	}
+
 
 // 14. Adds a meta box to the post editing screen for AMP on-off on specific pages.
 /**
  * Adds a meta box to the post editing screen for AMP on-off on specific pages
 */
+add_action( 'add_meta_boxes', 'ampforwp_title_custom_meta' );
 function ampforwp_title_custom_meta() {
   global $redux_builder_amp;
-    $args = array(
-       'public'   => true,
-    );
+  $args = array(
+     'public'   => true,
+  );
 
-    $output = 'names'; // 'names' or 'objects' (default: 'names')
-    $operator = 'and'; // 'and' or 'or' (default: 'and')
+  $output = 'names'; // 'names' or 'objects' (default: 'names')
+  $operator = 'and'; // 'and' or 'or' (default: 'and')
 
-    $post_types = get_post_types( $args, $output, $operator );
+  $post_types = get_post_types( $args, $output, $operator );
 
-    if ( $post_types ) { // If there are any custom public post types.
+  if ( $post_types ) { // If there are any custom public post types.
 
-        foreach ( $post_types  as $post_type ) {
+    foreach ( $post_types  as $post_type ) {
 
-          if( $post_type == 'amp-cta' ) {
-							continue;
-          }
+      if( $post_type == 'amp-cta' ) {
+					continue;
+      }
 
-          if( $post_type !== 'page' ) {
-            add_meta_box( 'ampforwp_title_meta', __( 'Show AMP for Current Page?' ), 'ampforwp_title_callback', $post_type,'side' );
-          }
+      if( $post_type !== 'page' ) {
+        add_meta_box( 'ampforwp_title_meta', __( 'Show AMP for Current Page?' ), 'ampforwp_title_callback', $post_type,'side' );
+      }
 
-          if( $redux_builder_amp['amp-on-off-for-all-pages'] && $post_type == 'page' ) {
-              add_meta_box( 'ampforwp_title_meta', __( 'Show AMP for Current Page?' ), 'ampforwp_title_callback','page','side' );
-          }
+      if( $redux_builder_amp['amp-on-off-for-all-pages'] && $post_type == 'page' ) {
+          add_meta_box( 'ampforwp_title_meta', __( 'Show AMP for Current Page?' ), 'ampforwp_title_callback','page','side' );
+      }
 
-        }
     }
+  }
 }
-add_action( 'add_meta_boxes', 'ampforwp_title_custom_meta' );
+
 
 /**
  * Outputs the content of the meta box for AMP on-off on specific pages
  */
 function ampforwp_title_callback( $post ) {
-    wp_nonce_field( basename( __FILE__ ), 'ampforwp_title_nonce' );
-    $ampforwp_stored_meta = get_post_meta( $post->ID );
+  wp_nonce_field( basename( __FILE__ ), 'ampforwp_title_nonce' );
+  $ampforwp_stored_meta = get_post_meta( $post->ID );
 
-    	// TODO: Move the data storage code, to Save meta Box area as it is not a good idea to update an option everytime, try adding this code inside ampforwp_title_meta_save()
-    	// This code needs a rewrite.
-		if ( $ampforwp_stored_meta['ampforwp-amp-on-off'][0] == 'hide-amp') {
-			$exclude_post_value = get_option('ampforwp_exclude_post');
-			if ( $exclude_post_value == null ) {
-				$exclude_post_value[] = 0;
-			}
-			if ( $exclude_post_value ) {
-				if ( ! in_array( $post->ID, $exclude_post_value ) ) {
-					$exclude_post_value[] = $post->ID;
-					update_option('ampforwp_exclude_post', $exclude_post_value);
-				}
-			}
-		} else {
-			$exclude_post_value = get_option('ampforwp_exclude_post');
-			if ( $exclude_post_value == null ) {
-				$exclude_post_value[] = 0;
-			}
-			if ( $exclude_post_value ) {
-				if ( in_array( $post->ID, $exclude_post_value ) ) {
-					$exclude_ids = array_diff($exclude_post_value, array($post->ID) );
-					update_option('ampforwp_exclude_post', $exclude_ids);
-				}
-			}
-
+	// TODO: Move the data storage code, to Save meta Box area as it is not a good idea to update an option everytime, try adding this code inside ampforwp_title_meta_save()
+	// This code needs a rewrite.
+	if ( $ampforwp_stored_meta['ampforwp-amp-on-off'][0] == 'hide-amp') {
+		$exclude_post_value = get_option('ampforwp_exclude_post');
+		if ( $exclude_post_value == null ) {
+			$exclude_post_value[] = 0;
 		}
-        ?>
-    <p>
-        <div class="prfx-row-content">
-            <label for="meta-radio-one">
-                <input type="radio" name="ampforwp-amp-on-off" id="meta-radio-one" value="default"  checked="checked" <?php if ( isset ( $ampforwp_stored_meta['ampforwp-amp-on-off'] ) ) checked( $ampforwp_stored_meta['ampforwp-amp-on-off'][0], 'default' ); ?>>
-                <?php _e( 'Show' )?>
-            </label>
-            <label for="meta-radio-two">
-                <input type="radio" name="ampforwp-amp-on-off" id="meta-radio-two" value="hide-amp" <?php if ( isset ( $ampforwp_stored_meta['ampforwp-amp-on-off'] ) ) checked( $ampforwp_stored_meta['ampforwp-amp-on-off'][0], 'hide-amp' ); ?>>
-                <?php _e( 'Hide' )?>
-            </label>
-        </div>
-    </p>
-    <?php
+		if ( $exclude_post_value ) {
+			if ( ! in_array( $post->ID, $exclude_post_value ) ) {
+				$exclude_post_value[] = $post->ID;
+				update_option('ampforwp_exclude_post', $exclude_post_value);
+			}
+		}
+	} else {
+		$exclude_post_value = get_option('ampforwp_exclude_post');
+		if ( $exclude_post_value == null ) {
+			$exclude_post_value[] = 0;
+		}
+		if ( $exclude_post_value ) {
+			if ( in_array( $post->ID, $exclude_post_value ) ) {
+				$exclude_ids = array_diff($exclude_post_value, array($post->ID) );
+				update_option('ampforwp_exclude_post', $exclude_ids);
+			}
+		}
+
+	} ?>
+  <p>
+    <div class="prfx-row-content">
+      <label for="meta-radio-one">
+        <input type="radio" name="ampforwp-amp-on-off" id="meta-radio-one" value="default"  checked="checked" <?php if ( isset ( $ampforwp_stored_meta['ampforwp-amp-on-off'] ) ) checked( $ampforwp_stored_meta['ampforwp-amp-on-off'][0], 'default' ); ?>>
+        <?php _e( 'Show' )?>
+      </label>
+      <label for="meta-radio-two">
+        <input type="radio" name="ampforwp-amp-on-off" id="meta-radio-two" value="hide-amp" <?php if ( isset ( $ampforwp_stored_meta['ampforwp-amp-on-off'] ) ) checked( $ampforwp_stored_meta['ampforwp-amp-on-off'][0], 'hide-amp' ); ?>>
+        <?php _e( 'Hide' )?>
+      </label>
+    </div>
+  </p> <?php
 }
 
 /**
  * Saves the custom meta input for AMP on-off on specific pages
  */
+ add_action( 'save_post', 'ampforwp_title_meta_save' );
 function ampforwp_title_meta_save( $post_id ) {
 
-    // Checks save status
-    $is_autosave = wp_is_post_autosave( $post_id );
-    $is_revision = wp_is_post_revision( $post_id );
-    $is_valid_nonce = ( isset( $_POST[ 'ampforwp_title_nonce' ] ) && wp_verify_nonce( $_POST[ 'ampforwp_title_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+  // Checks save status
+  $is_autosave = wp_is_post_autosave( $post_id );
+  $is_revision = wp_is_post_revision( $post_id );
+  $is_valid_nonce = ( isset( $_POST[ 'ampforwp_title_nonce' ] ) && wp_verify_nonce( $_POST[ 'ampforwp_title_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
 
-    // Exits script depending on save status
-    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
-        return;
-    }
+  // Exits script depending on save status
+  if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+      return;
+  }
 
-    // Checks for radio buttons and saves if needed
-    if( isset( $_POST[ 'ampforwp-amp-on-off' ] ) ) {
-        $ampforwp_amp_status = sanitize_text_field( $_POST[ 'ampforwp-amp-on-off' ] );
-        update_post_meta( $post_id, 'ampforwp-amp-on-off', $ampforwp_amp_status );
-    }
+  // Checks for radio buttons and saves if needed
+  if( isset( $_POST[ 'ampforwp-amp-on-off' ] ) ) {
+      $ampforwp_amp_status = sanitize_text_field( $_POST[ 'ampforwp-amp-on-off' ] );
+      update_post_meta( $post_id, 'ampforwp-amp-on-off', $ampforwp_amp_status );
+  }
 
 }
-add_action( 'save_post', 'ampforwp_title_meta_save' );
 
 add_filter('amp_frontend_show_canonical','ampforwp_hide_amp_for_specific_pages');
 function ampforwp_hide_amp_for_specific_pages($input){
-		global $post;
-		$ampforwp_amp_status = get_post_meta($post->ID, 'ampforwp-amp-on-off', true);
-		if ( $ampforwp_amp_status == 'hide-amp' ) {
-			$input = false;
-		}
-		return $input;
+	global $post;
+	$ampforwp_amp_status = get_post_meta($post->ID, 'ampforwp-amp-on-off', true);
+	if ( $ampforwp_amp_status == 'hide-amp' ) {
+		$input = false;
+	}
+	return $input;
 }
+
 
 // 15. Disable New Relic's extra script that its adds in AMP pages.
 add_action( 'amp_post_template_data', 'ampforwp_disable_new_relic_scripts' );
 if ( ! function_exists('ampforwp_disable_new_relic_scripts') ) {
-		function ampforwp_disable_new_relic_scripts( $data ) {
-			if ( ! function_exists( 'newrelic_disable_autorum' ) ) {
-				return $data;
-			}
-			if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
-				newrelic_disable_autorum();
-			}
+	function ampforwp_disable_new_relic_scripts( $data ) {
+		if ( ! function_exists( 'newrelic_disable_autorum' ) ) {
 			return $data;
 		}
+		if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
+			newrelic_disable_autorum();
+		}
+		return $data;
+	}
 }
+
 
 // 16. Remove Unwanted Scripts
 if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
@@ -893,73 +896,42 @@ function ampforwp_remove_unwanted_scripts() {
 }
 // Remove Print Scripts and styles
 function ampforwp_remove_print_scripts() {
-		if ( ampforwp_is_amp_endpoint() ) {
+	if ( ampforwp_is_amp_endpoint() ) {
 
-		    function ampforwp_remove_all_scripts() {
-		        global $wp_scripts;
-		        $wp_scripts->queue = array();
-		    }
-		    add_action('wp_print_scripts', 'ampforwp_remove_all_scripts', 100);
-		    function ampforwp_remove_all_styles() {
-		        global $wp_styles;
-		        $wp_styles->queue = array();
-		    }
-		    add_action('wp_print_styles', 'ampforwp_remove_all_styles', 100);
+    function ampforwp_remove_all_scripts() {
+      global $wp_scripts;
+      $wp_scripts->queue = array();
+    }
+    add_action('wp_print_scripts', 'ampforwp_remove_all_scripts', 100);
+    function ampforwp_remove_all_styles() {
+      global $wp_styles;
+      $wp_styles->queue = array();
+    }
+    add_action('wp_print_styles', 'ampforwp_remove_all_styles', 100);
 
-				// Remove Print Emoji for Nextgen Gallery support
-				remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-				remove_action( 'wp_print_styles', 'print_emoji_styles' );
+		// Remove Print Emoji for Nextgen Gallery support
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
-		}
+	}
 }
 add_action( 'template_redirect', 'ampforwp_remove_print_scripts' );
 
-// 17. Archives Canonical in AMP version
-// function ampforwp_rel_canonical_archive() {
-//
-// 			//    $archivelink = esc_url( get_permalink( $id ) . AMPFORWP_AMP_QUERY_VAR . '/' );
-//   		echo "<link rel='canonical' href='$current_archive_url' />\n";
-// }
-// add_action( 'amp_post_template_head', 'ampforwp_rel_canonical_archive' );
-
-// 18. Custom Canonical for Homepage
-// function ampforwp_rel_canonical() {
-//     if ( !is_home() )
-//     return;
-// //    $link = esc_url( get_permalink( $id ) . AMPFORWP_AMP_QUERY_VAR . '/' );
-//     $homelink = get_home_url();
-//     echo "<link rel='canonical' href='$homelink' />\n";
-// }
-// add_action( 'amp_post_template_head', 'ampforwp_rel_canonical' );
-
-// 18.5. Custom Canonical for Frontpage
-// function ampforwp_rel_canonical_frontpage() {
-//    if ( is_home() || is_front_page() )
-//    return;
-// //    $link = esc_url( get_permalink( $id ) . AMPFORWP_AMP_QUERY_VAR . '/' );
-//    $homelink = get_home_url();
-//    echo "<link rel='canonical' href='$homelink' />\n";
-// }
-// add_action( 'amp_post_template_head', 'ampforwp_rel_canonical_frontpage' );
 
 // 19. Remove Canonical tags
 function ampforwp_amp_remove_actions() {
-    if ( is_home() || is_front_page() || is_archive() || is_search() ) {
-        remove_action( 'amp_post_template_head', 'amp_post_template_add_canonical' );
-    }
+  if ( is_home() || is_front_page() || is_archive() || is_search() ) {
+    remove_action( 'amp_post_template_head', 'amp_post_template_add_canonical' );
+  }
 }
 add_action( 'amp_post_template_head', 'ampforwp_amp_remove_actions', 9 );
 
-// 20. Remove the default Google font for performance
-// add_action( 'amp_post_template_head', function() {
-//     remove_action( 'amp_post_template_head', 'amp_post_template_add_fonts' );
-// }, 9 );
 
 // 21. Remove Schema data from All In One Schema.org Rich Snippets Plugin
 add_action( 'pre_amp_render_post', 'ampforwp_remove_schema_data' );
 function ampforwp_remove_schema_data() {
 	remove_filter('the_content','display_rich_snippet');
-    	// Ultimate Social Media PLUS Compatiblity Added
+  // Ultimate Social Media PLUS Compatiblity Added
 	remove_filter('the_content','sfsi_plus_beforaftereposts');
 	remove_filter('the_content','sfsi_plus_beforeafterblogposts');
 
@@ -970,6 +942,7 @@ function ampforwp_remove_schema_data() {
 	}
 
 }
+
 
 // 22. Removing author links from comments Issue #180
 if( ! function_exists( "disable_comment_author_links" ) ) {
@@ -984,59 +957,61 @@ if( ! function_exists( "disable_comment_author_links" ) ) {
 	add_filter( 'get_comment_author_link', 'ampforwp_disable_comment_author_links' );
 }
 
+
 // 23. The analytics tag appears more than once in the document. This will soon be an error
 remove_action( 'amp_post_template_head', 'quads_amp_add_amp_ad_js');
+
 
 // 24. Seperate Sticky Single Social Icons
 // TO DO: we can directly call social-icons.php instead of below code
 add_action('amp_post_template_footer','ampforwp_sticky_social_icons');
 function ampforwp_sticky_social_icons(){
 	global $redux_builder_amp;
-	if($redux_builder_amp['enable-single-social-icons'] == true && is_single() )  { ?>
-		<div class="sticky_social">
-			<?php if($redux_builder_amp['enable-single-facebook-share'] == true)  { ?>
-		    	<amp-social-share type="facebook"    data-param-app_id="<?php echo $redux_builder_amp['amp-facebook-app-id']; ?>" width="50" height="28"></amp-social-share>
-		  	<?php } ?>
-		  	<?php if($redux_builder_amp['enable-single-twitter-share'] == true)  {
-          $data_param_data = $redux_builder_amp['enable-single-twitter-share-handle'];?>
-          <amp-social-share type="twitter"
-                            width="50"
-                            height="28"
-                            data-param-url="CANONICAL_URL"
-                            data-param-text=<?php echo $data_param_data ?>
-          ></amp-social-share>
-		  	<?php } ?>
-		  	<?php if($redux_builder_amp['enable-single-gplus-share'] == true)  { ?>
-		    	<amp-social-share type="gplus"      width="50" height="28"></amp-social-share>
-		  	<?php } ?>
-		  	<?php if($redux_builder_amp['enable-single-email-share'] == true)  { ?>
-		    	<amp-social-share type="email"      width="50" height="28"></amp-social-share>
-		  	<?php } ?>
-		  	<?php if($redux_builder_amp['enable-single-pinterest-share'] == true)  { ?>
-		    	<amp-social-share type="pinterest"  width="50" height="28"></amp-social-share>
-		  	<?php } ?>
-		  	<?php if($redux_builder_amp['enable-single-linkedin-share'] == true)  { ?>
-		    	<amp-social-share type="linkedin" width="50" height="28"></amp-social-share>
-		  	<?php } ?>
-		  	<?php if($redux_builder_amp['enable-single-whatsapp-share'] == true)  { ?>
-						<a href="whatsapp://send?text=<?php echo get_the_permalink();?>">
-						<div class="whatsapp-share-icon">
-						    <amp-img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgOTAgOTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDkwIDkwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggaWQ9IldoYXRzQXBwIiBkPSJNOTAsNDMuODQxYzAsMjQuMjEzLTE5Ljc3OSw0My44NDEtNDQuMTgyLDQzLjg0MWMtNy43NDcsMC0xNS4wMjUtMS45OC0yMS4zNTctNS40NTVMMCw5MGw3Ljk3NS0yMy41MjIgICBjLTQuMDIzLTYuNjA2LTYuMzQtMTQuMzU0LTYuMzQtMjIuNjM3QzEuNjM1LDE5LjYyOCwyMS40MTYsMCw0NS44MTgsMEM3MC4yMjMsMCw5MCwxOS42MjgsOTAsNDMuODQxeiBNNDUuODE4LDYuOTgyICAgYy0yMC40ODQsMC0zNy4xNDYsMTYuNTM1LTM3LjE0NiwzNi44NTljMCw4LjA2NSwyLjYyOSwxNS41MzQsNy4wNzYsMjEuNjFMMTEuMTA3LDc5LjE0bDE0LjI3NS00LjUzNyAgIGM1Ljg2NSwzLjg1MSwxMi44OTEsNi4wOTcsMjAuNDM3LDYuMDk3YzIwLjQ4MSwwLDM3LjE0Ni0xNi41MzMsMzcuMTQ2LTM2Ljg1N1M2Ni4zMDEsNi45ODIsNDUuODE4LDYuOTgyeiBNNjguMTI5LDUzLjkzOCAgIGMtMC4yNzMtMC40NDctMC45OTQtMC43MTctMi4wNzYtMS4yNTRjLTEuMDg0LTAuNTM3LTYuNDEtMy4xMzgtNy40LTMuNDk1Yy0wLjk5My0wLjM1OC0xLjcxNy0wLjUzOC0yLjQzOCwwLjUzNyAgIGMtMC43MjEsMS4wNzYtMi43OTcsMy40OTUtMy40Myw0LjIxMmMtMC42MzIsMC43MTktMS4yNjMsMC44MDktMi4zNDcsMC4yNzFjLTEuMDgyLTAuNTM3LTQuNTcxLTEuNjczLTguNzA4LTUuMzMzICAgYy0zLjIxOS0yLjg0OC01LjM5My02LjM2NC02LjAyNS03LjQ0MWMtMC42MzEtMS4wNzUtMC4wNjYtMS42NTYsMC40NzUtMi4xOTFjMC40ODgtMC40ODIsMS4wODQtMS4yNTUsMS42MjUtMS44ODIgICBjMC41NDMtMC42MjgsMC43MjMtMS4wNzUsMS4wODItMS43OTNjMC4zNjMtMC43MTcsMC4xODItMS4zNDQtMC4wOS0xLjg4M2MtMC4yNy0wLjUzNy0yLjQzOC01LjgyNS0zLjM0LTcuOTc3ICAgYy0wLjkwMi0yLjE1LTEuODAzLTEuNzkyLTIuNDM2LTEuNzkyYy0wLjYzMSwwLTEuMzU0LTAuMDktMi4wNzYtMC4wOWMtMC43MjIsMC0xLjg5NiwwLjI2OS0yLjg4OSwxLjM0NCAgIGMtMC45OTIsMS4wNzYtMy43ODksMy42NzYtMy43ODksOC45NjNjMCw1LjI4OCwzLjg3OSwxMC4zOTcsNC40MjIsMTEuMTEzYzAuNTQxLDAuNzE2LDcuNDksMTEuOTIsMTguNSwxNi4yMjMgICBDNTguMiw2NS43NzEsNTguMiw2NC4zMzYsNjAuMTg2LDY0LjE1NmMxLjk4NC0wLjE3OSw2LjQwNi0yLjU5OSw3LjMxMi01LjEwN0M2OC4zOTgsNTYuNTM3LDY4LjM5OCw1NC4zODYsNjguMTI5LDUzLjkzOHoiIGZpbGw9IiNGRkZGRkYiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" width="50" height="20" />
-						    </div>
-							</a>
-        <?php } ?>
-		</div>
-	<?php }
+	if( $redux_builder_amp['enable-single-social-icons'] == true && is_single() )  { ?>
+		<div class="sticky_social"> <?php
+			if( $redux_builder_amp['enable-single-facebook-share'] == true ) { ?>
+	    	<amp-social-share type="facebook" data-param-app_id="<?php echo $redux_builder_amp['amp-facebook-app-id']; ?>" width="50" height="28">
+	    	</amp-social-share> <?php
+			}
+			if($redux_builder_amp['enable-single-twitter-share'] == true)  {
+        $data_param_data = $redux_builder_amp['enable-single-twitter-share-handle'];?>
+        <amp-social-share type="twitter"
+                          width="50"
+                          height="28"
+                          data-param-url="CANONICAL_URL"
+                          data-param-text=<?php echo $data_param_data ?> >
+        </amp-social-share> <?php
+		  }
+			if($redux_builder_amp['enable-single-gplus-share'] == true)  { ?>
+	    	<amp-social-share type="gplus"      width="50" height="28"></amp-social-share> <?php
+		  }
+			if($redux_builder_amp['enable-single-email-share'] == true)  { ?>
+	    	<amp-social-share type="email"      width="50" height="28"></amp-social-share> <?php
+		  }
+			if($redux_builder_amp['enable-single-pinterest-share'] == true)  { ?>
+		    	<amp-social-share type="pinterest"  width="50" height="28"></amp-social-share> <?php
+		  }
+			if($redux_builder_amp['enable-single-linkedin-share'] == true)  { ?>
+		    	<amp-social-share type="linkedin" width="50" height="28"></amp-social-share> <?php
+		  }
+			if($redux_builder_amp['enable-single-whatsapp-share'] == true)  { ?>
+				<a href="whatsapp://send?text=<?php echo get_the_permalink();?>" >
+				<div class="whatsapp-share-icon">
+			    <amp-img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgOTAgOTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDkwIDkwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggaWQ9IldoYXRzQXBwIiBkPSJNOTAsNDMuODQxYzAsMjQuMjEzLTE5Ljc3OSw0My44NDEtNDQuMTgyLDQzLjg0MWMtNy43NDcsMC0xNS4wMjUtMS45OC0yMS4zNTctNS40NTVMMCw5MGw3Ljk3NS0yMy41MjIgICBjLTQuMDIzLTYuNjA2LTYuMzQtMTQuMzU0LTYuMzQtMjIuNjM3QzEuNjM1LDE5LjYyOCwyMS40MTYsMCw0NS44MTgsMEM3MC4yMjMsMCw5MCwxOS42MjgsOTAsNDMuODQxeiBNNDUuODE4LDYuOTgyICAgYy0yMC40ODQsMC0zNy4xNDYsMTYuNTM1LTM3LjE0NiwzNi44NTljMCw4LjA2NSwyLjYyOSwxNS41MzQsNy4wNzYsMjEuNjFMMTEuMTA3LDc5LjE0bDE0LjI3NS00LjUzNyAgIGM1Ljg2NSwzLjg1MSwxMi44OTEsNi4wOTcsMjAuNDM3LDYuMDk3YzIwLjQ4MSwwLDM3LjE0Ni0xNi41MzMsMzcuMTQ2LTM2Ljg1N1M2Ni4zMDEsNi45ODIsNDUuODE4LDYuOTgyeiBNNjguMTI5LDUzLjkzOCAgIGMtMC4yNzMtMC40NDctMC45OTQtMC43MTctMi4wNzYtMS4yNTRjLTEuMDg0LTAuNTM3LTYuNDEtMy4xMzgtNy40LTMuNDk1Yy0wLjk5My0wLjM1OC0xLjcxNy0wLjUzOC0yLjQzOCwwLjUzNyAgIGMtMC43MjEsMS4wNzYtMi43OTcsMy40OTUtMy40Myw0LjIxMmMtMC42MzIsMC43MTktMS4yNjMsMC44MDktMi4zNDcsMC4yNzFjLTEuMDgyLTAuNTM3LTQuNTcxLTEuNjczLTguNzA4LTUuMzMzICAgYy0zLjIxOS0yLjg0OC01LjM5My02LjM2NC02LjAyNS03LjQ0MWMtMC42MzEtMS4wNzUtMC4wNjYtMS42NTYsMC40NzUtMi4xOTFjMC40ODgtMC40ODIsMS4wODQtMS4yNTUsMS42MjUtMS44ODIgICBjMC41NDMtMC42MjgsMC43MjMtMS4wNzUsMS4wODItMS43OTNjMC4zNjMtMC43MTcsMC4xODItMS4zNDQtMC4wOS0xLjg4M2MtMC4yNy0wLjUzNy0yLjQzOC01LjgyNS0zLjM0LTcuOTc3ICAgYy0wLjkwMi0yLjE1LTEuODAzLTEuNzkyLTIuNDM2LTEuNzkyYy0wLjYzMSwwLTEuMzU0LTAuMDktMi4wNzYtMC4wOWMtMC43MjIsMC0xLjg5NiwwLjI2OS0yLjg4OSwxLjM0NCAgIGMtMC45OTIsMS4wNzYtMy43ODksMy42NzYtMy43ODksOC45NjNjMCw1LjI4OCwzLjg3OSwxMC4zOTcsNC40MjIsMTEuMTEzYzAuNTQxLDAuNzE2LDcuNDksMTEuOTIsMTguNSwxNi4yMjMgICBDNTguMiw2NS43NzEsNTguMiw2NC4zMzYsNjAuMTg2LDY0LjE1NmMxLjk4NC0wLjE3OSw2LjQwNi0yLjU5OSw3LjMxMi01LjEwN0M2OC4zOTgsNTYuNTM3LDY4LjM5OCw1NC4zODYsNjguMTI5LDUzLjkzOHoiIGZpbGw9IiNGRkZGRkYiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" width="50" height="20" />
+				</div>
+				</a> <?php
+      } ?>
+		</div> <?php
+	 }
 }
-// if ( $ampforwp_social_icons_enabled == true ) {
-//
-// }
+
 //	add_action('amp_post_template_head','ampforwp_register_social_sharing_script');
 function ampforwp_register_social_sharing_script() {
-			if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
-				<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
-<?php }
+	if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
+		<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script> <?php
+ 	}
 }
+
 
 //	25. Yoast meta Support
 function ampforwp_custom_yoast_meta(){
@@ -1054,7 +1029,7 @@ function ampforwp_custom_yoast_meta(){
 					do_action( 'wpseo_opengraph' );
 				}
 		}//execute only if Glue is deactive
-	echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
+		echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
 	} else {
 		echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
 	}
@@ -1076,7 +1051,7 @@ function ampforwp_custom_yoast_meta_homepage(){
 				do_action( 'wpseo_opengraph' );
 
 		}//execute only if Glue is deactive
-	echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
+	 echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
 	}
 }
 
@@ -1084,15 +1059,11 @@ function ampforwp_add_proper_post_meta(){
 	$check_custom_front_page = get_option('show_on_front');
 	if ( $check_custom_front_page == 'page' ) {
 		add_action( 'amp_post_template_head', 'ampforwp_custom_yoast_meta_homepage' );
-
 		add_filter('wpseo_opengraph_title', 'custom_twitter_title_homepage');
 		add_filter('wpseo_twitter_title', 'custom_twitter_title_homepage');
-
 		add_filter('wpseo_opengraph_desc', 'custom_twitter_description_homepage');
 		add_filter('wpseo_twitter_description', 'custom_twitter_description_homepage');
-
 		add_filter('wpseo_opengraph_url', 'custom_og_url_homepage');
-
 		add_filter('wpseo_twitter_image', 'custom_og_image_homepage');
 		add_filter('wpseo_opengraph_image', 'custom_og_image_homepage');
 	} else {
@@ -1127,35 +1098,36 @@ function ampforwp_remove_title_tags(){
 
 	function ampforwp_add_custom_title_tag(){
 		global $redux_builder_amp; ?>
-		<title>
-			<?php
+		<title> <?php
+
 			// title for a single post and single page
 			if( is_single() || is_page() ){
-				 global $post;
-				 $title = $post->post_title;
-				 $site_title =  $title . ' | ' . get_option( 'blogname' ) ;
-			 }
-			 // title for archive pages
-			 if ( is_archive() && $redux_builder_amp['ampforwp-archive-support'] )  {
-					  $site_title = strip_tags(get_the_archive_title( '' ))
-            . ' | ' .
-					  strip_tags(get_the_archive_description( '' ));
-			 }
+				global $post;
+				$title = $post->post_title;
+				$site_title =  $title . ' | ' . get_option( 'blogname' ) ;
+			}
+
+			// title for archive pages
+			if ( is_archive() && $redux_builder_amp['ampforwp-archive-support'] )  {
+				$site_title = strip_tags(get_the_archive_title( '' )) . ' | ' . strip_tags(get_the_archive_description( '' ));
+			}
+
 			if ( is_home() ) {
 				$site_title = get_bloginfo('name') . ' | ' . get_option( 'blogdescription' ) ;
 				if  ( $redux_builder_amp['amp-frontpage-select-option']== 1) {
 					$ID = $redux_builder_amp['amp-frontpage-select-option-pages'];
 					$site_title =  get_the_title( $ID ) . ' | ' . get_option('blogname');
 				} else {
-        	global $wp;
-          $current_archive_url = home_url( $wp->request );
-          $current_url_in_pieces = explode('/',$current_archive_url);
-          $cnt = count($current_url_in_pieces);
-          if( is_numeric( $current_url_in_pieces[  $cnt-1 ] ) ) {
-            $site_title .= ' | Page '.$current_url_in_pieces[$cnt-1];
-          }
-        }
+					global $wp;
+					$current_archive_url = home_url( $wp->request );
+					$current_url_in_pieces = explode('/',$current_archive_url);
+					$cnt = count($current_url_in_pieces);
+					if( is_numeric( $current_url_in_pieces[  $cnt-1 ] ) ) {
+						$site_title .= ' | Page '.$current_url_in_pieces[$cnt-1];
+					}
+				}
 			}
+
 			if( is_search() ) {
 				$site_title =  $redux_builder_amp['amp-translator-search-text'] . '  ' . get_search_query();
 			}
@@ -1164,67 +1136,67 @@ function ampforwp_remove_title_tags(){
 				$front = WPSEO_Frontend::get_instance();
 				$title = $front->title( $site_title );
 
-					// Code for Custom Frontpage Yoast SEO Title
-					if ( class_exists('WPSEO_Meta') ) {
-						// Yoast SEO Title
-						$yaost_title = WPSEO_Options::get_option( 'wpseo' );
-						if ( $yaost_title['website_name']) {
-							$site_title  = $yaost_title['website_name'];
-						} else {
-							$site_title  =  get_bloginfo('name');
-						}
-						// Yoast SEO Title Seperator
-						$wpseo_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-						$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
-						if ( $wpseo_titles['separator'] ) {
-							$seperator = $seperator_options[ $wpseo_titles['separator'] ];
-						} else {
-							$seperator = ' - ';
-						}
+				// Code for Custom Frontpage Yoast SEO Title
+				if ( class_exists('WPSEO_Meta') ) {
 
-						$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
-						$custom_fp_title = WPSEO_Meta::get_value('title', $post_id );
-						if ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) {
-							if ( $custom_fp_title ) {
-								$title = $custom_fp_title;
-							} else {
-								$title = get_the_title($post_id) .' '. $seperator .' '. $site_title ;
-							}
+					// Yoast SEO Title
+					$yaost_title = WPSEO_Options::get_option( 'wpseo' );
+					if ( $yaost_title['website_name']) {
+						$site_title  = $yaost_title['website_name'];
+					} else {
+						$site_title  =  get_bloginfo('name');
+					}
+
+					// Yoast SEO Title Seperator
+					$wpseo_titles = WPSEO_Options::get_option( 'wpseo_titles' );
+					$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
+					if ( $wpseo_titles['separator'] ) {
+						$seperator = $seperator_options[ $wpseo_titles['separator'] ];
+					} else {
+						$seperator = ' - ';
+					}
+
+					$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
+					$custom_fp_title = WPSEO_Meta::get_value('title', $post_id );
+					if ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) {
+						if ( $custom_fp_title ) {
+							$title = $custom_fp_title;
+						} else {
+							$title = get_the_title($post_id) .' '. $seperator .' '. $site_title ;
 						}
 					}
+				}
 
 				echo $title;
 			} else {
 				echo $site_title;
 			} ?>
-		</title>
-	 	<?php
+		</title> <?php
 	}
 }
 
+
 // 27. Clean the Defer issue
 	// TODO : Get back to this issue. #407
-		function ampforwp_the_content_filter_full( $content_buffer ) {
-            $ampforwp_is_amp_endpoint = ampforwp_is_amp_endpoint();
-			if ( $ampforwp_is_amp_endpoint ) {
-				$content_buffer = preg_replace("/' defer='defer/", "", $content_buffer);
-				$content_buffer = preg_replace("/' defer onload='/", "", $content_buffer);
-				$content_buffer = preg_replace("/' defer /", "", $content_buffer);
-				$content_buffer = preg_replace("/onclick=[^>]*/", "", $content_buffer);
-                $content_buffer = preg_replace("/<\\/?thrive_headline(.|\\s)*?>/",'',$content_buffer);
-                // Remove Extra styling added by other Themes/ Plugins
-               	$content_buffer = preg_replace('/(<style(.*?)>(.*?)<\/style>)<!doctype html>/','<!doctype html>',$content_buffer);
-               	$content_buffer = preg_replace('/(<style(.*?)>(.*?)<\/style>)(\/\*)/','$4',$content_buffer);
-                $content_buffer = preg_replace("/<\\/?g(.|\\s)*?>/",'',$content_buffer);
-                $content_buffer = preg_replace('/(<[^>]+) spellcheck="false"/', '$1', $content_buffer);
-                $content_buffer = preg_replace('/(<[^>]+) spellcheck="true"/', '$1', $content_buffer);
-//$content_buffer = preg_replace('/<style type=(.*?)>|\[.*?\]\s\{(.*)\}|<\/style>(?!(<\/noscript>)|(\n<\/head>)|(<noscript>))/','',$content_buffer);
-
-            }
-            return $content_buffer;
-		}
-	   ob_start('ampforwp_the_content_filter_full');
-
+	function ampforwp_the_content_filter_full( $content_buffer ) {
+    $ampforwp_is_amp_endpoint = ampforwp_is_amp_endpoint();
+		if ( $ampforwp_is_amp_endpoint ) {
+			$content_buffer = preg_replace("/' defer='defer/", "", $content_buffer);
+			$content_buffer = preg_replace("/' defer onload='/", "", $content_buffer);
+			$content_buffer = preg_replace("/' defer /", "", $content_buffer);
+			$content_buffer = preg_replace("/onclick=[^>]*/", "", $content_buffer);
+      $content_buffer = preg_replace("/<\\/?thrive_headline(.|\\s)*?>/",'',$content_buffer);
+      // Remove Extra styling added by other Themes/ Plugins
+     	$content_buffer = preg_replace('/(<style(.*?)>(.*?)<\/style>)<!doctype html>/','<!doctype html>',$content_buffer);
+     	$content_buffer = preg_replace('/(<style(.*?)>(.*?)<\/style>)(\/\*)/','$4',$content_buffer);
+      $content_buffer = preg_replace("/<\\/?g(.|\\s)*?>/",'',$content_buffer);
+      $content_buffer = preg_replace('/(<[^>]+) spellcheck="false"/', '$1', $content_buffer);
+      $content_buffer = preg_replace('/(<[^>]+) spellcheck="true"/', '$1', $content_buffer);
+			// $content_buffer = preg_replace('/<style type=(.*?)>|\[.*?\]\s\{(.*)\}|<\/style>(?!(<\/noscript>)|(\n<\/head>)|(<noscript>))/','',$content_buffer);
+    }
+    return $content_buffer;
+	}
+  ob_start('ampforwp_the_content_filter_full');
 
 
 // 28. Properly removes AMP if turned off from Post panel
@@ -1234,37 +1206,40 @@ function ampforwp_skip_amp_post( $skip, $post_id, $post ) {
 	if( $ampforwp_amp_post_on_off_meta === 'hide-amp' ) {
 		$skip = true;
 	}
-    return $skip;
+  return $skip;
 }
 
-// 29. Remove analytics code if Already added by Glue or Yoast SEO (#370)
-	add_action('init','remove_analytics_code_if_available',20);
-	function remove_analytics_code_if_available(){
-		if ( class_exists('WPSEO_Options') && class_exists('YoastSEO_AMP') ) {
-			$yoast_glue_seo = get_option('wpseo_amp');
 
-			if ( $yoast_glue_seo['analytics-extra'] ) {
+// 29. Remove analytics code if Already added by Glue or Yoast SEO (#370)
+add_action('init','remove_analytics_code_if_available',20);
+function remove_analytics_code_if_available(){
+	if ( class_exists('WPSEO_Options') && class_exists('YoastSEO_AMP') ) {
+		$yoast_glue_seo = get_option('wpseo_amp');
+
+		if ( $yoast_glue_seo['analytics-extra'] ) {
+			remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
+			remove_action('amp_post_template_footer','ampforwp_analytics',11);
+		}
+
+		if ( class_exists('Yoast_GA_Options') ) {
+			$UA = Yoast_GA_Options::instance()->get_tracking_code();
+			if ( $UA ) {
 				remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
 				remove_action('amp_post_template_footer','ampforwp_analytics',11);
 			}
-
-			if ( class_exists('Yoast_GA_Options') ) {
-				$UA = Yoast_GA_Options::instance()->get_tracking_code();
-				if ( $UA ) {
-					remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
-					remove_action('amp_post_template_footer','ampforwp_analytics',11);
-				}
-			}
 		}
 	}
+}
+
 
 //30. TagDiv menu issue removed
-	add_action('init','ampforwp_remove_tagdiv_mobile_menu');
-	function ampforwp_remove_tagdiv_mobile_menu() {
-		if( class_exists( 'Mobile_Detect' )) {
-			remove_action('option_stylesheet', array('td_mobile_theme', 'mobile'));
-		}
+add_action('init','ampforwp_remove_tagdiv_mobile_menu');
+function ampforwp_remove_tagdiv_mobile_menu() {
+	if( class_exists( 'Mobile_Detect' )) {
+		remove_action('option_stylesheet', array('td_mobile_theme', 'mobile'));
 	}
+}
+
 
 //31. removing scripts added by cleantalk
 add_action('amp_init','ampforwp_remove_js_script_cleantalk');
@@ -1272,56 +1247,35 @@ function ampforwp_remove_js_script_cleantalk() {
     remove_action('wp_loaded', 'ct_add_nocache_script', 1);
 }
 
+
 //32. various lazy loading plugins Support
 add_filter( 'amp_init', 'ampforwp_lazy_loading_plugins_compatibility' );
 function ampforwp_lazy_loading_plugins_compatibility() {
 
-   //WP Rocket
-    add_filter( 'do_rocket_lazyload', '__return_false', PHP_INT_MAX );
-    add_filter( 'do_rocket_lazyload_iframes', '__return_false', PHP_INT_MAX );
-     if ( ! defined( 'DONOTMINIFYCSS' ) ) {
-                define( 'DONOTMINIFYCSS', TRUE );
-    }
-    if ( ! defined( 'DONOTMINIFYJS' ) ) {
-        define( 'DONOTMINIFYJS', TRUE );
-    }
-    // Disable HTTP protocol removing on script, link, img, srcset and form tags.
-    remove_filter( 'rocket_buffer', '__rocket_protocol_rewrite', PHP_INT_MAX );
-    remove_filter( 'wp_calculate_image_srcset', '__rocket_protocol_rewrite_srcset', PHP_INT_MAX );
-    // Disable Concatenate Google Fonts
-//    add_filter( 'get_rocket_option_minify_google_fonts', '__return_false', PHP_INT_MAX );
-    // Disable CSS & JS magnification
-//    add_filter( 'get_rocket_option_minify_js', '__return_false', PHP_INT_MAX );
-//    add_filter( 'get_rocket_option_minify_css', '__return_false', PHP_INT_MAX );
+ //WP Rocket
+  add_filter( 'do_rocket_lazyload', '__return_false', PHP_INT_MAX );
+  add_filter( 'do_rocket_lazyload_iframes', '__return_false', PHP_INT_MAX );
+   if ( ! defined( 'DONOTMINIFYCSS' ) ) {
+              define( 'DONOTMINIFYCSS', TRUE );
+  }
+  if ( ! defined( 'DONOTMINIFYJS' ) ) {
+      define( 'DONOTMINIFYJS', TRUE );
+  }
+  // Disable HTTP protocol removing on script, link, img, srcset and form tags.
+  remove_filter( 'rocket_buffer', '__rocket_protocol_rewrite', PHP_INT_MAX );
+  remove_filter( 'wp_calculate_image_srcset', '__rocket_protocol_rewrite_srcset', PHP_INT_MAX );
 
-    //Lazy Load XT
-		global $lazyloadxt;
-		remove_filter( 'the_content', array( $lazyloadxt, 'filter_html' ) );
-		remove_filter( 'widget_text', array( $lazyloadxt, 'filter_html' ) );
-		remove_filter( 'post_thumbnail_html', array( $lazyloadxt, 'filter_html' ) );
-		remove_filter( 'get_avatar', array( $lazyloadxt, 'filter_html' ) );
+  //Lazy Load XT
+	global $lazyloadxt;
+	remove_filter( 'the_content', array( $lazyloadxt, 'filter_html' ) );
+	remove_filter( 'widget_text', array( $lazyloadxt, 'filter_html' ) );
+	remove_filter( 'post_thumbnail_html', array( $lazyloadxt, 'filter_html' ) );
+	remove_filter( 'get_avatar', array( $lazyloadxt, 'filter_html' ) );
 
-    // Lazy Load
-		add_filter( 'lazyload_is_enabled', '__return_false', PHP_INT_MAX );
+  // Lazy Load
+	add_filter( 'lazyload_is_enabled', '__return_false', PHP_INT_MAX );
 }
-//
-// This Caused issue, Please see: https://github.com/ahmedkaludi/accelerated-mobile-pages/issues/713
-//
-//add_action('amp_init','ampforwp_cache_compatible_activator');
-//function ampforwp_cache_compatible_activator(){
-//    add_action('template_redirect','ampforwp_cache_plugin_compatible');
-//}
-//function ampforwp_cache_plugin_compatible(){
-//    $ampforwp_is_amp_endpoint = ampforwp_is_amp_endpoint();
-//    if ( ! $ampforwp_is_amp_endpoint ) {
-//        return;
-//    }
-//    /**
-//     * W3 total cache
-//     */
-//    add_filter( 'w3tc_minify_js_enable', array( $this, '_return_false' ) );
-//    add_filter( 'w3tc_minify_css_enable', array( $this, '_return_false' ) );
-//}
+
 
 //Removing bj loading for amp
 function ampforwp_remove_bj_load() {
@@ -1330,6 +1284,7 @@ function ampforwp_remove_bj_load() {
  	}
 }
 add_action( 'bjll/compat', 'ampforwp_remove_bj_load' );
+
 
 //33. Google tag manager support added
 // Remove any old scripts that have been loaded by other Plugins
@@ -1341,9 +1296,9 @@ function amp_gtm_remove_analytics_code() {
   	remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
   } else {
     remove_filter( 'amp_post_template_analytics', 'amp_gtm_add_gtm_support' );
-
   }
 }
+
 
 // Create GTM support
 add_filter( 'amp_post_template_analytics', 'amp_gtm_add_gtm_support' );
@@ -1352,7 +1307,6 @@ function amp_gtm_add_gtm_support( $analytics ) {
 	if ( ! is_array( $analytics ) ) {
 		$analytics = array();
 	}
-
 	$analytics['amp-gtm-googleanalytics'] = array(
 		'type' => $redux_builder_amp['amp-gtm-analytics-type'],
 		'attributes' => array(
@@ -1371,9 +1325,9 @@ function amp_gtm_add_gtm_support( $analytics ) {
 			),
 		),
 	);
-
 	return $analytics;
 }
+
 
 //34. social share boost compatibility Ticket #387
 function social_sharing_removal_code() {

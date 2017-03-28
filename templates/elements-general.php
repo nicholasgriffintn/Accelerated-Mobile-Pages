@@ -409,3 +409,47 @@ if( !function_exists( 'ampforwp_the_social_share' ) ){
     <?php }
   }
 }
+
+
+// # Util Function
+// internal function for checing if social profiles have been set
+if( !function_exists('ampforwp_checking_any_social_profiles') ) {
+	function ampforwp_checking_any_social_profiles() {
+		global $redux_builder_amp;
+		if(
+			$redux_builder_amp['enable-single-twittter-profile'] 	 ||
+			$redux_builder_amp['enable-single-facebook-profile'] 	 ||
+			$redux_builder_amp['enable-single-pintrest-profile'] 	 ||
+			$redux_builder_amp['enable-single-google-plus-profile']	 ||
+			$redux_builder_amp['enable-single-linkdin-profile'] 	 ||
+			$redux_builder_amp['enable-single-youtube-profile'] 	 ||
+			$redux_builder_amp['enable-single-instagram-profile'] 	 ||
+			$redux_builder_amp['enable-single-VKontakte-profile'] 	 ||
+			$redux_builder_amp['enable-single-reddit-profile'] 		 ||
+			$redux_builder_amp['enable-single-snapchat-profile'] 	 ||
+			$redux_builder_amp['enable-single-Tumblr-profile']
+	 	) {
+			return true;
+		}
+		return false;
+	}
+}
+
+
+// # Util Function
+// 47. social js properly adding when required
+if( !function_exists( 'is_socialshare_or_socialsticky_enabled_in_ampforwp' ) ) {
+	function is_socialshare_or_socialsticky_enabled_in_ampforwp() {
+		global $redux_builder_amp;
+		if(  $redux_builder_amp['enable-single-facebook-share'] ||
+				 $redux_builder_amp['enable-single-twitter-share']  ||
+				 $redux_builder_amp['enable-single-gplus-share']  ||
+				 $redux_builder_amp['enable-single-email-share'] ||
+				 $redux_builder_amp['enable-single-pinterest-share']  ||
+				 $redux_builder_amp['enable-single-linkedin-share'] ||
+				 $redux_builder_amp['enable-single-whatsapp-share'] )  {
+					return true;
+				}
+			return false;
+	}
+}

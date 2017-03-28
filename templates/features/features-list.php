@@ -133,3 +133,16 @@
 //    add_filter( 'w3tc_minify_js_enable', array( $this, '_return_false' ) );
 //    add_filter( 'w3tc_minify_css_enable', array( $this, '_return_false' ) );
 //}
+
+
+//36. remove photon support in AMP
+//add_action('amp_init','ampforwp_photon_remove');
+//function ampforwp_photon_remove(){
+//	if ( class_exists( 'Jetpack' ) ) {
+//		add_filter( 'jetpack_photon_development_mode', 'ampforwp_diable_photon' );
+//	}
+//}
+//
+//function ampforwp_diable_photon() {
+//	return true;
+//}

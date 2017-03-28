@@ -1751,133 +1751,97 @@ function ampforwp_search_or_homepage_or_staticpage_metadata( $metadata, $post ) 
 
 
 // 46. search search search everywhere #615
-require AMPFORWP_SEARCH_FUNCTION_FILE;
+add_action('pre_amp_render_post','ampforwp_search_related_functions',12);
+function ampforwp_search_related_functions(){
+	global $redux_builder_amp;
+	if ( $redux_builder_amp['amp-design-selector'] == 1 ||
+	     $redux_builder_amp['amp-design-selector'] == 2 ||
+	     $redux_builder_amp['amp-design-selector'] == 3 ) {
 
+				add_filter( 'amp_post_template_data', 'ampforwp_add_lightbox_and_form_scripts');
+				add_action('ampforwp_search_form','ampforwp_the_search_form');
+	}
+}
 
-// 47. social js properly adding when required
-if( !function_exists( 'is_socialshare_or_socialsticky_enabled_in_ampforwp' ) ) {
-	function is_socialshare_or_socialsticky_enabled_in_ampforwp() {
+add_action('ampforwp_global_after_footer','ampforwp_lightbox_html_output');
+function ampforwp_lightbox_html_output() {
+	if ( is_search_enabled_in_ampforwp() ) {
+	  global $redux_builder_amp;
+		if( $redux_builder_amp['amp-design-1-search-feature'] ||
+		    $redux_builder_amp['amp-design-2-search-feature'] ||
+		    $redux_builder_amp['amp-design-3-search-feature'] ) { ?>
+				<amp-lightbox id="search-icon" layout="nodisplay">
+				    <?php do_action('ampforwp_search_form'); ?>
+				    <button on="tap:search-icon.close" class="closebutton">X</button>
+				    <i class="icono-cross"></i>
+				</amp-lightbox> <?php
+	  }
+	}
+}
+
+add_action( 'ampforwp_header_search' , 'ampforwp_search_button_html_output' );
+function ampforwp_search_button_html_output(){
+	if ( is_search_enabled_in_ampforwp() ) {
+	 global $redux_builder_amp;
+	 if( $redux_builder_amp['amp-design-1-search-feature'] ||
+	     $redux_builder_amp['amp-design-2-search-feature'] ||
+			 $redux_builder_amp['amp-design-3-search-feature'] ) { ?>
+        <div class="searchmenu">
+					<button on="tap:search-icon">
+						<i class="icono-search"></i>
+					</button>
+				</div> <?php
+    }
+ 	}
+}
+
+function ampforwp_add_lightbox_and_form_scripts( $data ) {
+	if ( is_search_enabled_in_ampforwp() ) {
 		global $redux_builder_amp;
-		if(  $redux_builder_amp['enable-single-facebook-share'] ||
-				 $redux_builder_amp['enable-single-twitter-share']  ||
-				 $redux_builder_amp['enable-single-gplus-share']  ||
-				 $redux_builder_amp['enable-single-email-share'] ||
-				 $redux_builder_amp['enable-single-pinterest-share']  ||
-				 $redux_builder_amp['enable-single-linkedin-share'] ||
-				 $redux_builder_amp['enable-single-whatsapp-share'] )  {
+		// Add Scripts only when Search is Enabled
+		if( $redux_builder_amp['amp-design-1-search-feature'] ||
+		    $redux_builder_amp['amp-design-2-search-feature'] ||
+		    $redux_builder_amp['amp-design-3-search-feature'] ) {
+			if ( empty( $data['amp_component_scripts']['amp-lightbox'] ) ) {
+				$data['amp_component_scripts']['amp-lightbox'] = AMPFORWP_LIGHT_BOX_SCRIPT;
+			}
+			if ( empty( $data['amp_component_scripts']['amp-form'] ) ) {
+				$data['amp_component_scripts']['amp-form'] = AMPFORWP_FORM_SCRIPT;
+			}
+		}
+	}
+	return $data;
+}
+
+function ampforwp_the_search_form() {
+    echo ampforwp_get_search_form();
+}
+function ampforwp_get_search_form() {
+	if ( is_search_enabled_in_ampforwp() ) {
+		global $redux_builder_amp;
+		$label = $redux_builder_amp['ampforwp-search-label'];
+		$placeholder = $redux_builder_amp['ampforwp-search-placeholder'];
+	  $form = '<form role="search" method="get" id="searchform" class="searchform" target="_top" action="' . get_bloginfo('url')  .'">
+							<div>
+								<label class="screen-reader-text" for="s">' . $label . '</label>
+								<input type="text" placeholder="AMP" value="1" name="amp" class="hide" id="ampsomething" />
+								<input type="text" placeholder="'.$placeholder.'" value="' . get_search_query() . '" name="s" id="s" />
+								<input type="submit" id="searchsubmit" value="'. esc_attr_x( 'Search', 'submit button' ) .'" />
+							</div>
+						</form>';
+	    return $form;
+		}
+}
+
+if( !function_exists( 'is_search_enabled_in_ampforwp' ) ) {
+	function is_search_enabled_in_ampforwp() {
+		global $redux_builder_amp;
+		if( ( $redux_builder_amp['amp-design-selector']==1 && $redux_builder_amp['amp-design-1-search-feature'] ) ||
+	 			(	$redux_builder_amp['amp-design-selector']==2 && $redux_builder_amp['amp-design-2-search-feature'] ) ||
+				(	$redux_builder_amp['amp-design-selector']==3 && $redux_builder_amp['amp-design-3-search-feature'] ) ) {
 					return true;
 				}
 			return false;
-	}
-}
-
-
-// 48. Remove all unwanted scripts on search pages
-add_filter( 'amp_post_template_data', 'ampforwp_remove_scripts_search_page' );
-function ampforwp_remove_scripts_search_page( $data ) {
-	if( is_search() ) {
-		// Remove all unwanted scripts on search pages
-		unset( $data['amp_component_scripts']);
-	}
-	return $data;
-}
-
-
-// 49. Properly adding ad Script the AMP way
-add_filter( 'amp_post_template_data', 'ampforwp_add_ads_scripts' );
-function ampforwp_add_ads_scripts( $data ) {
-	global $redux_builder_amp;
-	if (	$redux_builder_amp['enable-amp-ads-1'] ||
-				$redux_builder_amp['enable-amp-ads-2'] ||
-				$redux_builder_amp['enable-amp-ads-3'] ||
-				$redux_builder_amp['enable-amp-ads-4'] ) {
-		if ( empty( $data['amp_component_scripts']['amp-ad'] ) ) {
-			$data['amp_component_scripts']['amp-ad'] = 'https://cdn.ampproject.org/v0/amp-ad-0.1.js';
-		}
-	}
-	return $data;
-}
-
-// internal function for checing if social profiles have been set
-if( !function_exists('ampforwp_checking_any_social_profiles') ) {
-	function ampforwp_checking_any_social_profiles() {
-		global $redux_builder_amp;
-		if(
-			$redux_builder_amp['enable-single-twittter-profile'] 	 ||
-			$redux_builder_amp['enable-single-facebook-profile'] 	 ||
-			$redux_builder_amp['enable-single-pintrest-profile'] 	 ||
-			$redux_builder_amp['enable-single-google-plus-profile']	 ||
-			$redux_builder_amp['enable-single-linkdin-profile'] 	 ||
-			$redux_builder_amp['enable-single-youtube-profile'] 	 ||
-			$redux_builder_amp['enable-single-instagram-profile'] 	 ||
-			$redux_builder_amp['enable-single-VKontakte-profile'] 	 ||
-			$redux_builder_amp['enable-single-reddit-profile'] 		 ||
-			$redux_builder_amp['enable-single-snapchat-profile'] 	 ||
-			$redux_builder_amp['enable-single-Tumblr-profile']
-	 	) {
-			return true;
-		}
-		return false;
-	}
-}
-
-
-// 50. Properly adding noditification Scritps the AMP way
-add_filter( 'amp_post_template_data', 'ampforwp_add_notification_scripts' );
-function ampforwp_add_notification_scripts( $data ) {
-	global $redux_builder_amp;
-	if ( $redux_builder_amp['amp-enable-notifications'] == true ) {
-		if ( empty( $data['amp_component_scripts']['amp-user-notification'] ) ) {
-			$data['amp_component_scripts']['amp-user-notification'] = 'https://cdn.ampproject.org/v0/amp-user-notification-0.1.js';
-		}
-	}
-	return $data;
-}
-
-
-//51. Adding Digg Digg compatibility with AMP
-function ampforwp_dd_exclude_from_amp() {
-if(ampforwp_is_amp_endpoint()) {
-    remove_filter('the_excerpt', 'dd_hook_wp_content');
-    remove_filter('the_content', 'dd_hook_wp_content');
-	}
-}
-add_action('template_redirect', 'ampforwp_dd_exclude_from_amp');
-
-
-//52. Adding a generalized sanitizer function for purifiying normal html to amp-html
-// @param $input : content to be sanitized
-function ampforwp_sanitize_html_to_amphtml( $input ) {
-	$amp_custom_post_content_input = $input;
-	if ( !empty( $amp_custom_post_content_input ) ) {
-		$amp_custom_content = new AMP_Content( $amp_custom_post_content_input,
-				apply_filters( 'amp_content_embed_handlers', array(
-						'AMP_Twitter_Embed_Handler' => array(),
-						'AMP_YouTube_Embed_Handler' => array(),
-						'AMP_Instagram_Embed_Handler' => array(),
-						'AMP_Vine_Embed_Handler' => array(),
-						'AMP_Facebook_Embed_Handler' => array(),
-						'AMP_Gallery_Embed_Handler' => array(),
-				) ),
-				apply_filters(  'amp_content_sanitizers', array(
-						 'AMP_Style_Sanitizer' => array(),
-						 'AMP_Blacklist_Sanitizer' => array(),
-						 'AMP_Img_Sanitizer' => array(),
-						 'AMP_Video_Sanitizer' => array(),
-						 'AMP_Audio_Sanitizer' => array(),
-						 'AMP_Iframe_Sanitizer' => array(
-							 'add_placeholder' => true,
-						 ),
-				)  )
-		);
-
-		if ( $amp_custom_content ) {
-			global $data;
-			$data['amp_component_scripts'] 	= $amp_custom_content->get_amp_scripts();
-			$data['post_amp_styles'] 		= $amp_custom_content->get_amp_styles();
-			return $amp_custom_content->get_amp_content();
-		}
-		return '';
 	}
 }
 

@@ -46,6 +46,9 @@ define( 'AMPFORWP_FORM_SCRIPT', 'https://cdn.ampproject.org/v0/amp-form-0.1.js' 
 define( 'AMPFORWP_SOCIAL_SHARE_SCRIPT', 'https://cdn.ampproject.org/v0/amp-social-share-0.1.js' );
 define( 'AMPFORWP_ANALYTICS_SCRIPT', 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js' );
 define( 'AMPFORWP_SIDE_BAR_SCRIPT', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
+define( 'AMPFORWP_NOTIFICATIONS_SCRIPT', 'https://cdn.ampproject.org/v0/amp-user-notification-0.1.js' );
+define( 'AMPFORWP_AMP_AD_SCRIPT', 'https://cdn.ampproject.org/v0/amp-ad-0.1.js' );
+define( 'AMPFORWP_LIGHT_BOX_SCRIPT', 'https://cdn.ampproject.org/v0/amp-lightbox-0.1.js' );
 
 // Global Constants -- End Here --
 

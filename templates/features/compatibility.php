@@ -15,3 +15,10 @@ function ampforwp_copat_wp_html_compression() {
 	remove_action('get_header', 'wp_html_compression_start');
 }
 add_action('amp_init','ampforwp_copat_wp_html_compression');
+
+
+//34. social share boost compatibility Ticket #387
+function social_sharing_removal_code() {
+    remove_filter('the_content','ssb_in_content');
+}
+add_action('amp_init','social_sharing_removal_code', 9);

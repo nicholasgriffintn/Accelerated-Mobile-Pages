@@ -978,13 +978,6 @@ function amp_gtm_add_gtm_support( $analytics ) {
 }
 
 
-//34. social share boost compatibility Ticket #387
-function social_sharing_removal_code() {
-    remove_filter('the_content','ssb_in_content');
-}
-add_action('amp_init','social_sharing_removal_code', 9);
-
-
 //35. Disqus Comments Support
 add_action('ampforwp_post_after_design_elements','ampforwp_add_disqus_support');
 function ampforwp_add_disqus_support() {

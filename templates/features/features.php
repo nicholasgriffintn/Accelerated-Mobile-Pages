@@ -592,121 +592,6 @@
 	}
 
 
-	// 12. Add Logo URL in the structured metadata
-	add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata', 10, 2 );
-	function ampforwp_update_metadata( $metadata, $post ) {
-		global $redux_builder_amp;
-
-		if (! empty( $redux_builder_amp['opt-media']['url'] ) ) {
-			$structured_data_main_logo = $redux_builder_amp['opt-media']['url'];
-		}
-
-		if (! empty( $redux_builder_amp['amp-structured-data-logo']['url'] ) ) {
-			$structured_data_logo = $redux_builder_amp['amp-structured-data-logo']['url'];
-		}
-
-		if ( $structured_data_logo ) {
-			$structured_data_logo = $structured_data_logo;
-		} else {
-			$structured_data_logo = $structured_data_main_logo;
-		}
-
-		$metadata['publisher']['logo'] = array(
-			'@type' 	=> 'ImageObject',
-			'url' 		=>  $structured_data_logo ,
-			'height' 	=> 36,
-			'width' 	=> 190,
-		);
-
-		//code for adding 'description' meta from Yoast SEO
-		if($redux_builder_amp['ampforwp-seo-yoast-custom-description']){
-			if ( class_exists('WPSEO_Frontend') ) {
-				$front = WPSEO_Frontend::get_instance();
-				$desc = $front->metadesc( false );
-				if ( $desc ) {
-					$metadata['description'] = $desc;
-				}
-
-				// Code for Custom Frontpage Yoast SEO Description
-				$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
-				if ( class_exists('WPSEO_Meta') ) {
-					$custom_fp_desc = WPSEO_Meta::get_value('metadesc', $post_id );
-					if ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) {
-						if ( $custom_fp_desc ) {
-							$metadata['description'] = $custom_fp_desc;
-						} else {
-							unset( $metadata['description'] );
-						}
-					}
-				}
-			}
-		} //End of code for adding 'description' meta from Yoast SEO
-
-		return $metadata;
-	}
-
-
-	// 13. Add Custom Placeholder Image for Structured Data.
-	// if there is no image in the post, then use this image to validate Structured Data.
-	add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata_featured_image', 10, 2 );
-	function ampforwp_update_metadata_featured_image( $metadata, $post ) {
-		global $redux_builder_amp;
-		global $post;
-		$post_id = get_the_ID() ;
-		$post_image_id = get_post_thumbnail_id( $post_id );
-		$structured_data_image = wp_get_attachment_image_src( $post_image_id, 'full' );
-		$post_image_check = $structured_data_image;
-
-		if ( $post_image_check == false) {
-			if (! empty( $redux_builder_amp['amp-structured-data-placeholder-image']['url'] ) ) {
-				$structured_data_image_url = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
-			}
-				$structured_data_image = $structured_data_image_url;
-				$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
-				$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
-
-				$metadata['image'] = array(
-					'@type' 	=> 'ImageObject',
-					'url' 		=> $structured_data_image ,
-					'height' 	=> $structured_data_height,
-					'width' 	=> $structured_data_width,
-				);
-		}
-		// Custom Structured Data information for Archive, Categories and tag pages.
-		if ( is_archive() ) {
-				$structured_data_image = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
-				$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
-				$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
-
-				$structured_data_archive_title 	= "Archived Posts";
-				$structured_data_author				=  get_userdata( 1 );
-						if ( $structured_data_author ) {
-							$structured_data_author 		= $structured_data_author->display_name ;
-						} else {
-							$structured_data_author 		= "admin";
-						}
-
-				$metadata['image'] = array(
-					'@type' 	=> 'ImageObject',
-					'url' 		=> $structured_data_image ,
-					'height' 	=> $structured_data_height,
-					'width' 	=> $structured_data_width,
-				);
-				$metadata['author'] = array(
-					'@type' 	=> 'Person',
-					'name' 		=> $structured_data_author ,
-				);
-				$metadata['headline'] = $structured_data_archive_title;
-		}
-
-		if ( $metadata['image']['width'] < 696 ) {
- 			$metadata['image']['width'] = 700 ;
-   	}
-
-		return $metadata;
-	}
-
-
 // 14. Adds a meta box to the post editing screen for AMP on-off on specific pages.
 /**
  * Adds a meta box to the post editing screen for AMP on-off on specific pages
@@ -960,84 +845,6 @@ function ampforwp_sticky_social_icons(){
 }
 
 
-
-//	25. Yoast meta Support
-function ampforwp_custom_yoast_meta(){
-	global $redux_builder_amp;
-	if ($redux_builder_amp['ampforwp-seo-yoast-meta']) {
-		if(! class_exists('YoastSEO_AMP') ) {
-				if ( class_exists('WPSEO_Options')) {
-					$options = WPSEO_Options::get_option( 'wpseo_social' );
-					if ( $options['twitter'] === true ) {
-						WPSEO_Twitter::get_instance();
-					}
-					if ( $options['opengraph'] === true ) {
-						$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
-					}
-					do_action( 'wpseo_opengraph' );
-				}
-		}//execute only if Glue is deactive
-		echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
-	} else {
-		echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
-	}
-}
-
-function ampforwp_custom_yoast_meta_homepage(){
-	global $redux_builder_amp;
-	if ($redux_builder_amp['ampforwp-seo-yoast-meta']) {
-		if(! class_exists('YoastSEO_AMP') ) {
-				if ( class_exists('WPSEO_Options')) {
-					$options = WPSEO_Options::get_option( 'wpseo_social' );
-					if ( $options['twitter'] === true ) {
-						WPSEO_Twitter::get_instance();
-					}
-					if ( $options['opengraph'] === true ) {
-						$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
-					}
-				}
-				do_action( 'wpseo_opengraph' );
-
-		}//execute only if Glue is deactive
-	 echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
-	}
-}
-
-function ampforwp_add_proper_post_meta(){
-	$check_custom_front_page = get_option('show_on_front');
-	if ( $check_custom_front_page == 'page' ) {
-		add_action( 'amp_post_template_head', 'ampforwp_custom_yoast_meta_homepage' );
-		add_filter('wpseo_opengraph_title', 'custom_twitter_title_homepage');
-		add_filter('wpseo_twitter_title', 'custom_twitter_title_homepage');
-		add_filter('wpseo_opengraph_desc', 'custom_twitter_description_homepage');
-		add_filter('wpseo_twitter_description', 'custom_twitter_description_homepage');
-		add_filter('wpseo_opengraph_url', 'custom_og_url_homepage');
-		add_filter('wpseo_twitter_image', 'custom_og_image_homepage');
-		add_filter('wpseo_opengraph_image', 'custom_og_image_homepage');
-	} else {
-		add_action( 'amp_post_template_head', 'ampforwp_custom_yoast_meta' );
-	}
-}
-add_action('pre_amp_render_post','ampforwp_add_proper_post_meta');
-
-
-function custom_twitter_title_homepage() {
-	return  esc_attr( get_bloginfo( 'name' ) );
-}
-function custom_twitter_description_homepage() {
-	return  esc_attr( get_bloginfo( 'description' ) );
-}
-function custom_og_url_homepage() {
-	return esc_url( get_bloginfo( 'url' ) );
-}
-function custom_og_image_homepage() {
-	if ( class_exists('WPSEO_Options') ) {
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
-		return  $options['og_default_image'] ;
-	}
-}
-
-
 //26. Extending Title Tagand De-Hooking the Standard one from AMP
 add_action('amp_post_template_include_single','ampforwp_remove_title_tags');
 function ampforwp_remove_title_tags(){
@@ -1157,27 +964,6 @@ function ampforwp_skip_amp_post( $skip, $post_id, $post ) {
   return $skip;
 }
 
-
-// 29. Remove analytics code if Already added by Glue or Yoast SEO (#370)
-add_action('init','remove_analytics_code_if_available',20);
-function remove_analytics_code_if_available(){
-	if ( class_exists('WPSEO_Options') && class_exists('YoastSEO_AMP') ) {
-		$yoast_glue_seo = get_option('wpseo_amp');
-
-		if ( $yoast_glue_seo['analytics-extra'] ) {
-			remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
-			remove_action('amp_post_template_footer','ampforwp_analytics',11);
-		}
-
-		if ( class_exists('Yoast_GA_Options') ) {
-			$UA = Yoast_GA_Options::instance()->get_tracking_code();
-			if ( $UA ) {
-				remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
-				remove_action('amp_post_template_footer','ampforwp_analytics',11);
-			}
-		}
-	}
-}
 
 
 //30. TagDiv menu issue removed
@@ -1602,6 +1388,222 @@ function ampforwp_auto_add_amp_in_menu_link( $atts, $item, $args ) {
 }
 
 
+//----------------------------------------SEO Functions Start---------------------------
+//	25. Yoast meta Support
+function ampforwp_custom_yoast_meta(){
+	global $redux_builder_amp;
+	if ($redux_builder_amp['ampforwp-seo-yoast-meta']) {
+		if(! class_exists('YoastSEO_AMP') ) {
+				if ( class_exists('WPSEO_Options')) {
+					$options = WPSEO_Options::get_option( 'wpseo_social' );
+					if ( $options['twitter'] === true ) {
+						WPSEO_Twitter::get_instance();
+					}
+					if ( $options['opengraph'] === true ) {
+						$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
+					}
+					do_action( 'wpseo_opengraph' );
+				}
+		}//execute only if Glue is deactive
+		echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
+	} else {
+		echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
+	}
+}
+
+function ampforwp_custom_yoast_meta_homepage(){
+	global $redux_builder_amp;
+	if ($redux_builder_amp['ampforwp-seo-yoast-meta']) {
+		if(! class_exists('YoastSEO_AMP') ) {
+				if ( class_exists('WPSEO_Options')) {
+					$options = WPSEO_Options::get_option( 'wpseo_social' );
+					if ( $options['twitter'] === true ) {
+						WPSEO_Twitter::get_instance();
+					}
+					if ( $options['opengraph'] === true ) {
+						$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
+					}
+				}
+				do_action( 'wpseo_opengraph' );
+
+		}//execute only if Glue is deactive
+	 echo strip_tags($redux_builder_amp['ampforwp-seo-custom-additional-meta'], '<link><meta>' );
+	}
+}
+
+function ampforwp_add_proper_post_meta(){
+	$check_custom_front_page = get_option('show_on_front');
+	if ( $check_custom_front_page == 'page' ) {
+		add_action( 'amp_post_template_head', 'ampforwp_custom_yoast_meta_homepage' );
+		add_filter('wpseo_opengraph_title', 'custom_twitter_title_homepage');
+		add_filter('wpseo_twitter_title', 'custom_twitter_title_homepage');
+		add_filter('wpseo_opengraph_desc', 'custom_twitter_description_homepage');
+		add_filter('wpseo_twitter_description', 'custom_twitter_description_homepage');
+		add_filter('wpseo_opengraph_url', 'custom_og_url_homepage');
+		add_filter('wpseo_twitter_image', 'custom_og_image_homepage');
+		add_filter('wpseo_opengraph_image', 'custom_og_image_homepage');
+	} else {
+		add_action( 'amp_post_template_head', 'ampforwp_custom_yoast_meta' );
+	}
+}
+add_action('pre_amp_render_post','ampforwp_add_proper_post_meta');
+
+
+function custom_twitter_title_homepage() {
+	return  esc_attr( get_bloginfo( 'name' ) );
+}
+function custom_twitter_description_homepage() {
+	return  esc_attr( get_bloginfo( 'description' ) );
+}
+function custom_og_url_homepage() {
+	return esc_url( get_bloginfo( 'url' ) );
+}
+function custom_og_image_homepage() {
+	if ( class_exists('WPSEO_Options') ) {
+		$options = WPSEO_Options::get_option( 'wpseo_social' );
+		return  $options['og_default_image'] ;
+	}
+}
+
+
+// 29. Remove analytics code if Already added by Glue or Yoast SEO (#370)
+add_action('init','remove_analytics_code_if_available',20);
+function remove_analytics_code_if_available(){
+	if ( class_exists('WPSEO_Options') && class_exists('YoastSEO_AMP') ) {
+		$yoast_glue_seo = get_option('wpseo_amp');
+
+		if ( $yoast_glue_seo['analytics-extra'] ) {
+			remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
+			remove_action('amp_post_template_footer','ampforwp_analytics',11);
+		}
+
+		if ( class_exists('Yoast_GA_Options') ) {
+			$UA = Yoast_GA_Options::instance()->get_tracking_code();
+			if ( $UA ) {
+				remove_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
+				remove_action('amp_post_template_footer','ampforwp_analytics',11);
+			}
+		}
+	}
+}
+//----------------------------------------SEO Functions End---------------------------
+
+//----------------------------------------Structured Data Functions Start---------------------------
+	// 12. Add Logo URL in the structured metadata
+	add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata', 10, 2 );
+	function ampforwp_update_metadata( $metadata, $post ) {
+		global $redux_builder_amp;
+
+		if (! empty( $redux_builder_amp['opt-media']['url'] ) ) {
+			$structured_data_main_logo = $redux_builder_amp['opt-media']['url'];
+		}
+
+		if (! empty( $redux_builder_amp['amp-structured-data-logo']['url'] ) ) {
+			$structured_data_logo = $redux_builder_amp['amp-structured-data-logo']['url'];
+		}
+
+		if ( $structured_data_logo ) {
+			$structured_data_logo = $structured_data_logo;
+		} else {
+			$structured_data_logo = $structured_data_main_logo;
+		}
+
+		$metadata['publisher']['logo'] = array(
+			'@type' 	=> 'ImageObject',
+			'url' 		=>  $structured_data_logo ,
+			'height' 	=> 36,
+			'width' 	=> 190,
+		);
+
+		//code for adding 'description' meta from Yoast SEO
+		if($redux_builder_amp['ampforwp-seo-yoast-custom-description']){
+			if ( class_exists('WPSEO_Frontend') ) {
+				$front = WPSEO_Frontend::get_instance();
+				$desc = $front->metadesc( false );
+				if ( $desc ) {
+					$metadata['description'] = $desc;
+				}
+
+				// Code for Custom Frontpage Yoast SEO Description
+				$post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
+				if ( class_exists('WPSEO_Meta') ) {
+					$custom_fp_desc = WPSEO_Meta::get_value('metadesc', $post_id );
+					if ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) {
+						if ( $custom_fp_desc ) {
+							$metadata['description'] = $custom_fp_desc;
+						} else {
+							unset( $metadata['description'] );
+						}
+					}
+				}
+			}
+		} //End of code for adding 'description' meta from Yoast SEO
+
+		return $metadata;
+	}
+
+
+	// 13. Add Custom Placeholder Image for Structured Data.
+	// if there is no image in the post, then use this image to validate Structured Data.
+	add_filter( 'amp_post_template_metadata', 'ampforwp_update_metadata_featured_image', 10, 2 );
+	function ampforwp_update_metadata_featured_image( $metadata, $post ) {
+		global $redux_builder_amp;
+		global $post;
+		$post_id = get_the_ID() ;
+		$post_image_id = get_post_thumbnail_id( $post_id );
+		$structured_data_image = wp_get_attachment_image_src( $post_image_id, 'full' );
+		$post_image_check = $structured_data_image;
+
+		if ( $post_image_check == false) {
+			if (! empty( $redux_builder_amp['amp-structured-data-placeholder-image']['url'] ) ) {
+				$structured_data_image_url = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
+			}
+				$structured_data_image = $structured_data_image_url;
+				$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
+				$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
+
+				$metadata['image'] = array(
+					'@type' 	=> 'ImageObject',
+					'url' 		=> $structured_data_image ,
+					'height' 	=> $structured_data_height,
+					'width' 	=> $structured_data_width,
+				);
+		}
+		// Custom Structured Data information for Archive, Categories and tag pages.
+		if ( is_archive() ) {
+				$structured_data_image = $redux_builder_amp['amp-structured-data-placeholder-image']['url'];
+				$structured_data_height = intval($redux_builder_amp['amp-structured-data-placeholder-image-height']);
+				$structured_data_width = intval($redux_builder_amp['amp-structured-data-placeholder-image-width']);
+
+				$structured_data_archive_title 	= "Archived Posts";
+				$structured_data_author				=  get_userdata( 1 );
+						if ( $structured_data_author ) {
+							$structured_data_author 		= $structured_data_author->display_name ;
+						} else {
+							$structured_data_author 		= "admin";
+						}
+
+				$metadata['image'] = array(
+					'@type' 	=> 'ImageObject',
+					'url' 		=> $structured_data_image ,
+					'height' 	=> $structured_data_height,
+					'width' 	=> $structured_data_width,
+				);
+				$metadata['author'] = array(
+					'@type' 	=> 'Person',
+					'name' 		=> $structured_data_author ,
+				);
+				$metadata['headline'] = $structured_data_archive_title;
+		}
+
+		if ( $metadata['image']['width'] < 696 ) {
+ 			$metadata['image']['width'] = 700 ;
+   	}
+
+		return $metadata;
+	}
+
+
 // # Core Function
 // 45. searchpage, frontpage, homepage structured data
 add_filter( 'amp_post_template_metadata', 'ampforwp_search_or_homepage_or_staticpage_metadata', 10, 2 );
@@ -1664,8 +1666,10 @@ function ampforwp_search_or_homepage_or_staticpage_metadata( $metadata, $post ) 
 	}
 	return $metadata;
 }
+//----------------------------------------Structured Data Functions End---------------------------
 
 
+//----------------------------------------Search Functions Start---------------------------
 // 46. search search search everywhere #615
 add_action('pre_amp_render_post','ampforwp_search_related_functions',12);
 function ampforwp_search_related_functions(){
@@ -1723,8 +1727,10 @@ function ampforwp_get_search_form() {
 	    return $form;
 		}
 }
+//----------------------------------------Search Functions End---------------------------
 
 
+//----------------------------------------Woocommerece ShortCode Functions Start---------------------------
 //53. Adding the Markup for AMP Woocommerce latest Products
 /*******************************
 Examples:
@@ -1813,6 +1819,9 @@ Examples:
 	.ampforwp-wc-title{ margin: 10px 0px; }
 	.ampforwp-wc-price{ color:#444 } <?php
  }
+ //----------------------------------------Woocommerece ShortCode Functions End---------------------------
 
 
+//----------------------------------------Scripts Functions End---------------------------
 require AMPFORWP_SCRIPTS_FILE;
+//----------------------------------------Scripts Functions End---------------------------

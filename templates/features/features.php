@@ -1261,60 +1261,6 @@ function ampforwp_header_html_output() {
 }
 
 
-//40. Meta Robots
-add_action('amp_post_template_head' , 'ampforwp_talking_to_robots');
-function ampforwp_talking_to_robots() {
-
-  global $redux_builder_amp;
-  $message_to_robots = '<meta name="robots" content="noindex,nofollow"/>';
-  $talk_to_robots=false;
-
-   //author arhives  index/noindex
-   if( is_author() && !$redux_builder_amp['ampforwp-robots-archive-author-pages'] ) {
-  	$talk_to_robots = true;
-   }
-
-  //date ke archives index/noindex
-  if( is_date() && !$redux_builder_amp['ampforwp-robots-archive-date-pages'] ) {
-    $talk_to_robots = true;
-  }
-
-  //Search pages noindexing by default
-  if( is_search() ) {
-    $talk_to_robots = true;
-  }
-
-  //categorys index/noindex
-  if( is_category()  && !$redux_builder_amp['ampforwp-robots-archive-category-pages'] ) {
-    $talk_to_robots = true;
-  }
-
-  //categorys index/noindex
-  if( is_tag() && !$redux_builder_amp['ampforwp-robots-archive-tag-pages'] ) {
-    $talk_to_robots = true;
-  }
-
-  if( is_archive() || is_home() ) {
-    if ( get_query_var( 'paged' ) ) {
-          $paged = get_query_var('paged');
-      } elseif ( get_query_var( 'page' ) ) {
-          $paged = get_query_var('page');
-      } else {
-          $paged = 1;
-      }
-      //sitewide archives sub pages index/noindex  ie page 2 onwards
-      if( $paged >= 2 && !$redux_builder_amp['ampforwp-robots-archive-sub-pages-sitewide'] ) {
-      	$talk_to_robots = true;
-      }
-    }
-
-    if( $talk_to_robots ) {
-      	echo $message_to_robots;
-    }
-
-}
-
-
 //----------------------------------------Auto AMP nav URLS Functions Start--------------------------
 // 44. auto adding /amp for the menu
 add_action('amp_init','ampforwp_auto_add_amp_menu_link_insert');
@@ -1383,6 +1329,61 @@ function ampforwp_output_widget_content_below_loop() {
 //----------------------------------------Widgets output Functions Functions End---------------------------
 
 //----------------------------------------SEO Functions Start---------------------------
+
+//40. Meta Robots
+add_action('amp_post_template_head' , 'ampforwp_talking_to_robots');
+function ampforwp_talking_to_robots() {
+
+  global $redux_builder_amp;
+  $message_to_robots = '<meta name="robots" content="noindex,nofollow"/>';
+  $talk_to_robots=false;
+
+   //author arhives  index/noindex
+   if( is_author() && !$redux_builder_amp['ampforwp-robots-archive-author-pages'] ) {
+  	$talk_to_robots = true;
+   }
+
+  //date ke archives index/noindex
+  if( is_date() && !$redux_builder_amp['ampforwp-robots-archive-date-pages'] ) {
+    $talk_to_robots = true;
+  }
+
+  //Search pages noindexing by default
+  if( is_search() ) {
+    $talk_to_robots = true;
+  }
+
+  //categorys index/noindex
+  if( is_category()  && !$redux_builder_amp['ampforwp-robots-archive-category-pages'] ) {
+    $talk_to_robots = true;
+  }
+
+  //categorys index/noindex
+  if( is_tag() && !$redux_builder_amp['ampforwp-robots-archive-tag-pages'] ) {
+    $talk_to_robots = true;
+  }
+
+  if( is_archive() || is_home() ) {
+    if ( get_query_var( 'paged' ) ) {
+          $paged = get_query_var('paged');
+      } elseif ( get_query_var( 'page' ) ) {
+          $paged = get_query_var('page');
+      } else {
+          $paged = 1;
+      }
+      //sitewide archives sub pages index/noindex  ie page 2 onwards
+      if( $paged >= 2 && !$redux_builder_amp['ampforwp-robots-archive-sub-pages-sitewide'] ) {
+      	$talk_to_robots = true;
+      }
+    }
+
+    if( $talk_to_robots ) {
+      	echo $message_to_robots;
+    }
+
+}
+
+
 //	25. Yoast meta Support
 function ampforwp_custom_yoast_meta(){
 	global $redux_builder_amp;

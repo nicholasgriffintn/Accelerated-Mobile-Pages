@@ -1315,16 +1315,6 @@ function ampforwp_talking_to_robots() {
 }
 
 
-// 41. Rewrite URL only on save #511
-function ampforwp_auto_flush_on_save($redux_builder_amp) {
-	if ( $redux_builder_amp['amp-on-off-for-all-pages'] == 1 || $redux_builder_amp['ampforwp-archive-support'] == 1 ) {
-		global $wp_rewrite;
-		$wp_rewrite->flush_rules();
-	}
-}
-add_action("redux/options/redux_builder_amp/saved",'ampforwp_auto_flush_on_save', 10, 1);
-
-
 //----------------------------------------Auto AMP nav URLS Functions Start--------------------------
 // 44. auto adding /amp for the menu
 add_action('amp_init','ampforwp_auto_add_amp_menu_link_insert');

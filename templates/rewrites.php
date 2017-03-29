@@ -77,7 +77,7 @@ function ampforwp_rewrite_activation() {
 
   ampforwp_add_custom_post_support();
   ampforwp_add_custom_rewrite_rules();
-  
+
   // Flushing rewrite urls ONLY on activation
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
@@ -97,3 +97,13 @@ function ampforwp_rewrite_deactivate() {
 	// Remove transient for Welcome page
 	delete_transient( 'ampforwp_welcome_screen_activation_redirect');
 }
+
+
+// 41. Rewrite URL only on save #511
+function ampforwp_auto_flush_on_save($redux_builder_amp) {
+	if ( $redux_builder_amp['amp-on-off-for-all-pages'] == 1 || $redux_builder_amp['ampforwp-archive-support'] == 1 ) {
+		global $wp_rewrite;
+		$wp_rewrite->flush_rules();
+	}
+}
+add_action("redux/options/redux_builder_amp/saved",'ampforwp_auto_flush_on_save', 10, 1);

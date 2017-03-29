@@ -285,3 +285,12 @@ add_action( 'bjll/compat', 'ampforwp_remove_bj_load' );
   		$content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
   		return $content;
   	}
+
+
+    // Remove default wordpress rel canonical
+  	add_filter('amp_frontend_show_canonical','ampforwp_remove_default_canonical');
+  	if (! function_exists('ampforwp_remove_default_canonical') ) {
+  		function ampforwp_remove_default_canonical() {
+  			return false;
+  		}
+  	}

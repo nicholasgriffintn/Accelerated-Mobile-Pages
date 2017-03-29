@@ -110,15 +110,8 @@
   		}
 	} //end of ampforwp_home_archive_rel_canonical()
 
-	// Remove default wordpress rel canonical
-	add_filter('amp_frontend_show_canonical','ampforwp_remove_default_canonical');
-	if (! function_exists('ampforwp_remove_default_canonical') ) {
-		function ampforwp_remove_default_canonical() {
-			return false;
-		}
-	}
 
-
+	//----------------------------------------AMP code Files Returning Functions Start---------------------------
 	// 2. Custom Design
 	// Add Homepage AMP file code
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_template', 10, 3 );
@@ -237,10 +230,8 @@
 		}
 		return $file;
 	}
+	//----------------------------------------AMP code Files Returning Functions End---------------------------
 
-
-	// 8. Add Main tag as a Wrapper
-	// Removed this code after moving to design manager
 
 	//----------------------------------------Ads Functions Start---------------------------
 	// 9. Advertisement code

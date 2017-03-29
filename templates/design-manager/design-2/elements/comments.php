@@ -19,6 +19,7 @@ if (!comments_open() || $redux_builder_amp['ampforwp-disqus-comments-support']) 
             <ul>
 					<?php
 					// Display the list of comments
+        if( !function_exists('ampforwp_custom_translated_comment') ) {
 				function ampforwp_custom_translated_comment($comment, $args, $depth){
 									$GLOBALS['comment'] = $comment;
 									global $redux_builder_amp;
@@ -59,7 +60,7 @@ if (!comments_open() || $redux_builder_amp['ampforwp-disqus-comments-support']) 
 								<!-- #comment-## -->
 									<?php
 								}// end of ampforwp_custom_translated_comment()
-
+}
 				wp_list_comments( array(
 				  'per_page' 			=> AMPFORWP_COMMENTS_PER_PAGE , //Allow comment pagination
 				  'style' 				=> 'li',

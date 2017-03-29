@@ -229,40 +229,6 @@
 	}
 
 
-	// 6. Add required Javascripts for extra AMP features
-	add_action('amp_post_template_head','ampforwp_register_additional_scripts', 20);
-	function ampforwp_register_additional_scripts() {
-		global $redux_builder_amp;
-		if( is_page() ) { ?>
-			<script async custom-element="amp-form" src="<?php echo AMPFORWP_FORM_SCRIPT; ?>"></script> <?php
-		}
-
-		if( $redux_builder_amp['enable-single-social-icons'] == true || AMPFORWP_DM_SOCIAL_CHECK === 'true' )  {
-			if( is_singular() ) {
-				if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
-					<script async custom-element="amp-social-share" src="<?php echo AMPFORWP_SOCIAL_SHARE_SCRIPT; ?>"></script> <?php
-         }
-			}
-		}
-
-		if($redux_builder_amp['amp-frontpage-select-option'] == 1)  {
-			 if( $redux_builder_amp['enable-single-social-icons'] == true || AMPFORWP_DM_SOCIAL_CHECK === 'true' )  {
-				if( is_home() ) {
-					if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
-					<script async custom-element="amp-social-share" src="<?php echo AMPFORWP_SOCIAL_SHARE_SCRIPT; ?>"></script> <?php
-				 }
-				}
-			}
-		}
-		// Check if any of the ads are enabled then only load ads script
-		//	moved this code to its own function and done the AMP way
-	}
-
-	// 6.1 Adding Analytics Scripts
-	add_action('amp_post_template_head','ampforwp_register_analytics_script', 20);
-	function ampforwp_register_analytics_script(){ ?>
-		<script async custom-element="amp-analytics" src="<?php echo AMPFORWP_ANALYTICS_SCRIPT; ?>"></script> <?php
-	}
 
 	add_filter( 'amp_post_template_data', 'ampforwp_add_amp_related_scripts', 20 );
 	function ampforwp_add_amp_related_scripts( $data ) {
@@ -1005,12 +971,6 @@ function ampforwp_sticky_social_icons(){
 	 }
 }
 
-//	add_action('amp_post_template_head','ampforwp_register_social_sharing_script');
-function ampforwp_register_social_sharing_script() {
-	if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>
-		<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script> <?php
- 	}
-}
 
 
 //	25. Yoast meta Support
@@ -1345,7 +1305,7 @@ function ampforwp_add_disqus_support() {
 		if( $redux_builder_amp['ampforwp-disqus-comments-name'] !== '' ) {
 			global $post; $post_slug=$post->post_name;
 
-			$disqus_script_host_url = "https://ampforwp.appspot.com/?api=". AMPFORWP_DISQUS_URL;
+			$disqus_script_host_url = AMPFORWP_DISQUS_HOST;
 
 			if( $redux_builder_amp['ampforwp-disqus-host-position'] == 0 ) {
 				$disqus_script_host_url = esc_url( $redux_builder_amp['ampforwp-disqus-host-file'] );
@@ -1373,7 +1333,7 @@ function ampforwp_add_disqus_scripts( $data ) {
 	if ( $redux_builder_amp['ampforwp-disqus-comments-support'] && is_singular() ) {
 		if( $redux_builder_amp['ampforwp-disqus-comments-name'] !== '' ) {
 			if ( empty( $data['amp_component_scripts']['amp-iframe'] ) ) {
-				$data['amp_component_scripts']['amp-iframe'] = 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js';
+				$data['amp_component_scripts']['amp-iframe'] = AMPFORWP_I_FRAME_SCRIPT;
 			}
 		}
 	}
@@ -1504,27 +1464,6 @@ function ampforwp_add_extra_functions() {
 			return $data;
 		}
 
-		// Add required Javascripts for Design 3
-		add_filter( 'amp_post_template_data', 'ampforwp_add_design3_required_scripts', 100 );
-		function ampforwp_add_design3_required_scripts( $data ) {
-			global $redux_builder_amp;
-			$amp_menu_has_child = get_transient( 'ampforwp_has_nav_child' );
-			// Add Scripts only when AMP Menu is Enabled
-			if( has_nav_menu( 'amp-menu' ) ) {
-				if ( empty( $data['amp_component_scripts']['amp-accordion'] ) ) {
-					$data['amp_component_scripts']['amp-accordion'] = 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js';
-				}
-			}
-			// Add Scripts only when Homepage AMP Featured Slider is Enabled
-			if( is_home() ) {
-				if ( $redux_builder_amp['amp-design-3-featured-slider'] == 1 && $redux_builder_amp['amp-design-selector'] == 3 && $redux_builder_amp['amp-frontpage-select-option'] == 0 ) {
-					if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
-						$data['amp_component_scripts']['amp-carousel'] = 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js';
-					}
-		    }
-		  }
-			return $data;
-		}
 	}
 }
 
@@ -1542,6 +1481,7 @@ function ampforwp_editable_archvies_title($title) {
 }
 
 
+// # Util Function
 //39. #560 Header and Footer Editable html enabled script area
 add_action('amp_post_template_footer','ampforwp_footer_html_output',11);
 function ampforwp_footer_html_output() {
@@ -1551,6 +1491,8 @@ function ampforwp_footer_html_output() {
   }
 }
 
+
+// # Util Function
 add_action('amp_post_template_head','ampforwp_header_html_output',11);
 function ampforwp_header_html_output() {
   global $redux_builder_amp;
@@ -1687,6 +1629,7 @@ function ampforwp_auto_add_amp_in_menu_link( $atts, $item, $args ) {
 }
 
 
+// # Core Function
 // 45. searchpage, frontpage, homepage structured data
 add_filter( 'amp_post_template_metadata', 'ampforwp_search_or_homepage_or_staticpage_metadata', 10, 2 );
 function ampforwp_search_or_homepage_or_staticpage_metadata( $metadata, $post ) {

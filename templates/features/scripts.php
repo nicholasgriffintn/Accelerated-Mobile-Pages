@@ -78,29 +78,6 @@ function ampforwp_add_design3_required_scripts( $data ) {
 }
 
 
-// Add required Javascripts for Design 3
-add_filter( 'amp_post_template_data', 'ampforwp_add_design3_required_scripts', 100 );
-function ampforwp_add_design3_required_scripts( $data ) {
-	global $redux_builder_amp;
-	$amp_menu_has_child = get_transient( 'ampforwp_has_nav_child' );
-	// Add Scripts only when AMP Menu is Enabled
-	if( has_nav_menu( 'amp-menu' ) ) {
-		if ( empty( $data['amp_component_scripts']['amp-accordion'] ) ) {
-			$data['amp_component_scripts']['amp-accordion'] = AMPFORWP_ACCORDIAN_SCRIPT;
-		}
-	}
-	// Add Scripts only when Homepage AMP Featured Slider is Enabled
-	if( is_home() ) {
-		if ( $redux_builder_amp['amp-design-3-featured-slider'] == 1 && $redux_builder_amp['amp-design-selector'] == 3 && $redux_builder_amp['amp-frontpage-select-option'] == 0 ) {
-			if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
-				$data['amp_component_scripts']['amp-carousel'] = AMPFORWP_CAROUSEL_SCRIPT;
-			}
-		}
-	}
-	return $data;
-}
-
-
 //	add_action('amp_post_template_head','ampforwp_register_social_sharing_script');
 function ampforwp_register_social_sharing_script() {
 	if( is_socialshare_or_socialsticky_enabled_in_ampforwp() ) { ?>

@@ -9,8 +9,8 @@ define('AMPFORWP_AMP_QUERY_VAR', apply_filters( 'amp_query_var', 'amp' ) );
 
 // Constants For Important Files
 define( 'AMPFORWP_DESIGN_MANGER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/design-manager.php');
-define( 'AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-single.php');
-define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/elements-general.php');
+define( 'AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/elements-single.php');
+define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/elements-general.php');
 define( 'AMPFORWP_CUSTOMIZER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/customizer/customizer.php');
 define( 'AMPFORWP_CUSTOM_AMP_CONTENT_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/custom-amp-content.php');
 define( 'AMPFORWP_SEARCH_FUNCTION_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/search-functions.php');

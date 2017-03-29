@@ -466,3 +466,24 @@ if( !function_exists( 'ampforwp_is_search_enabled' ) ) {
 			return false;
 	}
 }
+
+
+// # Util Function
+//39. #560 Header and Footer Editable html enabled script area
+add_action('amp_post_template_footer','ampforwp_footer_html_output',11);
+function ampforwp_footer_html_output() {
+  global $redux_builder_amp;
+  if( $redux_builder_amp['amp-footer-text-area-for-html'] ) {
+    echo $redux_builder_amp['amp-footer-text-area-for-html'] ;
+  }
+}
+
+
+// # Util Function
+add_action('amp_post_template_head','ampforwp_header_html_output',11);
+function ampforwp_header_html_output() {
+  global $redux_builder_amp;
+  if( $redux_builder_amp['amp-header-text-area-for-html'] ) {
+    echo $redux_builder_amp['amp-header-text-area-for-html'] ;
+  }
+}

@@ -47,13 +47,20 @@ function ampforwp_add_ads_scripts( $data ) {
 				$data['amp_component_scripts']['amp-accordion'] = AMPFORWP_ACCORDIAN_SCRIPT;
 			}
 		}
-		// Add Scripts only when Homepage AMP Featured Slider is Enabled
-		if( is_home() ) {
-			if ( $redux_builder_amp['amp-design-3-featured-slider'] == 1 && $redux_builder_amp['amp-design-selector'] == 3 && $redux_builder_amp['amp-frontpage-select-option'] == 0 ) {
-				if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
-					$data['amp_component_scripts']['amp-carousel'] = AMPFORWP_CAROUSEL_SCRIPT;
-				}
+	}
+
+	// Add Scripts only when Homepage AMP Featured Slider is Enabled
+	if( is_home() ) {
+		if ( $redux_builder_amp['amp-design-3-featured-slider'] == 1 &&
+				 $redux_builder_amp['amp-design-selector'] === 3 &&
+				 $redux_builder_amp['amp-frontpage-select-option'] == 0 ) {
+			if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
+				$data['amp_component_scripts']['amp-carousel'] = AMPFORWP_CAROUSEL_SCRIPT;
 			}
+		} elseif( !$redux_builder_amp['amp-design-3-featured-slider'] && ampforwp_design_selector() == 3 ){
+				unset( $data['amp_component_scripts']['amp-carousel'] );
+		} elseif( ampforwp_design_selector() == 2 || ampforwp_design_selector() == 1  ) {
+				unset( $data['amp_component_scripts']['amp-carousel'] );
 		}
 	}
 
@@ -106,7 +113,7 @@ function ampforwp_add_ads_scripts( $data ) {
 
 	if( is_search() ) {
 		// Remove all unwanted scripts on search pages
-		unset( $data['amp_component_scripts']);
+		unset( $data['amp_component_scripts'] );
 	}
 	return $data;
 }

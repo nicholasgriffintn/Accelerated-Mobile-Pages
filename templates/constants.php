@@ -81,7 +81,7 @@ function ampforwp_defining_constants() {
 
 
   //elemetns FIle paths
-  define( 'AMPFORWP_DESIGN_SPECIFIC_STYLE_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager/design-'. $ampforwp_design_selector . '/style.php');
+  define( 'AMPFORWP_DESIGN_SPECIFIC_STYLE_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager/design-'. ampforwp_design_selector() . '/style.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_TITLE_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager/design-'. ampforwp_design_selector() .'/elements/title.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_META_INFO_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager/design-'. ampforwp_design_selector() .'/elements/meta-info.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_FEATURED_IMAGE_FILE', AMPFORWP_PLUGIN_DIR . 'templates/design-manager/design-'. ampforwp_design_selector() .'/elements/featured-image.php');

@@ -50,7 +50,7 @@ function ampforwp_add_ads_scripts( $data ) {
 	}
 
 	// Add Scripts only when Homepage AMP Featured Slider is Enabled
-	if( is_home() ) {
+	if( is_home() && !$redux_builder_amp['amp-frontpage-select-option'] ) {
 		if ( $redux_builder_amp['amp-design-3-featured-slider'] == 1 &&
 				 $redux_builder_amp['amp-design-selector'] === 3 &&
 				 $redux_builder_amp['amp-frontpage-select-option'] == 0 ) {

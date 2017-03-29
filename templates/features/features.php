@@ -1698,7 +1698,6 @@ add_action('pre_amp_render_post','ampforwp_search_related_functions',12);
 function ampforwp_search_related_functions(){
 	global $redux_builder_amp;
 	if ( ampforwp_is_search_enabled() ) {
-				add_filter( 'amp_post_template_data', 'ampforwp_add_lightbox_and_form_scripts');
 				add_action('ampforwp_search_form','ampforwp_the_search_form');
 	}
 }

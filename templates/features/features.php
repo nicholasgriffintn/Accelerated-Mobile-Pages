@@ -1325,6 +1325,7 @@ function ampforwp_auto_flush_on_save($redux_builder_amp) {
 add_action("redux/options/redux_builder_amp/saved",'ampforwp_auto_flush_on_save', 10, 1);
 
 
+//----------------------------------------Auto AMP nav URLS Functions Start--------------------------
 // 44. auto adding /amp for the menu
 add_action('amp_init','ampforwp_auto_add_amp_menu_link_insert');
 function ampforwp_auto_add_amp_menu_link_insert() {
@@ -1344,6 +1345,7 @@ function ampforwp_auto_add_amp_in_menu_link( $atts, $item, $args ) {
     $atts['href'] = trailingslashit( $atts['href'] ) . AMPFORWP_AMP_QUERY_VAR;
     return $atts;
 }
+//----------------------------------------Auto AMP nav URLS  Functions End--------------------------
 
 
 //----------------------------------------Widgets output Functions Start--------------------------

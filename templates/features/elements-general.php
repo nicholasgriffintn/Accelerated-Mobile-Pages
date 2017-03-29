@@ -600,7 +600,7 @@ if( !function_exists( 'ampforwp_social_profiles' ) ) {
       </div> <?php
     }
   }
-}}
+}
 
 
 // #Util

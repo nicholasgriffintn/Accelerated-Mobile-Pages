@@ -663,3 +663,17 @@ if( !function_exists( 'ampforwp_get_footer_non_amp_link' ) ) {
     return $ampforwp_backto_nonamp;
   }
 }
+
+
+if( !function_exists( 'ampforwp_the_footer' ) ) {
+  function ampforwp_the_footer() { ?>
+    <footer class="footer_wrapper container">
+        <div id="footer">
+          <?php ampforwp_the_footer_menu() ?>
+          <?php ampforwp_social_profiles() ?>
+          <?php ampforwp_the_footer_text( ampforwp_get_footer_non_amp_link() ) ?>
+        </div>
+    </footer><?php
+  }
+}
+

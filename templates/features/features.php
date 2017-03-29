@@ -11,7 +11,7 @@
 	// Custom AMP Content
 	require AMPFORWP_CUSTOM_AMP_CONTENT_FILE;
 
-
+	//----------------------------------------AMPHTML Functions Start---------------------------
 	// 1. Add Home REL canonical
 	// Add AMP rel-canonical for home and archive pages
 	add_action('amp_init','ampforwp_allow_homepage');
@@ -109,6 +109,7 @@
 				}
   		}
 	} //end of ampforwp_home_archive_rel_canonical()
+	//----------------------------------------AMPHTML Functions End---------------------------
 
 
 	//----------------------------------------AMP code Files Returning Functions Start---------------------------

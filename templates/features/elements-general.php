@@ -600,4 +600,19 @@ if( !function_exists( 'ampforwp_social_profiles' ) ) {
       </div> <?php
     }
   }
+}}
+
+
+// #Util
+//echoe's menu in footer
+if( !function_exists( 'ampforwp_the_footer_menu' ) ) {
+  function ampforwp_the_footer_menu() {
+    if ( has_nav_menu( 'amp-footer-menu' ) ) { ?>
+      <div class="footer_menu"> <?php
+                wp_nav_menu( array(
+                    'theme_location' => 'amp-footer-menu',
+                ) ); ?>
+      </div> <?php
+    }
+  }
 }

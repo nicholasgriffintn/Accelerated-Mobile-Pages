@@ -453,3 +453,16 @@ if( !function_exists( 'is_socialshare_or_socialsticky_enabled_in_ampforwp' ) ) {
 			return false;
 	}
 }
+
+
+if( !function_exists( 'ampforwp_is_search_enabled' ) ) {
+	function ampforwp_is_search_enabled() {
+		global $redux_builder_amp;
+		if( ( $redux_builder_amp['amp-design-selector']==1 && $redux_builder_amp['amp-design-1-search-feature'] ) ||
+	 			(	$redux_builder_amp['amp-design-selector']==2 && $redux_builder_amp['amp-design-2-search-feature'] ) ||
+				(	$redux_builder_amp['amp-design-selector']==3 && $redux_builder_amp['amp-design-3-search-feature'] ) ) {
+					return true;
+				}
+			return false;
+	}
+}

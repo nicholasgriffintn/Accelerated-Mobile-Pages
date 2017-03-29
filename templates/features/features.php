@@ -1754,10 +1754,7 @@ function ampforwp_search_or_homepage_or_staticpage_metadata( $metadata, $post ) 
 add_action('pre_amp_render_post','ampforwp_search_related_functions',12);
 function ampforwp_search_related_functions(){
 	global $redux_builder_amp;
-	if ( $redux_builder_amp['amp-design-selector'] == 1 ||
-	     $redux_builder_amp['amp-design-selector'] == 2 ||
-	     $redux_builder_amp['amp-design-selector'] == 3 ) {
-
+	if ( ampforwp_is_search_enabled() ) {
 				add_filter( 'amp_post_template_data', 'ampforwp_add_lightbox_and_form_scripts');
 				add_action('ampforwp_search_form','ampforwp_the_search_form');
 	}
@@ -1765,11 +1762,9 @@ function ampforwp_search_related_functions(){
 
 add_action('ampforwp_global_after_footer','ampforwp_lightbox_html_output');
 function ampforwp_lightbox_html_output() {
-	if ( is_search_enabled_in_ampforwp() ) {
+	if ( ampforwp_is_search_enabled() ) {
 	  global $redux_builder_amp;
-		if( $redux_builder_amp['amp-design-1-search-feature'] ||
-		    $redux_builder_amp['amp-design-2-search-feature'] ||
-		    $redux_builder_amp['amp-design-3-search-feature'] ) { ?>
+		if( ampforwp_is_search_enabled() ) { ?>
 				<amp-lightbox id="search-icon" layout="nodisplay">
 				    <?php do_action('ampforwp_search_form'); ?>
 				    <button on="tap:search-icon.close" class="closebutton">X</button>
@@ -1781,11 +1776,9 @@ function ampforwp_lightbox_html_output() {
 
 add_action( 'ampforwp_header_search' , 'ampforwp_search_button_html_output' );
 function ampforwp_search_button_html_output(){
-	if ( is_search_enabled_in_ampforwp() ) {
+	if ( ampforwp_is_search_enabled() ) {
 	 global $redux_builder_amp;
-	 if( $redux_builder_amp['amp-design-1-search-feature'] ||
-	     $redux_builder_amp['amp-design-2-search-feature'] ||
-			 $redux_builder_amp['amp-design-3-search-feature'] ) { ?>
+	 if( ampforwp_is_search_enabled() ) { ?>
         <div class="searchmenu">
 					<button on="tap:search-icon">
 						<i class="icono-search"></i>
@@ -1795,29 +1788,12 @@ function ampforwp_search_button_html_output(){
  	}
 }
 
-function ampforwp_add_lightbox_and_form_scripts( $data ) {
-	if ( is_search_enabled_in_ampforwp() ) {
-		global $redux_builder_amp;
-		// Add Scripts only when Search is Enabled
-		if( $redux_builder_amp['amp-design-1-search-feature'] ||
-		    $redux_builder_amp['amp-design-2-search-feature'] ||
-		    $redux_builder_amp['amp-design-3-search-feature'] ) {
-			if ( empty( $data['amp_component_scripts']['amp-lightbox'] ) ) {
-				$data['amp_component_scripts']['amp-lightbox'] = AMPFORWP_LIGHT_BOX_SCRIPT;
-			}
-			if ( empty( $data['amp_component_scripts']['amp-form'] ) ) {
-				$data['amp_component_scripts']['amp-form'] = AMPFORWP_FORM_SCRIPT;
-			}
-		}
-	}
-	return $data;
-}
 
 function ampforwp_the_search_form() {
     echo ampforwp_get_search_form();
 }
 function ampforwp_get_search_form() {
-	if ( is_search_enabled_in_ampforwp() ) {
+	if ( ampforwp_is_search_enabled() ) {
 		global $redux_builder_amp;
 		$label = $redux_builder_amp['ampforwp-search-label'];
 		$placeholder = $redux_builder_amp['ampforwp-search-placeholder'];
@@ -1831,18 +1807,6 @@ function ampforwp_get_search_form() {
 						</form>';
 	    return $form;
 		}
-}
-
-if( !function_exists( 'is_search_enabled_in_ampforwp' ) ) {
-	function is_search_enabled_in_ampforwp() {
-		global $redux_builder_amp;
-		if( ( $redux_builder_amp['amp-design-selector']==1 && $redux_builder_amp['amp-design-1-search-feature'] ) ||
-	 			(	$redux_builder_amp['amp-design-selector']==2 && $redux_builder_amp['amp-design-2-search-feature'] ) ||
-				(	$redux_builder_amp['amp-design-selector']==3 && $redux_builder_amp['amp-design-3-search-feature'] ) ) {
-					return true;
-				}
-			return false;
-	}
 }
 
 
@@ -1934,3 +1898,6 @@ Examples:
 	.ampforwp-wc-title{ margin: 10px 0px; }
 	.ampforwp-wc-price{ color:#444 } <?php
  }
+
+
+require AMPFORWP_SCRIPTS_FILE;

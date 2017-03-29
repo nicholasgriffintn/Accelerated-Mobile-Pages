@@ -37,3 +37,20 @@ function ampforwp_remove_scripts_search_page( $data ) {
 	}
 	return $data;
 }
+
+
+function ampforwp_add_lightbox_and_form_scripts( $data ) {
+	if ( ampforwp_is_search_enabled() ) {
+		global $redux_builder_amp;
+		// Add Scripts only when Search is Enabled
+		if( ampforwp_is_search_enabled() ) {
+			if ( empty( $data['amp_component_scripts']['amp-lightbox'] ) ) {
+				$data['amp_component_scripts']['amp-lightbox'] = AMPFORWP_LIGHT_BOX_SCRIPT;
+			}
+			if ( empty( $data['amp_component_scripts']['amp-form'] ) ) {
+				$data['amp_component_scripts']['amp-form'] = AMPFORWP_FORM_SCRIPT;
+			}
+		}
+	}
+	return $data;
+}

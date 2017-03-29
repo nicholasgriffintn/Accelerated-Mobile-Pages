@@ -27,6 +27,7 @@ define('AMPFORWP_REWRITES_FILE', AMPFORWP_PLUGIN_DIR . 'templates/rewrites.php')
 define('AMPFORWP_REWRITES_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/compatibility.php');
 define('AMPFORWP_GLOBAL_UTILS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/global-untils.php');
 define('AMPFORWP_FEATURES_LIST_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/features-list.php');
+define('AMPFORWP_SCRIPTS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/scripts.php');
 
 
 //includes related files

@@ -427,98 +427,8 @@
 		}
 
 
-	// 11. Strip unwanted codes and tags from the_content
-	add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content');
-	function ampforwp_strip_invalid_content() {
-		add_filter( 'the_content', 'ampforwp_the_content_filter', 2 );
-	}
-	function ampforwp_the_content_filter( $content ) {
-		 $content = preg_replace('/property=[^>]*/', '', $content);
-		 $content = preg_replace('/vocab=[^>]*/', '', $content);
-		 $content = preg_replace('/value=[^>]*/', '', $content);
-		 $content = preg_replace('/noshade=[^>]*/', '', $content);
-		 $content = preg_replace('/contenteditable=[^>]*/', '', $content);
-		 $content = preg_replace('/non-refundable=[^>]*/', '', $content);
-		 $content = preg_replace('/security=[^>]*/', '', $content);
-		 $content = preg_replace('/deposit=[^>]*/', '', $content);
-		 $content = preg_replace('/for=[^>]*/', '', $content);
-		 $content = preg_replace('/nowrap="nowrap"/', '', $content);
-		 $content = preg_replace('#<comments-count.*?>(.*?)</comments-count>#i', '', $content);
-		 $content = preg_replace('#<time.*?>(.*?)</time>#i', '', $content);
-		 $content = preg_replace('#<badge.*?>(.*?)</badge>#i', '', $content);
-		 $content = preg_replace('#<plusone.*?>(.*?)</plusone>#i', '', $content);
-		 $content = preg_replace('#<col.*?>#i', '', $content);
-		 $content = preg_replace('#<table.*?>#i', '<table width="100%">', $content);
-		 $content = preg_replace('/href="javascript:void*/', ' ', $content);
-		 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
-		 //for removing attributes within html tags
-		 $content = preg_replace('/(<[^>]+) onclick=".*?"/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) rel=".*?"/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) ref=".*?"/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) date=".*?"/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) time=".*?"/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) imap=".*?"/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) date/', '$1', $content);
-		 $content = preg_replace('/(<[^>]+) spellcheck/', '$1', $content);
-		 $content = preg_replace('/<font(.*?)>(.*?)<\/font>/', '$2', $content);
-		 //removing scripts and rel="nofollow" from Body and from divs
-		 //issue #268
-		 $content = str_replace(' rel="nofollow"',"",$content);
-		 $content = preg_replace('/<script[^>]*>.*?<\/script>/i', '', $content);
-		/// simpy add more elements to simply strip tag but not the content as so
-		/// Array ("p","font");
-		$tags_to_strip = Array("thrive_headline","type","date","time","place","state","city" );
-		foreach ($tags_to_strip as $tag)
-		{
-		   $content = preg_replace("/<\\/?" . $tag . "(.|\\s)*?>/",'',$content);
-		}
-		// regex on steroids from here on
-		 // issue #420
-		 $content = preg_replace("/<div\s(class=.*?)(href=((".'"|'."'".')(.*?)("|'."'".')))\s(width=("|'."'".')(.*?)("|'."'"."))>(.*)<\/div>/i", '<div $1>$11</div>', $content);
-		 $content = preg_replace('/<like\s(.*?)>(.*)<\/like>/i', '', $content);
-		 $content = preg_replace('/<g:plusone\s(.*?)>(.*)<\/g:plusone>/i', '', $content);
-		 $content = preg_replace('/imageanchor="1"/i', '', $content);
-		 $content = preg_replace('/<plusone\s(.*?)>(.*?)<\/plusone>/', '', $content);
-		 // $content = preg_replace('/date=[^>]*/', '', $content);
-		 // $content = preg_replace('/type=[^>]*/', '', $content);
-		 // $content = preg_replace('/time=[^>]*/', '', $content);
-		 // $content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
 
-		 /* Removed So Inline style can work
-		 $content = preg_replace('#<style scoped.*?>(.*?)</style>#i', '', $content); */
-		 /* Removed So Inline style can work
-		 $content = preg_replace('/(<[^>]+) style=".*?"/', '$1', $content);
-		 */
-
-		return $content;
-	}
-
-
-	// 11.1 Strip unwanted codes and tags from wp_footer for better compatibility with Plugins
-	if ( ! is_customize_preview() ) {
-		add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_footer');
-	}
-	function ampforwp_strip_invalid_content_footer() {
-		add_filter( 'wp_footer', 'ampforwp_the_content_filter_footer', 1 );
-	}
-	function ampforwp_the_content_filter_footer( $content ) {
-    remove_all_actions('wp_footer');
-		return $content;
-	}
-
-	// 11.5 Strip unwanted codes the_content of Frontpage
-  add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_frontpage');
-	function ampforwp_strip_invalid_content_frontpage(){
-    if ( is_front_page() || is_home() ) {
-			add_filter( 'the_content', 'ampforwp_the_content_filter_frontpage', 20 );
-    }
-	}
-	function ampforwp_the_content_filter_frontpage( $content ) {
-		$content = preg_replace('/<img*/', '<amp-img', $content); // Fallback for plugins
-		return $content;
-	}
-
-
+//----------------------------------------AMP metabox in Editor page Functions Start---------------------------
 // 14. Adds a meta box to the post editing screen for AMP on-off on specific pages.
 /**
  * Adds a meta box to the post editing screen for AMP on-off on specific pages
@@ -637,79 +547,20 @@ function ampforwp_hide_amp_for_specific_pages($input){
 	return $input;
 }
 
-
-// 15. Disable New Relic's extra script that its adds in AMP pages.
-add_action( 'amp_post_template_data', 'ampforwp_disable_new_relic_scripts' );
-if ( ! function_exists('ampforwp_disable_new_relic_scripts') ) {
-	function ampforwp_disable_new_relic_scripts( $data ) {
-		if ( ! function_exists( 'newrelic_disable_autorum' ) ) {
-			return $data;
-		}
-		if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
-			newrelic_disable_autorum();
-		}
-		return $data;
+// 28. Properly removes AMP if turned off from Post panel
+add_filter( 'amp_skip_post', 'ampforwp_skip_amp_post', 10, 3 );
+function ampforwp_skip_amp_post( $skip, $post_id, $post ) {
+	$ampforwp_amp_post_on_off_meta = get_post_meta( $post->ID , 'ampforwp-amp-on-off' , true );
+	if( $ampforwp_amp_post_on_off_meta === 'hide-amp' ) {
+		$skip = true;
 	}
+  return $skip;
 }
+//----------------------------------------AMP metabox in Editor page Functions End---------------------------
 
 
-// 16. Remove Unwanted Scripts
-if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
-	add_action( 'wp_enqueue_scripts', 'ampforwp_remove_unwanted_scripts',20 );
-}
-function ampforwp_remove_unwanted_scripts() {
-  wp_dequeue_script('jquery');
-}
-// Remove Print Scripts and styles
-function ampforwp_remove_print_scripts() {
-	if ( ampforwp_is_amp_endpoint() ) {
 
-    function ampforwp_remove_all_scripts() {
-      global $wp_scripts;
-      $wp_scripts->queue = array();
-    }
-    add_action('wp_print_scripts', 'ampforwp_remove_all_scripts', 100);
-    function ampforwp_remove_all_styles() {
-      global $wp_styles;
-      $wp_styles->queue = array();
-    }
-    add_action('wp_print_styles', 'ampforwp_remove_all_styles', 100);
-
-		// Remove Print Emoji for Nextgen Gallery support
-		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-		remove_action( 'wp_print_styles', 'print_emoji_styles' );
-
-	}
-}
-add_action( 'template_redirect', 'ampforwp_remove_print_scripts' );
-
-
-// 19. Remove Canonical tags
-function ampforwp_amp_remove_actions() {
-  if ( is_home() || is_front_page() || is_archive() || is_search() ) {
-    remove_action( 'amp_post_template_head', 'amp_post_template_add_canonical' );
-  }
-}
-add_action( 'amp_post_template_head', 'ampforwp_amp_remove_actions', 9 );
-
-
-// 21. Remove Schema data from All In One Schema.org Rich Snippets Plugin
-add_action( 'pre_amp_render_post', 'ampforwp_remove_schema_data' );
-function ampforwp_remove_schema_data() {
-	remove_filter('the_content','display_rich_snippet');
-  // Ultimate Social Media PLUS Compatiblity Added
-	remove_filter('the_content','sfsi_plus_beforaftereposts');
-	remove_filter('the_content','sfsi_plus_beforeafterblogposts');
-
-	// Thrive Content Builder
-	$amp_custom_content_enable = get_post_meta( get_the_ID() , 'ampforwp_custom_content_editor_checkbox', true);
-	if ($amp_custom_content_enable == 'yes') {
-		remove_filter( 'the_content', 'tve_editor_content', 10 );
-	}
-
-}
-
-
+//----------------------------------------Misccelenous Feature Functions Start---------------------------
 // 22. Removing author links from comments Issue #180
 if( ! function_exists( "disable_comment_author_links" ) ) {
 	function ampforwp_disable_comment_author_links( $author_link ){
@@ -724,22 +575,6 @@ if( ! function_exists( "disable_comment_author_links" ) ) {
 }
 
 
-// 23. The analytics tag appears more than once in the document. This will soon be an error
-remove_action( 'amp_post_template_head', 'quads_amp_add_amp_ad_js');
-
-
-// 28. Properly removes AMP if turned off from Post panel
-add_filter( 'amp_skip_post', 'ampforwp_skip_amp_post', 10, 3 );
-function ampforwp_skip_amp_post( $skip, $post_id, $post ) {
-	$ampforwp_amp_post_on_off_meta = get_post_meta( $post->ID , 'ampforwp-amp-on-off' , true );
-	if( $ampforwp_amp_post_on_off_meta === 'hide-amp' ) {
-		$skip = true;
-	}
-  return $skip;
-}
-
-
-//----------------------------------------Misccelenous Feature Functions Start---------------------------
 //35. Disqus Comments Support
 add_action('ampforwp_post_after_design_elements','ampforwp_add_disqus_support');
 function ampforwp_add_disqus_support() {

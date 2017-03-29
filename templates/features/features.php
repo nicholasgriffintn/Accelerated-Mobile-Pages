@@ -255,7 +255,7 @@
 	// 8. Add Main tag as a Wrapper
 	// Removed this code after moving to design manager
 
-
+	//----------------------------------------Ads Functions Start---------------------------
 	// 9. Advertisement code
 		// Below Header Global
 		add_action('ampforwp_after_header','ampforwp_header_advert');
@@ -425,6 +425,7 @@
 				echo $output;
 			}
 		}
+//----------------------------------------Ads Functions End---------------------------
 
 
 

@@ -616,3 +616,25 @@ if( !function_exists( 'ampforwp_the_footer_menu' ) ) {
     }
   }
 }
+
+
+// #Util
+//echoe's footer Text
+if( !function_exists( 'ampforwp_the_footer_text' ) ) {
+  function ampforwp_the_footer_text( $ampforwp_backto_nonamp ) { global $redux_builder_amp; ?>
+    <p class="rightslink"> <?php
+        global $allowed_html;
+        echo wp_kses($redux_builder_amp['amp-translator-footer-text'],$allowed_html) ;
+
+        //24. Added an options button for switching on/off link to non amp page
+        if($redux_builder_amp['amp-footer-link-non-amp-page']=='1') {
+          if ( $ampforwp_backto_nonamp ) { ?> | <a href="<?php echo $ampforwp_backto_nonamp; ?>" rel="nofollow"><?php echo esc_html( $redux_builder_amp['amp-translator-non-amp-page-text'] ) ;?> </a> <?php  }
+        } ?>
+    </p> <?php
+    if( $redux_builder_amp['amp-design-3-credit-link'] ) { ?>
+      <p class="poweredby">
+          <a href="https://ampforwp.com" rel="nofollow">Powered by AMPforWP</a>
+      <p> <?php
+    }
+  }
+}

@@ -1,6 +1,4 @@
 <?php
-// This file will contains list of all FEATURES.
-	require AMPFORWP_FEATURES_LIST_FILE;
 // Adding AMP-related things to the main theme
 	global $redux_builder_amp;
 	// 0.9. AMP Design Manager Files

@@ -229,18 +229,6 @@
 	}
 
 
-
-	add_filter( 'amp_post_template_data', 'ampforwp_add_amp_related_scripts', 20 );
-	function ampforwp_add_amp_related_scripts( $data ) {
-		global $redux_builder_amp;
-		// Adding Sidebar Script
-		if ( empty( $data['amp_component_scripts']['amp-sidebar'] ) ) {
-			$data['amp_component_scripts']['amp-sidebar'] = AMPFORWP_SIDE_BAR_SCRIPT;
-		}
-		return $data;
-	}
-
-
 	// 7. Footer for AMP Pages
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_footer', 10, 3 );
 	function ampforwp_custom_footer( $file, $type, $post ) {
@@ -1325,21 +1313,6 @@ function ampforwp_add_disqus_support() {
 			</section> <?php
 		}
 	}
-}
-
-add_filter( 'amp_post_template_data', 'ampforwp_add_disqus_scripts' );
-function ampforwp_add_disqus_scripts( $data ) {
-	global $redux_builder_amp;
-	if ( $redux_builder_amp['ampforwp-disqus-comments-support'] && is_singular() ) {
-		if( $redux_builder_amp['ampforwp-disqus-comments-name'] !== '' ) {
-			if ( empty( $data['amp_component_scripts']['amp-iframe'] ) ) {
-				$data['amp_component_scripts']['amp-iframe'] = AMPFORWP_I_FRAME_SCRIPT;
-			}
-		}
-	}
-	// remove direction attribute from the AMP HTMl #541
-	unset( $data['html_tag_attributes']['dir'] );
-	return $data;
 }
 
 

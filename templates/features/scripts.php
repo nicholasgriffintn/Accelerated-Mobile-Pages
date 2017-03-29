@@ -99,7 +99,7 @@ function ampforwp_register_social_sharing_script( $data ) {
 
 
 // 6. Add required Javascripts for extra AMP features
-add_action('amp_post_template_data','ampforwp_register_additional_scripts', 20);
+add_filter('amp_post_template_data','ampforwp_register_additional_scripts', 20);
 function ampforwp_register_additional_scripts( $data ) {
 	global $redux_builder_amp;
 	if( is_page() ) {
@@ -134,10 +134,38 @@ function ampforwp_register_additional_scripts( $data ) {
 
 
 // 6.1 Adding Analytics Scripts
-add_action('amp_post_template_data','ampforwp_register_analytics_script', 20);
+add_filter('amp_post_template_data','ampforwp_register_analytics_script', 20);
 function ampforwp_register_analytics_script( $data ){
 	if ( empty( $data['amp_component_scripts']['amp-analytics'] ) ) {
 		$data['amp_component_scripts']['amp-analytics'] = AMPFORWP_ANALYTICS_SCRIPT;
 	}
 	return $data;
 }
+
+
+add_filter( 'amp_post_template_data', 'ampforwp_add_amp_related_scripts', 20 );
+function ampforwp_add_amp_related_scripts( $data ) {
+	global $redux_builder_amp;
+	// Adding Sidebar Script
+	if ( empty( $data['amp_component_scripts']['amp-sidebar'] ) ) {
+		$data['amp_component_scripts']['amp-sidebar'] = AMPFORWP_SIDE_BAR_SCRIPT;
+	}
+	return $data;
+}
+
+
+add_filter( 'amp_post_template_data', 'ampforwp_add_disqus_scripts' );
+function ampforwp_add_disqus_scripts( $data ) {
+	global $redux_builder_amp;
+	if ( $redux_builder_amp['ampforwp-disqus-comments-support'] && is_singular() ) {
+		if( $redux_builder_amp['ampforwp-disqus-comments-name'] !== '' ) {
+			if ( empty( $data['amp_component_scripts']['amp-iframe'] ) ) {
+				$data['amp_component_scripts']['amp-iframe'] = AMPFORWP_I_FRAME_SCRIPT;
+			}
+		}
+	}
+	// remove direction attribute from the AMP HTMl #541
+	unset( $data['html_tag_attributes']['dir'] );
+	return $data;
+}
+

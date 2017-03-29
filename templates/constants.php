@@ -28,6 +28,7 @@ define('AMPFORWP_REWRITES_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/compa
 define('AMPFORWP_GLOBAL_UTILS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/global-untils.php');
 define('AMPFORWP_FEATURES_LIST_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/features-list.php');
 define('AMPFORWP_SCRIPTS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/scripts.php');
+define('AMPFORWP_DISQUS_HOST', "https://ampforwp.appspot.com/?api=". AMPFORWP_DISQUS_URL);
 
 
 //includes related files
@@ -50,6 +51,9 @@ define( 'AMPFORWP_SIDE_BAR_SCRIPT', 'https://cdn.ampproject.org/v0/amp-sidebar-0
 define( 'AMPFORWP_NOTIFICATIONS_SCRIPT', 'https://cdn.ampproject.org/v0/amp-user-notification-0.1.js' );
 define( 'AMPFORWP_AMP_AD_SCRIPT', 'https://cdn.ampproject.org/v0/amp-ad-0.1.js' );
 define( 'AMPFORWP_LIGHT_BOX_SCRIPT', 'https://cdn.ampproject.org/v0/amp-lightbox-0.1.js' );
+define( 'AMPFORWP_CAROUSEL_SCRIPT', 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js' );
+define( 'AMPFORWP_ACCORDIAN_SCRIPT', 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js' );
+define( 'AMPFORWP_I_FRAME_SCRIPT', 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js' );
 
 // Global Constants -- End Here --
 

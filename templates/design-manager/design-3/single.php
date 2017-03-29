@@ -2,7 +2,7 @@
 global $redux_builder_amp;
 if( is_front_page() ) {
 	$front_page_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
-	$amp_post_template_object = new AMP_Post_Template( $post_id ); ?>
+	$amp_post_template_object = new AMP_Post_Template( $front_page_id ); ?>
 	<!doctype html>
 	<html amp <?php echo AMP_HTML_Utils::build_attributes_string( $amp_post_template_object->get( 'html_tag_attributes' ) ); ?> > <?php
 } else { ?>

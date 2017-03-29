@@ -1,9 +1,9 @@
 <?php
 /************************************************************************
 *
-* All the functions
+* Only Move this back to general features file when
 *
-* Will be Merged and this file will be deleted
+* all scripts issues are resolved once and for all
 *
 *************************************************************************/
 // 49. Properly adding ad Script the AMP way

@@ -7,3 +7,11 @@ if(ampforwp_is_amp_endpoint()) {
 	}
 }
 add_action('template_redirect', 'ampforwp_dd_exclude_from_amp');
+
+
+//37. compatibility with wp-html-compression
+function ampforwp_copat_wp_html_compression() {
+	remove_action('template_redirect', 'wp_html_compression_start', -1);
+	remove_action('get_header', 'wp_html_compression_start');
+}
+add_action('amp_init','ampforwp_copat_wp_html_compression');

@@ -1017,14 +1017,12 @@ function ampforwp_add_disqus_support() {
 }
 
 
-//37. compatibility with wp-html-compression
-function ampforwp_copat_wp_html_compression() {
-	remove_action('template_redirect', 'wp_html_compression_start', -1);
-	remove_action('get_header', 'wp_html_compression_start');
-}
-add_action('amp_init','ampforwp_copat_wp_html_compression');
+//----------------------------------------Compatibility Functions Start---------------------------
+require AMPFORWP_COMPATIIBLITY_FILE;
+//----------------------------------------Compatibility Functions End---------------------------
 
 
+//----------------------------------------Design-3 Sepecific Functions Start---------------------------
 //38. Extra Design Specific Features
 add_action('pre_amp_render_post','ampforwp_add_extra_functions',12);
 function ampforwp_add_extra_functions() {
@@ -1140,6 +1138,7 @@ function ampforwp_add_extra_functions() {
 
 	}
 }
+//----------------------------------------Design-3 Sepecific Functions End---------------------------
 
 
 //----------------------------------------TItles Functions Start---------------------------

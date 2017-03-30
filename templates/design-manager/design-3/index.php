@@ -1,8 +1,10 @@
 <!doctype html>
 <html amp <?php ampforwp_the_lang_code( $this )?> >
 	<head>
+		<?php //TODO all direct functions to be converted into hooks ?>
 		<?php ampforwp_the_head( $this ); ?>
 	</head>
+	<?php //TODO add a filter to add classes to body <body body_class(); > ?>
 	<body class="amp_home_body <?php if( is_archive() ){ echo 'archives_body'; } ?> design_3_wrapper">
 		<?php do_action('ampforwp_the_header_bar'); ?>
 
@@ -14,6 +16,7 @@
 
 		 do_action( 'ampforwp_after_header', $this );
 
+		 //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
 		 if( is_home() ) {
 		 	do_action('ampforwp_home_above_loop');
 		 } ?>
@@ -23,7 +26,8 @@
 		 	do_action('ampforwp_loop') ;
 		 	do_action('ampforwp_post_after_loop') ; ?>
 		 </main> <?php
-
+		 
+		 //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
 		 if( is_home() ) {
 		  do_action('ampforwp_home_below_loop');
 	   }

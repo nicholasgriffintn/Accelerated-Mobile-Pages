@@ -665,6 +665,12 @@ if( !function_exists( 'ampforwp_get_footer_non_amp_link' ) ) {
   }
 }
 
+// TODO: instead of writing the all the functions and attaching it to one hook,
+  // Hook all the functions seperatly.
+    // Example:
+    // add_action( 'ampforwp_the_footer' ,'ampforwp_the_footer_menu');
+    // add_action( 'ampforwp_the_footer' ,'ampforwp_social_profiles');
+
 add_action( 'ampforwp_the_footer' ,'ampforwp_the_footer');
 if( !function_exists( 'ampforwp_the_footer' ) ) {
   function ampforwp_the_footer() { ?>
@@ -678,7 +684,7 @@ if( !function_exists( 'ampforwp_the_footer' ) ) {
   }
 }
 
-
+// TODO: Hook the sidebar the same way as footer
 if( !function_exists( 'ampforwp_deisgn_3_the_sidebar' ) ) {
   function ampforwp_deisgn_3_the_sidebar() { ?>
     <amp-sidebar id='sidebar' layout="nodisplay" side="left"> <?php global $redux_builder_amp; ?>

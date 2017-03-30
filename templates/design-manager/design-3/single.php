@@ -1,4 +1,5 @@
 <?php
+// TODO : all direct functions to be converted into hooks
 global $redux_builder_amp;
 if( is_front_page() ) {
 	$front_page_id = $redux_builder_amp['amp-frontpage-select-option-pages'];

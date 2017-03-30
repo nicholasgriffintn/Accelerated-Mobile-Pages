@@ -14,6 +14,7 @@ if ( !function_exists( 'ampforwp_get_template_data_object' ) ) {
   add_action('pre_amp_render_post','ampforwp_get_template_data_object');
   function ampforwp_get_template_data_object() {
     global $post;
+    // TODO make this Redux ID of Frontpage selected
     $amp_post_template_object = new AMP_Post_Template( $post->ID );
     return  $amp_post_template_object ;
   }

@@ -91,6 +91,7 @@ if ( !function_exists( 'ampforwp_custom_translated_comment' ) ) {
 }
 
 
+//TODO properly organize comments code
 // # Core Function
 // Function of Element Comment
 if ( !function_exists( 'ampforwp_content_element_comment' ) ) {

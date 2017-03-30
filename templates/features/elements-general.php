@@ -664,7 +664,7 @@ if( !function_exists( 'ampforwp_get_footer_non_amp_link' ) ) {
   }
 }
 
-
+add_action( 'ampforwp_the_footer' ,'ampforwp_the_footer');
 if( !function_exists( 'ampforwp_the_footer' ) ) {
   function ampforwp_the_footer() { ?>
     <footer class="footer_wrapper container">

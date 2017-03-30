@@ -729,7 +729,7 @@ if( !function_exists( 'ampforwp_deisgn_3_get_header_URL' ) ) {
   }
 }
 
-
+// TODO: Hook the Header Elements the same way as footer
 add_action( 'ampforwp_the_header_bar' , 'ampforwp_design_3_the_header' );
 if( !function_exists( 'ampforwp_design_3_the_header' ) ) {
   function ampforwp_design_3_the_header() {

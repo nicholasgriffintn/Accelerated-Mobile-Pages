@@ -185,6 +185,7 @@
 
 
 	// 4. Custom Header files
+	// TODO: this filter will be removed in future and use ampforwp_the_header_bar hook instead
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_header', 10, 3 );
 	function ampforwp_custom_header( $file, $type, $post ) {
 		if ( 'header-bar' === $type ) {
@@ -222,6 +223,7 @@
 
 
 	// 7. Footer for AMP Pages
+	// TODO: this filter will be removed in future and use ampforwp_the_footer - ampforwp_global_after_footer hook instead
 	add_filter( 'amp_post_template_file', 'ampforwp_custom_footer', 10, 3 );
 	function ampforwp_custom_footer( $file, $type, $post ) {
 		if ( 'footer' === $type ) {

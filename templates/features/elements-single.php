@@ -3,6 +3,8 @@
 // Code betweeen this comments dont Modify or Touch
 /********************************************/
 //TODO put this code conditionally or this will throw Fatal Error
+  // 1. if file_exisits for require_once( WP_PLUGIN_DIR . '/amp/amp.php' );
+  // 2. if function_exists for amp_load_classes();
 require_once( WP_PLUGIN_DIR . '/amp/amp.php' );
 amp_load_classes();
 global $redux_builder_amp;

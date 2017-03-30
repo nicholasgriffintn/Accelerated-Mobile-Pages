@@ -490,7 +490,7 @@ function ampforwp_header_html_output() {
 
 
 // 24. Seperate Sticky Single Social Icons
-// TO DO: we can directly call social-icons.php instead of below code
+// TODO: we can directly call social-icons.php instead of below code
 add_action('amp_post_template_footer','ampforwp_sticky_social_icons');
 function ampforwp_sticky_social_icons(){
 	global $redux_builder_amp;

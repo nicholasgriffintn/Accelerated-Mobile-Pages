@@ -677,3 +677,88 @@ if( !function_exists( 'ampforwp_the_footer' ) ) {
   }
 }
 
+
+if( !function_exists( 'ampforwp_deisgn_3_the_sidebar' ) ) {
+  function ampforwp_deisgn_3_the_sidebar() { ?>
+    <amp-sidebar id='sidebar' layout="nodisplay" side="left"> <?php global $redux_builder_amp; ?>
+        <div class="toggle-navigationv2"> <?php
+          if( has_nav_menu( 'amp-menu' ) ) { ?>
+            <div class="navigation_heading"><?php echo esc_html( $redux_builder_amp['amp-translator-navigate-text'] ); ?></div> <?php wp_nav_menu( array(
+                'theme_location' => 'amp-menu',
+                'walker' => new AMPforWP_Menu_Walker()
+            ) );
+          }
+          ampforwp_social_profiles(); ?>
+      </div>
+    </amp-sidebar> <?php
+  }
+}
+
+
+if( !function_exists( 'ampforwp_deisgn_3_get_header_URL' ) ) {
+  function ampforwp_deisgn_3_get_header_URL() {
+    global $redux_builder_amp;
+    $set_rel_to_noamp=false;
+    if( $redux_builder_amp['amp-on-off-support-for-non-amp-home-page'] ) {
+      if( $redux_builder_amp['amp-mobile-redirection'] ) {
+        $ampforwp_home_url = untrailingslashit( get_bloginfo('url') ).'?nonamp=1';
+        $set_rel_to_noamp = true;
+        } else {
+          $ampforwp_home_url = untrailingslashit( get_bloginfo('url') );
+       }
+    } else {
+     if($redux_builder_amp['ampforwp-homepage-on-off-support']) {
+        $ampforwp_home_url = trailingslashit( trailingslashit( get_bloginfo('url') ) . AMPFORWP_AMP_QUERY_VAR );
+     } else {
+            if( $redux_builder_amp['amp-mobile-redirection'] ) {
+              $ampforwp_home_url = untrailingslashit( get_bloginfo('url') ).'?nonamp=1';
+              $set_rel_to_noamp = true;
+             } else {
+              $ampforwp_home_url = untrailingslashit( get_bloginfo('url') );
+             }
+    }
+   }
+   return array( $ampforwp_home_url , $set_rel_to_noamp );
+  }
+}
+
+
+add_action( 'ampforwp_the_header_bar' , 'ampforwp_design_3_the_header' );
+if( !function_exists( 'ampforwp_design_3_the_header' ) ) {
+  function ampforwp_design_3_the_header() {
+    ampforwp_deisgn_3_the_sidebar(); ?>
+    <div id="designthree" class="designthree main_container">
+    <header class="container">
+      <div id="headerwrap">
+          <div id="header">
+            <div class="hamburgermenu">
+                <button class="toast pull-left" on='tap:sidebar.toggle'><span></span></button>
+            </div>
+            <div class="headerlogo"> <?php
+
+            $non_amp_url_data = ampforwp_deisgn_3_get_header_URL();
+            global $redux_builder_amp;
+            if ( true == ($redux_builder_amp['opt-media']['url']) ) {  ?>
+
+              <a href="<?php echo esc_url( $non_amp_url_data[0] ); ?>"  <?php if( $non_amp_url_data[1] ){ echo ' rel="nofollow"'; } ?> > <?php
+                 if($redux_builder_amp['ampforwp-custom-logo-dimensions'] == true)  { ?>
+                    <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="<?php echo $redux_builder_amp['opt-media-width']; ?>" height="<?php echo $redux_builder_amp['opt-media-height']; ?>" alt="logo" class="amp-logo">
+                    </amp-img> <?php
+                 } else { ?>
+                    <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="190" height="36" alt="logo" class="amp-logo">
+                    </amp-img> <?php
+                 } ?>
+              </a> <?php
+
+            } else { ?>
+
+              <h1><a href="<?php echo esc_url( $non_amp_url_data[0] ); ?>"  <?php if( $non_amp_url_data[1] ){ echo ' rel="nofollow"'; } ?>  ><?php bloginfo('name'); ?></a></h1> <?php
+
+            } ?>
+            </div>
+            <?php do_action('ampforwp_header_search'); ?>
+          </div>
+      </div>
+    </header> <?php
+  }
+}

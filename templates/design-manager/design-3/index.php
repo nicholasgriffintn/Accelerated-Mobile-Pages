@@ -6,7 +6,7 @@
 	</head>
 	<?php //TODO add a filter to add classes to body <body body_class(); > ?>
 	<body class="amp_home_body <?php if( is_archive() ){ echo 'archives_body'; } ?> design_3_wrapper">
-		<?php do_action('ampforwp_the_header_bar'); ?>
+		<?php do_action('ampforwp_the_header_bar'); 
 
 		if( is_home() ) { ?>
 			<div class="amp-wp-content">
@@ -26,7 +26,7 @@
 		 	do_action('ampforwp_loop') ;
 		 	do_action('ampforwp_post_after_loop') ; ?>
 		 </main> <?php
-		 
+
 		 //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
 		 if( is_home() ) {
 		  do_action('ampforwp_home_below_loop');

@@ -4,7 +4,7 @@
 		<?php ampforwp_the_head( $this ); ?>
 	</head>
 	<body class="amp_home_body <?php if( is_archive() ){ echo 'archives_body'; } ?> design_3_wrapper">
-		<?php $this->load_parts( array( 'header-bar' ) );
+		<?php do_action('ampforwp_the_header_bar'); ?>
 
 		if( is_home() ) { ?>
 			<div class="amp-wp-content">
@@ -26,11 +26,12 @@
 
 		 if( is_home() ) {
 		  do_action('ampforwp_home_below_loop');
-	   } ?>
+	   }
 
-		<?php do_action( 'amp_post_template_above_footer', $this ); ?>
-		<?php $this->load_parts( array( 'footer' ) ); ?>
-		<?php do_action( 'amp_post_template_footer', $this ); ?>
+		 do_action( 'amp_post_template_above_footer', $this );
+		 do_action('ampforwp_the_footer');
+		 do_action('ampforwp_global_after_footer');
+		 do_action( 'amp_post_template_footer', $this ); ?>
 	</body>
 </html>
 

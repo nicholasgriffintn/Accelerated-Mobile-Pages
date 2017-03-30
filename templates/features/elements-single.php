@@ -2,6 +2,7 @@
 
 // Code betweeen this comments dont Modify or Touch
 /********************************************/
+//TODO put this code conditionally or this will throw Fatal Error
 require_once( WP_PLUGIN_DIR . '/amp/amp.php' );
 amp_load_classes();
 global $redux_builder_amp;

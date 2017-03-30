@@ -1,1 +1,0 @@
-<?php do_action('ampforwp_the_header_bar'); ?>

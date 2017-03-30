@@ -211,16 +211,6 @@
 		return $file;
 	}
 
-	// 4.5 Added hook to add more layout.
-	do_action('ampforwp_after_features_include');
-
-
-	// 5.  Customize with Width of the site
-	add_filter( 'amp_content_max_width', 'ampforwp_change_content_width' );
-	function ampforwp_change_content_width( $content_max_width ) {
-		return 1000;
-	}
-
 
 	// 7. Footer for AMP Pages
 	// TODO: this filter will be removed in future and use ampforwp_the_footer - ampforwp_global_after_footer hook instead
@@ -538,6 +528,17 @@
 
 
 //----------------------------------------Misccelenous Feature Functions Start---------------------------
+	// 4.5 Added hook to add more layout.
+	do_action('ampforwp_after_features_include');
+
+
+	// 5.  Customize with Width of the site
+	add_filter( 'amp_content_max_width', 'ampforwp_change_content_width' );
+	function ampforwp_change_content_width( $content_max_width ) {
+		return 1000;
+	}
+
+
 	// 22. Removing author links from comments Issue #180
 	if( ! function_exists( "disable_comment_author_links" ) ) {
 		function ampforwp_disable_comment_author_links( $author_link ){

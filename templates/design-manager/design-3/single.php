@@ -26,7 +26,7 @@ if( is_front_page() ) {
 	<body class="<?php echo is_front_page() ? "single-post design_3_wrapper" : is_single() ? "design_3_wrapper single-post" : "design_3_wrapper single-post amp-single-page" ?> "> <?php
 
 	if( is_front_page() ) {
-		$amp_post_template_object->load_parts( array( 'header-bar' ) ); ?>
+		do_action('ampforwp_the_header_bar'); ?>
 		<header class="amp-wp-article-header ampforwp-title amp-wp-content">
 			<h1 class="amp-wp-title"> <?php
 				if( $front_page_id ) {
@@ -37,7 +37,7 @@ if( is_front_page() ) {
 		do_action( 'ampforwp_after_header', $amp_post_template_object );
 		do_action('ampforwp_frontpage_above_loop');
 	} else {
-		$this->load_parts( array( 'header-bar' ) );
+		do_action('ampforwp_the_header_bar');
 		do_action( 'ampforwp_after_header', $this );
 	} ?>
 
@@ -69,11 +69,13 @@ if( is_front_page() ) {
 	if( is_front_page() ) {
 		do_action('ampforwp_frontpage_below_loop');
 		do_action( 'amp_post_template_above_footer', $amp_post_template_object );
-		$amp_post_template_object->load_parts( array( 'footer' ) );
+	  do_action('ampforwp_the_footer');
+		do_action('ampforwp_global_after_footer');
 		do_action( 'amp_post_template_footer', $amp_post_template_object );
 	} else {
 		do_action( 'amp_post_template_above_footer', $this );
-		$this->load_parts( array( 'footer' ) );
+	  do_action('ampforwp_the_footer');
+	  do_action('ampforwp_global_after_footer');
 		do_action( 'amp_post_template_footer', $this );
 	} ?>
 	</body>

@@ -111,10 +111,11 @@ function ampforwp_add_ads_scripts( $data ) {
 	// remove direction attribute from the AMP HTMl #541
 	unset( $data['html_tag_attributes']['dir'] );
 
-	if( is_search() ) {
-		// Remove all unwanted scripts on search pages
-		unset( $data['amp_component_scripts'] );
-	}
+	//TODO checkon Search pages properly
+	// if( is_search() ) {
+	// 	// Remove all unwanted scripts on search pages
+	// 	unset( $data['amp_component_scripts'] );
+	// }
 	return $data;
 }
 

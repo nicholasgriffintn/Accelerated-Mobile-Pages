@@ -301,10 +301,12 @@ if ( !function_exists( 'ampforwp_content_element_related_posts' ) ) {
 // Function of Element Meta Taxonomy
 if ( !function_exists( 'ampforwp_content_element_meta_taxonomy' ) ) {
   add_action( 'ampforwp_content_elements_meta_taxonomy' , 'ampforwp_content_element_meta_taxonomy' );
-  function ampforwp_content_element_meta_taxonomy() { ?>
+  function ampforwp_content_element_meta_taxonomy( $amp_post_template_object ) { ?>
     <div class="amp-wp-content amp-wp-article-tags amp-wp-article-category ampforwp-meta-taxonomy "> <?php
       global $redux_builder_amp;
-      $amp_post_template_object = ampforwp_get_template_data_object();
+      if( $redux_builder_amp['amp-frontpage-select-option'] ){
+        $amp_post_template_object = ampforwp_get_template_data_object();
+      }
     	$ampforwp_tags=  get_the_terms( $amp_post_template_object->ID, 'post_tag' );
     	if ( $ampforwp_tags && ! is_wp_error( $ampforwp_tags ) ) { ?>
     		<div class="amp-wp-meta amp-wp-content ampforwp-tax-tag"> <?php

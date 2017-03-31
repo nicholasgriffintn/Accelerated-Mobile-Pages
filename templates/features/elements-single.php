@@ -139,7 +139,11 @@ if ( !function_exists( 'ampforwp_content_element_comment' ) ) {
 // Function of Element Title
 if ( !function_exists( 'ampforwp_content_element_title' ) ) {
   add_action( 'ampforwp_content_elements_title' , 'ampforwp_content_element_title' );
-  function ampforwp_content_element_title() { $amp_post_template_object = ampforwp_get_template_data_object(); ?>
+  function ampforwp_content_element_title( $amp_post_template_object ) {
+    global $redux_builder_amp;
+    if( $redux_builder_amp['amp-frontpage-select-option'] ){
+      $amp_post_template_object = ampforwp_get_template_data_object();
+    }?>
     <header class="amp-wp-content amp-wp-article-header ampforwp-title">
     	<h1 class="amp-wp-title"><?php echo wp_kses_data( $amp_post_template_object->get( 'post_title' ) ); ?></h1>
     </header> <?php

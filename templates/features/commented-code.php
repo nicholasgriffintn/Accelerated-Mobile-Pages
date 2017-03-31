@@ -104,3 +104,7 @@
   //TODO put this code conditionally or this will throw Fatal Error
     // 1. if file_exisits for require_once( WP_PLUGIN_DIR . '/amp/amp.php' );
     // 2. if function_exists for amp_load_classes();
+
+ //TODO all direct functions to be converted into hooks
+
+ //TODO add a filter to add classes to body <body body_class(); > 

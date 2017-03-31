@@ -242,8 +242,9 @@ if ( !function_exists( 'ampforwp_the_loop' ) ) {
 // # Util Function
 // Outputs Lang Code for <html> Tag
 if ( !function_exists( 'ampforwp_the_lang_code' ) ) {
+  add_filter( 'ampforwp_lang_filter' , 'ampforwp_the_lang_code' );
   function ampforwp_the_lang_code( $amp_post_template_object ) {
-   echo AMP_HTML_Utils::build_attributes_string( $amp_post_template_object->get( 'html_tag_attributes' ) );
+   return AMP_HTML_Utils::build_attributes_string( $amp_post_template_object->get( 'html_tag_attributes' ) );
   }
 }
 
@@ -288,6 +289,7 @@ if ( !function_exists( 'ampforwp_rel_canonical' ) ) {
 // # Util Function
 // All Head Functions Combined into one
 if ( !function_exists( 'ampforwp_the_head' ) ) {
+  add_action('ampforwp_head','ampforwp_the_head');
   function ampforwp_the_head( $amp_post_template_object ) {
     ampforwp_head_boilerplate();
     ampforwp_rel_canonical();
@@ -767,5 +769,17 @@ if( !function_exists( 'ampforwp_design_3_the_header' ) ) {
           </div>
       </div>
     </header> <?php
+  }
+}
+
+
+if( !function_exists('ampforwp_body_class') ){
+  add_filter( 'ampforwp_body_class_filter', 'ampforwp_body_class' );
+  function ampforwp_body_class() {
+      $final_classes = 'amp_home_body design_3_wrapper';
+      if( is_archive() ){
+         $final_classes .= 'archives_body';
+       }
+    return  $final_classes ;
   }
 }

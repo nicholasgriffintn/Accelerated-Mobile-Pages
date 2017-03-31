@@ -1,12 +1,10 @@
 <!doctype html>
-<html amp <?php ampforwp_the_lang_code( $this )?> >
+<html amp <?php echo apply_filters( 'ampforwp_lang_filter', $this); ?> >
 	<head>
-		<?php //TODO all direct functions to be converted into hooks ?>
-		<?php ampforwp_the_head( $this ); ?>
+		<?php do_action('ampforwp_head', $this); ?>
 	</head>
-	<?php //TODO add a filter to add classes to body <body body_class(); > ?>
-	<body class="amp_home_body <?php if( is_archive() ){ echo 'archives_body'; } ?> design_3_wrapper">
-		<?php do_action('ampforwp_the_header_bar'); 
+	<body class="<?php echo apply_filters( 'ampforwp_body_class_filter' , ''); ?>">
+		<?php do_action('ampforwp_the_header_bar');
 
 		if( is_home() ) { ?>
 			<div class="amp-wp-content">

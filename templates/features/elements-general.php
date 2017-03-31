@@ -5,7 +5,6 @@
 if ( !function_exists( 'ampforwp_the_css' ) ) {
   function ampforwp_the_css( $amp_post_template_object ) { ?>
     <style amp-custom> <?php
-       $amp_post_template_object = ampforwp_get_template_data_object();
        $amp_post_template_object->load_parts( array( 'style' ) );
        do_action( 'amp_post_template_css', $amp_post_template_object ); ?>
     </style> <?php

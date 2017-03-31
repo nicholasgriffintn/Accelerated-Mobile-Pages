@@ -141,7 +141,7 @@ if ( !function_exists( 'ampforwp_content_element_title' ) ) {
   add_action( 'ampforwp_content_elements_title' , 'ampforwp_content_element_title' );
   function ampforwp_content_element_title( $amp_post_template_object ) {
     global $redux_builder_amp;
-    if( $redux_builder_amp['amp-frontpage-select-option'] ){
+    if( $redux_builder_amp['amp-frontpage-select-option'] && !is_single() ){
       $amp_post_template_object = ampforwp_get_template_data_object();
     }?>
     <header class="amp-wp-content amp-wp-article-header ampforwp-title">
@@ -304,7 +304,7 @@ if ( !function_exists( 'ampforwp_content_element_meta_taxonomy' ) ) {
   function ampforwp_content_element_meta_taxonomy( $amp_post_template_object ) { ?>
     <div class="amp-wp-content amp-wp-article-tags amp-wp-article-category ampforwp-meta-taxonomy "> <?php
       global $redux_builder_amp;
-      if( $redux_builder_amp['amp-frontpage-select-option'] ){
+      if( $redux_builder_amp['amp-frontpage-select-option'] && !is_single() ){
         $amp_post_template_object = ampforwp_get_template_data_object();
       }
     	$ampforwp_tags=  get_the_terms( $amp_post_template_object->ID, 'post_tag' );
@@ -440,7 +440,10 @@ if ( !function_exists( 'ampforwp_next_previous_links' ) ) {
 // Function of Element Content
 if ( !function_exists( 'ampforwp_content_element_content' ) ) {
   add_action( 'ampforwp_content_elements_content' , 'ampforwp_content_element_content' );
-  function ampforwp_content_element_content() { $amp_post_template_object = ampforwp_get_template_data_object(); ?>
+  function ampforwp_content_element_content( $amp_post_template_object ) {
+    if( $redux_builder_amp['amp-frontpage-select-option'] && !is_single() ){
+      $amp_post_template_object = ampforwp_get_template_data_object();
+    } ?>
     <div class="amp-wp-article-content"> <?php
       // Post Content here ?>
     	<div class="amp-wp-content the_content"> <?php

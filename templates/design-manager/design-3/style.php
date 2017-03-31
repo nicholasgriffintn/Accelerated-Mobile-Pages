@@ -241,6 +241,7 @@ amp-lightbox{ background: rgba(0, 0, 0,0.85); }
 .featured_meta_right{ float:right }
 
 /* Tables */
+table { display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; overflow-x: auto; }
 table a:link { color: #666; font-weight: bold; text-decoration: none; }
 table a:visited { color: #999999; font-weight: bold; text-decoration: none; }
 table a:active, table a:hover { color: #bd5a35; text-decoration: underline; }

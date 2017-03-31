@@ -11,9 +11,12 @@ function ampforwp_additional_style_input( $amp_template ) {
 	$header_background_color = $get_customizer->get_customizer_setting( 'header_background_color' );
 	$header_color            = $get_customizer->get_customizer_setting( 'header_color' );
 ?>
-.alignright {float: right;} .alignleft {float: left;} .aligncenter {display: block;margin-left: auto;margin-right: auto;}
-.amp-wp-enforced-sizes {max-width: 100%;margin: 0 auto;}
-.amp-wp-unknown-size img {object-fit: contain;} amp-iframe { max-width: 100%; margin-bottom : 20px; }
+.alignright{ float: right; }
+.alignleft{ float: left; }
+.aligncenter{ display: block; margin-left: auto; margin-right: auto; }
+.amp-wp-enforced-sizes{ max-width: 100%; margin: 0 auto; }
+.amp-wp-unknown-size img{ object-fit: contain; }
+amp-iframe{ max-width: 100%; margin-bottom : 20px; }
 .amp-wp-content,.amp-wp-title-bar div {<?php if ( $content_max_width > 0 ) : ?> margin: 0 auto;max-width: <?php echo sprintf( '%dpx', $content_max_width ); ?>; <?php endif; ?> }
 html{background: <?php echo sanitize_hex_color( $header_background_color ); ?>;} body{background: <?php echo sanitize_hex_color( $theme_color ); ?>;color: <?php echo sanitize_hex_color( $text_color ); ?>;font-family: 'Merriweather', 'Times New Roman', Times, Serif;font-weight: 300;line-height: 1.75em;}
 p,ol,ul,figure {margin: 0 0 1em;padding: 0;} a,a:visited {color: <?php echo sanitize_hex_color( $link_color ); ?>;}a:hover,a:active,a:focus {color: <?php echo sanitize_hex_color( $text_color ); ?>;} .wp-caption amp-img{max-width: 100%}
@@ -49,6 +52,7 @@ blockquote {color: <?php echo sanitize_hex_color( $text_color ); ?>;background: 
 .closebutton{ background: transparent; border: 0; color: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 30px; width: 32px; height: 32px; font-size: 12px; text-align: center; position: absolute; top: 12px; right: 20px; outline:none }
 amp-lightbox{ background: rgba(0, 0, 0,0.85); }
 /* Tables */
+table { display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; overflow-x: auto; }
 table a:link { color: #666; font-weight: bold; text-decoration: none; }
 table a:visited { color: #999999; font-weight: bold; text-decoration: none; }
 table a:active, table a:hover { color: #bd5a35; text-decoration: underline; }

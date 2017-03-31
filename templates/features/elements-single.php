@@ -343,7 +343,11 @@ if ( !function_exists( 'ampforwp_content_element_meta_taxonomy' ) ) {
 // Function of Element Meta Info
 if ( !function_exists( 'ampforwp_content_element_meta_info' ) ) {
   add_action( 'ampforwp_content_elements_meta_info' , 'ampforwp_content_element_meta_info' );
-  function ampforwp_content_element_meta_info() { global $redux_builder_amp; $amp_post_template_object = ampforwp_get_template_data_object(); ?>
+  function ampforwp_content_element_meta_info( $amp_post_template_object ) {
+    global $redux_builder_amp;
+    if( $redux_builder_amp['amp-frontpage-select-option'] && !is_single() ){
+      $amp_post_template_object = ampforwp_get_template_data_object();
+    } ?>
    <div class="amp-wp-content amp-wp-article-header ampforwp-meta-info">
      <div class="amp-wp-content post-title-meta">
         <ul class="amp-wp-meta amp-meta-wrapper"> <?php

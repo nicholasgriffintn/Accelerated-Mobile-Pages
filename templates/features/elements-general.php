@@ -20,6 +20,17 @@ if ( !function_exists( 'ampforwp_the_template_head' ) ) {
   }
 }
 
+if ( ! function_exists( 'is_amp_front_page' ) ) {
+    function is_amp_front_page() {
+        global $redux_builder_amp;
+        if ( $redux_builder_amp['amp-frontpage-select-option'] == true && is_home() ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 
 // # Util Function
 // reutrns loop args for Archive Index Search pages

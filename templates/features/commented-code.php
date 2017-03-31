@@ -107,4 +107,9 @@
 
  //TODO all direct functions to be converted into hooks
 
- //TODO add a filter to add classes to body <body body_class(); > 
+ //TODO add a filter to add classes to body <body body_class(); >
+
+ //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
+
+ //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
+ 

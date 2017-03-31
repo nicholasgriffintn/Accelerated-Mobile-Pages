@@ -89,8 +89,7 @@ if ( !function_exists( 'ampforwp_the_carousel' ) ) {
 
   	<div class="amp-featured-wrapper">
       <div class="amp-featured-area">
-        <?php //TODO : add filters for height and width ?>
-      	<amp-carousel width="450" height="270" layout="responsive" type="slides" autoplay delay="4000"> <?php
+      	<amp-carousel width="<?php echo apply_filters('ampforwp_carousel_width',450); ?>" height="<?php echo apply_filters('ampforwp_carousel_height',270); ?>" layout="responsive" type="slides" autoplay delay="4000"> <?php
 
       	  if( $redux_builder_amp['amp-design-3-category-selector'] ) {
       	    $args = array(
@@ -114,11 +113,11 @@ if ( !function_exists( 'ampforwp_the_carousel' ) ) {
       	      while( $category_posts->have_posts() ) : $category_posts->the_post(); ?>
       	      <div> <?php
                 if ( has_post_thumbnail() ) {
+                  
       					$thumb_id = get_post_thumbnail_id();
       					$thumb_url_array = wp_get_attachment_image_src($thumb_id, 'medium_large', true);
       					$thumb_url = $thumb_url_array[0]; ?>
-                <?php //TODO : add filters for height and width ?>
-      					 <amp-img src=<?php echo $thumb_url ?> width=450 height=270></amp-img> <?php
+      					 <amp-img src=<?php echo $thumb_url ?> width="<?php echo apply_filters('ampforwp_carousel_width',450); ?>" height="<?php echo apply_filters('ampforwp_carousel_height',270); ?>"></amp-img> <?php
 
                 } ?>
 

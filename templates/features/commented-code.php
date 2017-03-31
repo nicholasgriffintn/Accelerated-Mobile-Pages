@@ -112,4 +112,7 @@
  //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
 
  //TODO : remove these conditions on hooks everywhere and moke hooked functions conditional
- 
+
+ //TODO : amp_post_template_Object ID issue fixe dna made changes in all files it was used
+
+ //TODO : add filters for height and width for carousel and featured Image in carousel

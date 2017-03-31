@@ -28,6 +28,7 @@ define('AMPFORWP_COMPATIIBLITY_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/
 define('AMPFORWP_GLOBAL_UTILS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/global-untils.php');
 define('AMPFORWP_SCRIPTS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/scripts.php');
 define('AMPFORWP_WOOCOMMERCE_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/single/woocommerece-shortcode.php');
+define('AMPFORWP_STRUCTURED_DATA_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/structured-data.php');
 define('AMPFORWP_DISQUS_HOST', "https://ampforwp.appspot.com/?api=". AMPFORWP_DISQUS_URL);
 
 

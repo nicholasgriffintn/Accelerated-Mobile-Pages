@@ -936,46 +936,8 @@
 
 
 //----------------------------------------Widgets output Functions Start--------------------------
-	// 42. registeing AMP sidebars
-	if( function_exists('register_sidebar') ) {
-
-		register_sidebar(
-			array(
-				'name' => 'AMP Above Loop',
-				'id'   => 'ampforwp-above-loop',
-				'description'   => 'Widget area for above the Loop Output',
-				'before_widget' => '<div class="category-widget-wrapper"><div class="category-widget-gutter">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h4>',
-				'after_title'   => '</h4>'
-			)
-		);
-		register_sidebar(
-			array(
-				'name' => 'AMP Below Loop',
-				'id'   => 'ampforwp-below-loop',
-				'description'   => 'Widget area for below the Loop Output',
-				'before_widget' => '<div class="category-widget-wrapper"><div class="category-widget-gutter">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h4>',
-				'after_title'   => '</h4>'
-			)
-		);
-
-	}
-
-	// 43. custom actions for widgets output
-	add_action( 'ampforwp_home_above_loop' , 'ampforwp_output_widget_content_above_loop' );
-	add_action( 'ampforwp_frontpage_above_loop' , 'ampforwp_output_widget_content_above_loop' );
-	function ampforwp_output_widget_content_above_loop() {
-	    dynamic_sidebar( 'ampforwp-above-loop' );
-	}
-
-	add_action( 'ampforwp_home_below_loop' , 'ampforwp_output_widget_content_below_loop' );
-	add_action( 'ampforwp_frontpage_below_loop' , 'ampforwp_output_widget_content_below_loop' );
-	function ampforwp_output_widget_content_below_loop() {
-	    dynamic_sidebar( 'ampforwp-below-loop' );
-	}
+	// Code moved from here to widgets.php
+	// file and it id required in accelarated-mobile-pages.php file
 //----------------------------------------Widgets output Functions Functions End---------------------------
 
 

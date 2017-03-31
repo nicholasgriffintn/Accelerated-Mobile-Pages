@@ -100,3 +100,7 @@
 	// 	// Remove all unwanted scripts on search pages
 	// 	unset( $data['amp_component_scripts'] );
 	// }
+
+  //TODO put this code conditionally or this will throw Fatal Error
+    // 1. if file_exisits for require_once( WP_PLUGIN_DIR . '/amp/amp.php' );
+    // 2. if function_exists for amp_load_classes();

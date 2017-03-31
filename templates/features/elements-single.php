@@ -14,9 +14,9 @@ global $redux_builder_amp;
 if ( !function_exists( 'ampforwp_get_template_data_object' ) ) {
   add_action('pre_amp_render_post','ampforwp_get_template_data_object');
   function ampforwp_get_template_data_object() {
-    global $post;
-    // TODO make this Redux ID of Frontpage selected
-    $amp_post_template_object = new AMP_Post_Template( $post->ID );
+    global $redux_builder_amp;
+    $post_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
+    $amp_post_template_object = new AMP_Post_Template( $post_id );
     return  $amp_post_template_object ;
   }
 }

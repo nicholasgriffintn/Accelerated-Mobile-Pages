@@ -1,13 +1,31 @@
 <?php
 // Adding AMP-related things to the main theme
-	global $redux_builder_amp;
-	// 0.9. AMP Design Manager Files
+global $redux_builder_amp;
+
+//----------------------------------------Design Manager Start---------------------------
 	require AMPFORWP_DESIGN_MANGER_FILE;
+//----------------------------------------Design Manager End---------------------------
+
+
+//----------------------------------------Custom Elements Functions Start---------------------------
 	require AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE;
+//----------------------------------------Custom Elements Functions End---------------------------
+
+
+//----------------------------------------LoopFunctions Start---------------------------
 	require AMPFORWP_LOOP_FUNCTIONS_FILE;
+//----------------------------------------LoopFunctions End---------------------------
+
+
+//----------------------------------------Customizer code Start---------------------------
 	require AMPFORWP_CUSTOMIZER_FILE;
-	// Custom AMP Content
+//----------------------------------------Customizer code End---------------------------
+
+
+//----------------------------------------Custom AMP Content Start---------------------------
 	require AMPFORWP_CUSTOM_AMP_CONTENT_FILE;
+//----------------------------------------Custom AMP Content End---------------------------
+
 
 //----------------------------------------AMPHTML Functions Start---------------------------
 	require AMPFORWP_AMPHTML_FILE;

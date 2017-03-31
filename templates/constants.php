@@ -34,6 +34,7 @@ define('AMPFORWP_TITLE_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/
 define('AMPFORWP_DESIGN_SPECIFIC_FUNCTIONS', AMPFORWP_PLUGIN_DIR . 'templates/features/general/design-specific-functions.php');
 define('AMPFORWP_ANALYTICS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/analytics.php');
 define('AMPFORWP_METABOX_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/metabox.php');
+define('AMPFORWP_MISC_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/misc.php');
 define('AMPFORWP_DISQUS_HOST', "https://ampforwp.appspot.com/?api=". AMPFORWP_DISQUS_URL);
 
 

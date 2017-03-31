@@ -1,83 +1,63 @@
 <?php
 // TODO : all direct functions to be converted into hooks
 global $redux_builder_amp;
-if( is_front_page() ) {
+$is_amp_front_page = is_amp_front_page();
+if ( $is_amp_front_page ) {
 	$front_page_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
-	$amp_post_template_object = new AMP_Post_Template( $front_page_id ); ?>
-	<!doctype html>
-	<html amp <?php echo AMP_HTML_Utils::build_attributes_string( $amp_post_template_object->get( 'html_tag_attributes' ) ); ?> > <?php
-} else { ?>
+	$amp_post_template_object = new AMP_Post_Template( $front_page_id );
+	$page_data = $amp_post_template_object;
+} else {
+	$page_data = $this;
+}?>
 <!doctype html>
-<html amp <?php echo AMP_HTML_Utils::build_attributes_string( $this->get( 'html_tag_attributes' ) ); ?> >
-<?php } ?>
+<html amp <?php echo AMP_HTML_Utils::build_attributes_string( $page_data->get( 'html_tag_attributes' ) ); ?> >
 	<head>
 		<meta charset="utf-8">
-	  <link rel="dns-prefetch" href="https://cdn.ampproject.org">
+	  	<link rel="dns-prefetch" href="https://cdn.ampproject.org">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
 
-		<?php if( is_front_page() ) { ?>
-			<link rel="canonical" href="<?php echo get_permalink( $front_page_id ) ?>"> <?php
-			ampforwp_the_template_head( $amp_post_template_object );
-			ampforwp_the_css( $amp_post_template_object );
-		} else {
-		 ampforwp_the_template_head( $this );
-		 ampforwp_the_css( $this );
-		} ?>
+		<?php
+		ampforwp_the_template_head( $page_data );
+		ampforwp_the_css( $page_data );?>
 	</head>
-	<body class="<?php echo is_front_page() ? "single-post design_3_wrapper" : is_single() ? "design_3_wrapper single-post" : "design_3_wrapper single-post amp-single-page" ?> "> <?php
-
-	if( is_front_page() ) {
-		do_action('ampforwp_the_header_bar'); ?>
-		<header class="amp-wp-article-header ampforwp-title amp-wp-content">
-			<h1 class="amp-wp-title"> <?php
-				if( $front_page_id ) {
-					echo get_the_title( $front_page_id );
-				} ?>
-			</h1>
-		</header> <?php
-		do_action( 'ampforwp_after_header', $amp_post_template_object );
-		do_action('ampforwp_frontpage_above_loop');
-	} else {
+	<body class="<?php echo is_front_page() ? "single-post design_3_wrapper" : is_single() ? "design_3_wrapper single-post" : "design_3_wrapper single-post amp-single-page" ?> ">
+		<?php
 		do_action('ampforwp_the_header_bar');
-		do_action( 'ampforwp_after_header', $this );
-	} ?>
-
-	<main>
-		<?php if( is_front_page() ) { ?>
-			<div class="amp-wp-content the_content"> <?php
-				$amp_custom_content_enable = get_post_meta($amp_post_template_object->data['post_id'], 'ampforwp_custom_content_editor_checkbox', true);
-				if ( ! $amp_custom_content_enable ) {
-					echo $amp_post_template_object->data['post_amp_content'];
-				} else {
-					echo $amp_post_template_object->data['ampforwp_amp_content'];
-				}
-				do_action( 'ampforwp_after_post_content', $amp_post_template_object ); ?>
-			</div>
-				<?php ampforwp_comments_pagination( $amp_post_template_object->data['post_id'] ); ?>
-			<div class="amp-wp-content post-pagination-meta">
-				<?php $amp_post_template_object->load_parts( apply_filters( 'amp_post_template_meta_parts', array( 'meta-taxonomy' ) ) ); ?>
-			</div>
-			<?php ampforwp_the_social_share();
-		} else { ?>
+		if( $front_page_id ) {?>
+			<header class="amp-wp-article-header ampforwp-title amp-wp-content">
+				<h1 class="amp-wp-title">
+					<?php echo get_the_title( $front_page_id );?>
+				</h1>
+			</header> <?php
+		}
+		do_action( 'ampforwp_after_header', $page_data ); ?>
+		<main>
 			<article class="amp-wp-article">
-				<?php do_action('ampforwp_post_before_design_elements') ?>
-				<?php $this->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) ); ?>
+				<?php do_action('ampforwp_post_before_design_elements');
+				if ( $is_amp_front_page ) { ?>
+					<div class="amp-wp-content the_content"> <?php
+						$amp_custom_content_enable = get_post_meta($page_data->data['post_id'], 'ampforwp_custom_content_editor_checkbox', true);
+						if ( ! $amp_custom_content_enable ) {
+							echo $page_data->data['post_amp_content'];
+						} else {
+							echo $page_data->data['ampforwp_amp_content'];
+						}
+						do_action( 'ampforwp_after_post_content', $page_data ); ?>
+					</div>
+						<?php ampforwp_comments_pagination( $page_data->data['post_id'] ); ?>
+					<div class="amp-wp-content post-pagination-meta">
+						<?php $page_data->load_parts( apply_filters( 'amp_post_template_meta_parts', array( 'meta-taxonomy' ) ) ); ?>
+					</div>
+					<?php ampforwp_the_social_share();
+				} else {
+					$page_data->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) );
+				} ?>
 				<?php do_action('ampforwp_post_after_design_elements') ?>
-			</article> <?php
-		} ?>
+			</article>
 		</main> <?php
-
-	if( is_front_page() ) {
-		do_action('ampforwp_frontpage_below_loop');
-		do_action( 'amp_post_template_above_footer', $amp_post_template_object );
-	  do_action('ampforwp_the_footer');
-		do_action('ampforwp_global_after_footer');
-		do_action( 'amp_post_template_footer', $amp_post_template_object );
-	} else {
-		do_action( 'amp_post_template_above_footer', $this );
-	  do_action('ampforwp_the_footer');
-	  do_action('ampforwp_global_after_footer');
-		do_action( 'amp_post_template_footer', $this );
-	} ?>
+		do_action( 'amp_post_template_above_footer', $page_data );
+	  	do_action('ampforwp_the_footer');
+	  	do_action('ampforwp_global_after_footer');
+		do_action( 'amp_post_template_footer', $page_data );?>
 	</body>
 </html>

@@ -13,7 +13,7 @@ define( 'AMPFORWP_CONTENT_ELEMENTS_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templ
 define( 'AMPFORWP_LOOP_FUNCTIONS_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/elements-general.php');
 define( 'AMPFORWP_CUSTOMIZER_FILE', AMPFORWP_PLUGIN_DIR . 'templates/customizer/customizer.php');
 define( 'AMPFORWP_CUSTOM_AMP_CONTENT_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/custom-amp-content.php');
-define( 'AMPFORWP_SEARCH_FUNCTION_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/search-functions.php');
+define( 'AMPFORWP_SEARCH_FILE', AMPFORWP_PLUGIN_DIR . 'templates/features/general/search.php');
 define('AMPFORWP_DISQUS_URL', AMPFORWP_PLUGIN_DIR.'includes/disqus.php');
 define('AMPFORWP_IMAGE_DIR', WP_PLUGIN_URL.'/accelerated-mobile-pages/images');
 define('AMPFORWP_BUG_REPORT_FILE', AMPFORWP_PLUGIN_DIR .'templates/features/general/report-bugs.php');

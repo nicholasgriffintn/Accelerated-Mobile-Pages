@@ -85,6 +85,15 @@
 //}
 
 
+/************************************************************************
+* TODO
+* Only Move this back to general features file when
+*
+* all scripts issues are resolved once and for all
+*
+* ITs ok to leaave it there in its own file
+*
+*************************************************************************/
 	//TODO checkon Search pages properly
 	// Seemes to work perfectly
 	// if( is_search() ) {

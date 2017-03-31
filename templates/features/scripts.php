@@ -1,11 +1,5 @@
 <?php
-/************************************************************************
-* TODO
-* Only Move this back to general features file when
-*
-* all scripts issues are resolved once and for all
-*
-*************************************************************************/
+
 // 49. Properly adding ad Script the AMP way
 add_filter( 'amp_post_template_data', 'ampforwp_add_ads_scripts' );
 function ampforwp_add_ads_scripts( $data ) {

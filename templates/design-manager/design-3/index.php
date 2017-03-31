@@ -15,6 +15,7 @@
 		do_action('ampforwp_home_above_loop'); ?>
 
 		<main> <?php
+        // TODO: Add carousel into hook instead of direct function call of the loop.
 		 do_action('ampforwp_post_before_loop') ;
 		 do_action('ampforwp_loop') ;
 		 do_action('ampforwp_post_after_loop') ; ?>
@@ -28,4 +29,3 @@
 	  do_action( 'amp_post_template_footer', $this ); ?>
 	</body>
 </html>
-

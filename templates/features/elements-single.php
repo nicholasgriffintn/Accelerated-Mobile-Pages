@@ -394,7 +394,11 @@ if ( !function_exists( 'ampforwp_content_element_meta_info' ) ) {
 // Function of Element Featured Image
 if ( !function_exists( 'ampforwp_content_element_featured_image' ) ) {
   add_action( 'ampforwp_content_elements_featured_image' , 'ampforwp_content_element_featured_image' );
-  function ampforwp_content_element_featured_image() { $amp_post_template_object = ampforwp_get_template_data_object(); ?>
+  function ampforwp_content_element_featured_image( $amp_post_template_object ) {
+    global $redux_builder_amp;
+    if( $redux_builder_amp['amp-frontpage-select-option'] && !is_single() ){
+      $amp_post_template_object = ampforwp_get_template_data_object();
+    }?>
     <div class="amp-wp-article-featured-image amp-wp-content featured-image-content"> <?php
       $featured_image = $amp_post_template_object->get( 'featured_image' );
       if ( empty( $featured_image ) ) {
@@ -441,6 +445,7 @@ if ( !function_exists( 'ampforwp_next_previous_links' ) ) {
 if ( !function_exists( 'ampforwp_content_element_content' ) ) {
   add_action( 'ampforwp_content_elements_content' , 'ampforwp_content_element_content' );
   function ampforwp_content_element_content( $amp_post_template_object ) {
+    global $redux_builder_amp;
     if( $redux_builder_amp['amp-frontpage-select-option'] && !is_single() ){
       $amp_post_template_object = ampforwp_get_template_data_object();
     } ?>

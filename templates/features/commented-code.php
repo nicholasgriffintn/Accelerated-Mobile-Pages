@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 */
 
 // --------------------------------------------------------------------------
@@ -83,3 +83,11 @@
 //function ampforwp_diable_photon() {
 //	return true;
 //}
+
+
+	//TODO checkon Search pages properly
+	// Seemes to work perfectly
+	// if( is_search() ) {
+	// 	// Remove all unwanted scripts on search pages
+	// 	unset( $data['amp_component_scripts'] );
+	// }

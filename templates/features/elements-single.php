@@ -475,33 +475,47 @@ if ( !function_exists( 'ampforwp_content_element_content' ) ) {
 }
 
 
-if( !function_exists( 'ampforwp_single_after_header_content' ) ) {
-  add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content');
-  function ampforwp_single_after_header_content( $post_data_object ){ ?>
+if( !function_exists( 'ampforwp_singular_after_header_content' ) ) {
+  add_action( 'ampforwp_after_header', 'ampforwp_singular_after_header_content');
+  function ampforwp_singular_after_header_content( $post_data_object ){ ?>
    <main>
-     <article class="amp-wp-article">
-       <?php do_action('ampforwp_post_before_design_elements', $post_data_object );
-       // TODO: add this code from elements-general.php and add use hook to add the code
-       if ( $is_amp_front_page ) { ?>
-         <div class="amp-wp-content the_content"> <?php
-           $amp_custom_content_enable = get_post_meta($post_data_object->data['post_id'], 'ampforwp_custom_content_editor_checkbox', true);
-           if ( ! $amp_custom_content_enable ) {
-             echo $post_data_object->data['post_amp_content'];
-           } else {
-             echo $post_data_object->data['ampforwp_amp_content'];
-           }
-           do_action( 'ampforwp_after_post_content', $post_data_object ); ?>
-         </div>
-           <?php ampforwp_comments_pagination( $post_data_object->data['post_id'] ); ?>
-         <div class="amp-wp-content post-pagination-meta">
-           <?php $post_data_object->load_parts( apply_filters( 'amp_post_template_meta_parts', array( 'meta-taxonomy' ) ) ); ?>
-         </div>
-         <?php ampforwp_the_social_share();
-       } else {
-         $post_data_object->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) );
-       } ?>
-       <?php do_action('ampforwp_post_after_design_elements', $post_data_object) ?>
+     <article class="amp-wp-article"> <?php
+        do_action('ampforwp_post_before_design_elements', $post_data_single);
+        do_action('ampforwp_post_after_design_elements', $post_data_object); ?>
      </article>
    </main> <?php
+  }
+}
+
+
+if( !function_exists( 'ampforwp_frontpage_after_header_content' ) ) {
+  if( is_amp_front_page() ) {
+    add_action( 'ampforwp_after_header', 'ampforwp_frontpage_after_header_content');
+  } else {
+    add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content');
+  }
+  function ampforwp_frontpage_after_header_content( $post_data_object ){ ?>
+
+      <div class="amp-wp-content the_content"> <?php
+        $amp_custom_content_enable = get_post_meta($post_data_object->data['post_id'], 'ampforwp_custom_content_editor_checkbox', true);
+        if ( ! $amp_custom_content_enable ) {
+          echo $post_data_object->data['post_amp_content'];
+        } else {
+          echo $post_data_object->data['ampforwp_amp_content'];
+        }
+        do_action( 'ampforwp_after_post_content', $post_data_object ); ?>
+      </div>
+        <?php ampforwp_comments_pagination( $post_data_object->data['post_id'] ); ?>
+      <div class="amp-wp-content post-pagination-meta">
+        <?php $post_data_object->load_parts( apply_filters( 'amp_post_template_meta_parts', array( 'meta-taxonomy' ) ) ); ?>
+      </div>
+      <?php ampforwp_the_social_share();
+  }
+}
+
+
+if( !function_exists( 'ampforwp_single_after_header_content' ) ) {
+  function ampforwp_single_after_header_content( $post_data_object ){
+    $post_data_object->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) );
   }
 }

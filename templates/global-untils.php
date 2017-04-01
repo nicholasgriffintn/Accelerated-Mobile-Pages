@@ -66,3 +66,15 @@ function ampforwp_sanitize_html_to_amphtml( $input ) {
 		return '';
 	}
 }
+
+
+if ( ! function_exists( 'is_amp_front_page' ) ) {
+    function is_amp_front_page() {
+        global $redux_builder_amp;
+        if ( $redux_builder_amp['amp-frontpage-select-option'] == true && is_home() ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

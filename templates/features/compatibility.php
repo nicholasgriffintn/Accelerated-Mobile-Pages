@@ -172,7 +172,7 @@ add_action( 'bjll/compat', 'ampforwp_remove_bj_load' );
 
   // 19. Remove Canonical tags
   function ampforwp_amp_remove_actions() {
-    if ( is_home() || is_front_page() || is_archive() || is_search() ) {
+    if ( is_home() || is_front_page() || is_archive() || is_search() || is_single() || is_page() ) {
       remove_action( 'amp_post_template_head', 'amp_post_template_add_canonical' );
     }
   }

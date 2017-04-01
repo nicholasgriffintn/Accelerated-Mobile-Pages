@@ -113,7 +113,7 @@ if ( !function_exists( 'ampforwp_the_carousel' ) ) {
       	      while( $category_posts->have_posts() ) : $category_posts->the_post(); ?>
       	      <div> <?php
                 if ( has_post_thumbnail() ) {
-                  
+
       					$thumb_id = get_post_thumbnail_id();
       					$thumb_url_array = wp_get_attachment_image_src($thumb_id, 'medium_large', true);
       					$thumb_url = $thumb_url_array[0]; ?>
@@ -288,6 +288,12 @@ if ( !function_exists( 'ampforwp_rel_canonical' ) ) {
 
       if( is_search() ){
         $amp_url = $amp_url ."?s=".get_search_query();
+      }
+
+      if( is_singular() ) {
+        $amp_url = amp_get_permalink( get_queried_object_id() );
+        $remove 	= '/'. AMPFORWP_AMP_QUERY_VAR;
+        $amp_url 	= str_replace( $remove, '', $amp_url) ;
       } ?>
 
     <link rel="canonical" href="<?php echo $amp_url ?>"> <?php

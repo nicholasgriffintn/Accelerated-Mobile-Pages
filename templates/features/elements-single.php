@@ -489,23 +489,21 @@ if( !function_exists( 'ampforwp_singular_after_header_content' ) ) {
 
 
 if( !function_exists( 'ampforwp_frontpage_after_header_content' ) ) {
-  if( is_amp_front_page() ) {
-    add_action( 'ampforwp_after_header', 'ampforwp_frontpage_after_header_content');
-  } else {
-    add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content');
-  }
-  function ampforwp_frontpage_after_header_content( $post_data_object ){ ?>
-
+  add_action( 'ampforwp_after_header', 'ampforwp_frontpage_after_header_content');
+  function ampforwp_frontpage_after_header_content( $post_data_object ){
+      if( !is_amp_front_page() ) {
+        return;
+      } ?>
       <div class="amp-wp-content the_content"> <?php
-        $amp_custom_content_enable = get_post_meta($post_data_object->data['post_id'], 'ampforwp_custom_content_editor_checkbox', true);
+        $amp_custom_content_enable = get_post_meta( $post_data_object->get('post_id'), 'ampforwp_custom_content_editor_checkbox', true);
         if ( ! $amp_custom_content_enable ) {
-          echo $post_data_object->data['post_amp_content'];
+          echo $post_data_object->get('post_amp_content');
         } else {
-          echo $post_data_object->data['ampforwp_amp_content'];
+          echo $post_data_object->get('ampforwp_amp_content');
         }
         do_action( 'ampforwp_after_post_content', $post_data_object ); ?>
       </div>
-        <?php ampforwp_comments_pagination( $post_data_object->data['post_id'] ); ?>
+        <?php ampforwp_comments_pagination( $post_data_object->get('post_id') ); ?>
       <div class="amp-wp-content post-pagination-meta">
         <?php $post_data_object->load_parts( apply_filters( 'amp_post_template_meta_parts', array( 'meta-taxonomy' ) ) ); ?>
       </div>
@@ -513,8 +511,8 @@ if( !function_exists( 'ampforwp_frontpage_after_header_content' ) ) {
   }
 }
 
-
 if( !function_exists( 'ampforwp_single_after_header_content' ) ) {
+   add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content');
   function ampforwp_single_after_header_content( $post_data_object ){
     $post_data_object->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) );
   }

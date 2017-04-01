@@ -45,10 +45,10 @@ function ampforwp_custom_template( $file, $type, $post ) {
       $file = AMPFORWP_INDEX_FILE ;
     }
 
-    if ( $redux_builder_amp['amp-frontpage-select-option'] && is_front_page() && ampforwp_design_selector() == 3) {
+    if ( is_amp_front_page() && ampforwp_design_selector() == 3) {
       $file = AMPFORWP_SINGLE_FILE;
     }
-
+    
     return $file;
 }
 

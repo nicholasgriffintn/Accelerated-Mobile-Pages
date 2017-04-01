@@ -514,6 +514,11 @@ if( !function_exists( 'ampforwp_frontpage_after_header_content' ) ) {
 if( !function_exists( 'ampforwp_single_after_header_content' ) ) {
    add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content');
   function ampforwp_single_after_header_content( $post_data_object ){
-    $post_data_object->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) );
+    if( is_amp_front_page() ) {
+      return;
+    }
+    if( is_singular() ) {
+      $post_data_object->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) );
+    }
   }
 }

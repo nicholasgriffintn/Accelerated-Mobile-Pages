@@ -79,7 +79,7 @@ Examples:
  add_action( 'amp_init', 'ampforwp_latest_products_register_shortcodes');
 
  // Adding the styling for AMP Woocommerce latest Products
- add_action('amp_post_template_css','amp_latest_products_styling',PHP_INT_MAX);
+ add_action('amp_post_template_css','amp_latest_products_styling',999);
  function amp_latest_products_styling() { ?>
   .ampforwp_wc_shortcode{padding:0}
   .ampforwp_wc_shortcode li{ font-size:12px; line-height: 1; float: left;max-width: 150px;list-style-type: none;margin: 10px;}

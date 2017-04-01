@@ -476,7 +476,7 @@ if ( !function_exists( 'ampforwp_content_element_content' ) ) {
 
 
 if( !function_exists( 'ampforwp_single_after_header_content' ) ) {
-  add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content',PHP_INTcontent);
+  add_action( 'ampforwp_after_header', 'ampforwp_single_after_header_content');
   function ampforwp_single_after_header_content( $post_data_object ){ ?>
    <main>
      <article class="amp-wp-article">

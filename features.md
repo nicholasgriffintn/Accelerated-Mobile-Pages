@@ -63,3 +63,10 @@
 51. Adding Digg Digg compatibility with AMP
 52. Adding a generalized sanitizer function for purifiying normal html to amp-html
 53. Adding the Markup for AMP Woocommerce latest Products
+
+
+
+
+
+### TODO ###
+1. Frontpage and Pages should not show related posts at the bottom of the posts.

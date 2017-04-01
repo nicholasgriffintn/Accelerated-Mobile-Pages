@@ -14,9 +14,9 @@ if ( $is_amp_front_page ) {
   <head>
     <?php do_action('ampforwp_head', $post_data_object); ?>
   </head>
-  <?php // TODO: a seperate function for body class  
+  <?php // TODO: a seperate function for body class
         // TODO: Check rel-canonical for Frontpage ?>
-  <body class="<?php echo is_front_page() ? "single-post design_3_wrapper" : is_single() ? "design_3_wrapper single-post" : "design_3_wrapper single-post amp-single-page" ?> ">
+  <body class="<?php echo ampforwp_body_class() ?> ">
     <?php
     // TODO : all the hooks needs to pass the $this or $post_data parameter so we ca access the data of the current page and be in context
     do_action('ampforwp_the_header_bar' , $post_data_object);
@@ -29,7 +29,7 @@ if ( $is_amp_front_page ) {
       </header> <?php
     }
     do_action( 'ampforwp_after_header', $post_data_object );
-    
+
     do_action( 'amp_post_template_above_footer', $post_data_object );
     do_action('ampforwp_the_footer' , $post_data_object);
     do_action('ampforwp_global_after_footer' , $post_data_object);

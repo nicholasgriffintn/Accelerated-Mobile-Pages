@@ -780,10 +780,23 @@ if( !function_exists( 'ampforwp_design_3_the_header' ) ) {
 if( !function_exists('ampforwp_body_class') ){
   add_filter( 'ampforwp_body_class_filter', 'ampforwp_body_class' );
   function ampforwp_body_class() {
+    $final_classes = '';
+    if( is_home() || is_archive() || is_search() ) {
       $final_classes = 'amp_home_body design_3_wrapper';
       if( is_archive() ){
          $final_classes .= 'archives_body';
        }
+    }
+
+    if( is_singular() || is_amp_front_page() ) {
+      if( is_amp_front_page() && !is_singular()){
+        $final_classes = "single-post design_3_wrapper";
+      } elseif( is_single() ){
+        $final_classes = "single-post design_3_wrapper";
+      } elseif( is_page() ){
+        $final_classes = "design_3_wrapper single-post amp-single-page";
+      }
+    }
     return  $final_classes ;
   }
 }

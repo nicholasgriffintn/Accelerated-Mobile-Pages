@@ -14,7 +14,8 @@ if ( $is_amp_front_page ) {
   <head>
     <?php do_action('ampforwp_head', $page_data); ?>
   </head>
-  <?php // TODO: a seperate function for body class ?>
+  <?php // TODO: a seperate function for body class  
+        // TODO: Check rel-canonical for Frontpage ?>
   <body class="<?php echo is_front_page() ? "single-post design_3_wrapper" : is_single() ? "design_3_wrapper single-post" : "design_3_wrapper single-post amp-single-page" ?> ">
     <?php
     // TODO : all the hooks needs to pass the $this or $post_data parameter so we ca access the data of the current page and be in context

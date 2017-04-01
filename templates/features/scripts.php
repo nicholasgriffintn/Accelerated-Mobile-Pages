@@ -103,6 +103,7 @@ function ampforwp_add_ads_scripts( $data ) {
 		}
 	}
 	// remove direction attribute from the AMP HTMl #541
+	// TODO : if RTL is enabled then only it should unset the dir attrribute
 	unset( $data['html_tag_attributes']['dir'] );
 
 	return $data;

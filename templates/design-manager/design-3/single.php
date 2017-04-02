@@ -15,20 +15,11 @@ if ( $is_amp_front_page ) {
 //**************************************************************************
 
   $post_data_object->load_parts( array( 'd3-header' ) ); ?>
-  <?php // TODO: a seperate function for body class
-        // TODO: Check rel-canonical for Frontpage ?>
-  <body class="<?php echo ampforwp_body_class() ?> ">
-    <?php
-    // TODO : all the hooks needs to pass the $this or $post_data parameter so we ca access the data of the current page and be in context
+
+  <body class="<?php echo ampforwp_body_class() ?> "> <?php
+
     do_action('ampforwp_the_header_bar' , $post_data_object);
-    // TODO : add this code from elements-general.php and add use hook to add the code
-    if( $front_page_id ) {?>
-      <header class="amp-wp-article-header ampforwp-title amp-wp-content">
-        <h1 class="amp-wp-title">
-          <?php echo get_the_title( $front_page_id );?>
-        </h1>
-      </header> <?php
-    }
+
     do_action( 'ampforwp_after_header', $post_data_object );
 
     $post_data_object->load_parts( array( 'd3-footer' ) ); ?>

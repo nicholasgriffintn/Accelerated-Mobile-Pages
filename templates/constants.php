@@ -110,6 +110,8 @@ function ampforwp_defining_constants() {
   define( 'AMPFORWP_DESIGN_SPECIFIC_SEARCH_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/search.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/single.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_HEADER_BAR_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/header-bar.php');
+  define( 'AMPFORWP_HEADER_BAR_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/header.php');
+  define( 'AMPFORWP_FOOTER_BAR_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/footer.php');
   define( 'AMPFORWP_DESIGN_SPECIFIC_FOOTER_FILE', AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-'. ampforwp_design_selector() .'/footer.php');
   define( 'AMPFORWP_INDEX_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/index.php');
   define( 'AMPFORWP_SINGLE_FILE',  AMPFORWP_PLUGIN_DIR . '/templates/design-manager/design-3/single.php');

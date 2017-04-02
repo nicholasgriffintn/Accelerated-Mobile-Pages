@@ -50,7 +50,6 @@ if ( !function_exists( 'ampforwp_button_code' ) ) {
 }
 
 
-// TODO redeclaration error in design 1 and 2 because of below function
 // # Core Function
 // Function to be used for Every Comment output
 if ( !function_exists( 'ampforwp_custom_translated_comment' ) ) {

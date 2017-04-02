@@ -1,5 +1,8 @@
 <?php
 // TODO : all direct functions to be converted into hooks
+//**************************************************************************
+// Dont touch or Modify the code between the Comments
+// The code is highly required for the things below to function correctly
 global $redux_builder_amp;
 $is_amp_front_page = is_amp_front_page();
 if ( $is_amp_front_page ) {
@@ -9,6 +12,8 @@ if ( $is_amp_front_page ) {
 } else {
   $post_data_object = $this;
 }
+//**************************************************************************
+
   $post_data_object->load_parts( array( 'd3-header' ) ); ?>
   <?php // TODO: a seperate function for body class
         // TODO: Check rel-canonical for Frontpage ?>
@@ -27,5 +32,3 @@ if ( $is_amp_front_page ) {
     do_action( 'ampforwp_after_header', $post_data_object );
 
     $post_data_object->load_parts( array( 'd3-footer' ) ); ?>
-  </body>
-</html>

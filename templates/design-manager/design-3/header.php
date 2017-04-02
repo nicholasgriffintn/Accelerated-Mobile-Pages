@@ -1,6 +1,5 @@
 <?php global $redux_builder_amp;
 if( is_singular() || ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) ){
-  // TODO : all direct functions to be converted into hooks
   $is_amp_front_page = is_amp_front_page();
   if ( $is_amp_front_page ) {
     $front_page_id = $redux_builder_amp['amp-frontpage-select-option-pages'];

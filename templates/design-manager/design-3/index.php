@@ -1,4 +1,6 @@
-<?php  $this->load_parts( array( 'd3-header' ) ); ?>
+<?php
+
+	$this->load_parts( array( 'd3-header' ) ); ?>
 
 	<body class="<?php echo apply_filters( 'ampforwp_body_class_filter' , ''); ?>">
 		<?php do_action('ampforwp_the_header_bar'); ?>
@@ -21,5 +23,3 @@
 		do_action('ampforwp_home_below_loop');
 
     $this->load_parts( array( 'd3-footer' ) ); ?>
-	</body>
-</html>

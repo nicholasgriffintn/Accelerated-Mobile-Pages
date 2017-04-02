@@ -21,5 +21,7 @@ if( is_singular() || ( is_home() && $redux_builder_amp['amp-frontpage-select-opt
   do_action('ampforwp_the_footer');
   do_action('ampforwp_global_after_footer');
   do_action( 'amp_post_template_footer', $this );
-  
+
 } ?>
+</body>
+</html>

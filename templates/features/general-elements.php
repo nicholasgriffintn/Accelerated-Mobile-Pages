@@ -800,3 +800,22 @@ if( !function_exists('ampforwp_body_class') ){
     return  $final_classes ;
   }
 }
+
+
+if( !function_exists('ampforwp_frontpage_title') ){
+  add_filter( 'ampforwp_the_header_bar', 'ampforwp_frontpage_title', 20 );
+  function ampforwp_frontpage_title() {
+    if( is_singular() || !is_amp_front_page() || is_search() || is_archive() ){
+      return;
+    }
+    global $redux_builder_amp;
+    $front_page_id = $redux_builder_amp['amp-frontpage-select-option-pages'];
+    if( $front_page_id ) { ?>
+      <header class="amp-wp-article-header ampforwp-title amp-wp-content">
+        <h1 class="amp-wp-title">
+          <?php echo get_the_title( $front_page_id );?>
+        </h1>
+      </header> <?php
+    }
+  }
+}

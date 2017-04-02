@@ -8,12 +8,8 @@ if ( $is_amp_front_page ) {
   $post_data_object = $amp_post_template_object;
 } else {
   $post_data_object = $this;
-}?>
-<!doctype html>
-<html amp <?php echo apply_filters( 'ampforwp_lang_filter', $post_data_object); ?> >
-  <head>
-    <?php do_action('ampforwp_head', $post_data_object); ?>
-  </head>
+}
+  $post_data_object->load_parts( array( 'd3-header' ) ); ?>
   <?php // TODO: a seperate function for body class
         // TODO: Check rel-canonical for Frontpage ?>
   <body class="<?php echo ampforwp_body_class() ?> ">
@@ -30,9 +26,6 @@ if ( $is_amp_front_page ) {
     }
     do_action( 'ampforwp_after_header', $post_data_object );
 
-    do_action( 'amp_post_template_above_footer', $post_data_object );
-    do_action('ampforwp_the_footer' , $post_data_object);
-    do_action('ampforwp_global_after_footer' , $post_data_object);
-    do_action( 'amp_post_template_footer', $post_data_object );?>
+    $post_data_object->load_parts( array( 'd3-footer' ) ); ?>
   </body>
 </html>

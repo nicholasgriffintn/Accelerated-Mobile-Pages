@@ -1,8 +1,5 @@
-<!doctype html>
-<html amp <?php echo apply_filters( 'ampforwp_lang_filter', $this); ?> >
-	<head>
-		<?php do_action('ampforwp_head', $this); ?>
-	</head>
+<?php  $this->load_parts( array( 'd3-header' ) ); ?>
+
 	<body class="<?php echo apply_filters( 'ampforwp_body_class_filter' , ''); ?>">
 		<?php do_action('ampforwp_the_header_bar'); ?>
 
@@ -23,9 +20,6 @@
 
 		do_action('ampforwp_home_below_loop');
 
-	  do_action( 'amp_post_template_above_footer', $this );
-	  do_action('ampforwp_the_footer');
-	  do_action('ampforwp_global_after_footer');
-	  do_action( 'amp_post_template_footer', $this ); ?>
+    $this->load_parts( array( 'd3-footer' ) ); ?>
 	</body>
 </html>

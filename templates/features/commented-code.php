@@ -116,3 +116,9 @@
  //TODO : amp_post_template_Object ID issue fixe dna made changes in all files it was used
 
  //TODO : add filters for height and width for carousel and featured Image in carousel
+
+ // TODO: a seperate function for body class
+ // TODO: Check rel-canonical for Frontpage
+ // TODO : add this code from elements-general.php and add use hook to add the code
+ // TODO : all the hooks needs to pass the $this or $post_data parameter so we ca access the data of the current page and be in context
+ 

@@ -48,7 +48,7 @@ function ampforwp_custom_template( $file, $type, $post ) {
     if ( is_amp_front_page() && ampforwp_design_selector() == 3) {
       $file = AMPFORWP_SINGLE_FILE;
     }
-    
+
     return $file;
 }
 
@@ -78,6 +78,22 @@ add_filter( 'amp_post_template_file', 'ampforwp_custom_header', 10, 3 );
 function ampforwp_custom_header( $file, $type, $post ) {
   if ( 'header-bar' === $type ) {
     $file = AMPFORWP_DESIGN_SPECIFIC_HEADER_BAR_FILE;
+  }
+  return $file;
+}
+
+add_filter( 'amp_post_template_file', 'ampforwp_design_3_custom_header', 10, 3 );
+function ampforwp_design_3_custom_header( $file, $type, $post ) {
+  if ( 'd3-header' === $type ) {
+    $file = AMPFORWP_HEADER_BAR_FILE;
+  }
+  return $file;
+}
+
+add_filter( 'amp_post_template_file', 'ampforwp_design_3_custom_footer', 10, 3 );
+function ampforwp_design_3_custom_footer( $file, $type, $post ) {
+  if ( 'd3-footer' === $type ) {
+    $file = AMPFORWP_FOOTER_BAR_FILE;
   }
   return $file;
 }

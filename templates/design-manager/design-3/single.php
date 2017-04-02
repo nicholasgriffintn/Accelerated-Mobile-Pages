@@ -1,5 +1,4 @@
 <?php
-// TODO : all direct functions to be converted into hooks
 //**************************************************************************
 // Dont touch or Modify the code between the Comments
 // The code is highly required for the things below to function correctly

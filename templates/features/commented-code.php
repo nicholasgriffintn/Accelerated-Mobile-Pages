@@ -122,4 +122,6 @@
  // TODO : add this code from elements-general.php and add use hook to add the code
  // TODO : all the hooks needs to pass the $this or $post_data parameter so we ca access the data of the current page and be in context
  // TODO : all direct functions to be converted into hooks
+ // TODO : all direct functions to be converted into hooks
+ // TODO redeclaration error in design 1 and 2 because of below function
  

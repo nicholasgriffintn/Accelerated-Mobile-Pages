@@ -260,6 +260,7 @@ if ( !function_exists( 'ampforwp_head_boilerplate' ) ) {
 // # Util Function
 // Outputs rel canonical
 if ( !function_exists( 'ampforwp_rel_canonical' ) ) {
+  add_action('amp_post_template_head','ampforwp_rel_canonical');
   function ampforwp_rel_canonical() {
     global $redux_builder_amp;
 
@@ -296,7 +297,6 @@ if ( !function_exists( 'ampforwp_the_head' ) ) {
   add_action('ampforwp_head','ampforwp_the_head');
   function ampforwp_the_head( $amp_post_template_object ) {
     ampforwp_head_boilerplate();
-    ampforwp_rel_canonical();
     ampforwp_the_template_head( $amp_post_template_object );
     ampforwp_the_css( $amp_post_template_object );
   }

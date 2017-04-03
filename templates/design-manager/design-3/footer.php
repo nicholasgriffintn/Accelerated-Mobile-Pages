@@ -8,7 +8,7 @@ if( is_singular() || ( is_home() && $redux_builder_amp['amp-frontpage-select-opt
   } else {
     $post_data_object = $this;
   }
-
+// TODO: Jab we have same hook name and creating the object on the top, then why we need else and the code between line 17 and 24 remove that code
   do_action( 'amp_post_template_above_footer', $post_data_object );
   do_action('ampforwp_the_footer' , $post_data_object);
   do_action('ampforwp_global_after_footer' , $post_data_object);

@@ -1,4 +1,6 @@
 <?php global $redux_builder_amp;
+// TODO: Also what is this check in line no 4 "is_home() && $redux_builder_amp['amp-frontpage-select-option'] " can you explain and why you are using? and don't we have a better check? Same thing in footer.php too.
+
 if( is_singular() || ( is_home() && $redux_builder_amp['amp-frontpage-select-option'] ) ){
   $is_amp_front_page = is_amp_front_page();
   if ( $is_amp_front_page ) {
@@ -7,7 +9,10 @@ if( is_singular() || ( is_home() && $redux_builder_amp['amp-frontpage-select-opt
     $post_data_object = $amp_post_template_object;
   } else {
     $post_data_object = $this;
-  }?>
+  }
+  // TODO: Jab we have same hook name and creating the object on the top, then why we need else and the code between line 19 and 24 remove that code
+
+  ?>
   <!doctype html>
   <html amp <?php echo apply_filters( 'ampforwp_lang_filter', $post_data_object); ?> >
     <head>

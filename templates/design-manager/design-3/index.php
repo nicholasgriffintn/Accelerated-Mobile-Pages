@@ -1,7 +1,9 @@
 <?php
 
-	$this->load_parts( array( 'd3-header' ) ); ?>
+	$this->load_parts( array( 'd3-header' ) );
 
+// TODO: use ampforwp_body_class() in all the areas.
+	?>
 	<body class="<?php echo apply_filters( 'ampforwp_body_class_filter' , ''); ?>">
 		<?php do_action('ampforwp_the_header_bar', $this); ?>
 
@@ -11,7 +13,9 @@
 
 		do_action( 'ampforwp_after_header', $this );
 
-		do_action('ampforwp_home_above_loop', $this); ?>
+		do_action('ampforwp_home_above_loop', $this);
+// Move this above code in header.php file, as these are the header related files
+?>
 
 		<main> <?php
         // TODO: Add carousel into hook instead of direct function call of the loop.

@@ -571,6 +571,34 @@ Redux::setArgs( "redux_builder_amp", $args );
         )
       );
 
+   // AMP Content Page Builder SECTION
+   Redux::setSection( $opt_name, array(
+       'title'      => __( 'Page Builder', 'accelerated-mobile-pages' ),
+       'desc'       => __( 'With AMP Content Builder, you can easily build landing pages for AMP from the widgets area. <a href="http://ampforwp.com/tutorials/page-builder">(Need Help?)</a>' , 'accelerated-mobile-pages'),
+       'id'         => 'amp-content-builder',
+       'class' => 'amp_content_builder',
+       'subsection' => true,
+       'fields' => array(
+
+            array(
+                'id'       => 'ampforwp-content-builder',
+                'type'     => 'switch',
+                'title'    => __('Enable Page Builder for AMP', 'accelerated-mobile-pages'),
+                'subtitle' => __('Build AMP Landing pages in minutes.', 'accelerated-mobile-pages'),
+                'true'      => 'true',
+                'desc' => '<div style="    background: #FFF9C4;
+    display: inline-block;
+    padding: 12px;
+    margin-top: 12px;
+    left: 0;
+    line-height: 1.6;"><b>Hello!</b> First time here? <br /> <a href="https://ampforwp.com/tutorials/page-builder/" target="_blank">Learn how to use this Feature</a></div>',
+                'false'     => 'false',
+                'default'   => 1
+            ),
+        )
+       )
+
+   ) ;
 
 
 
@@ -852,8 +880,6 @@ Redux::setArgs( "redux_builder_amp", $args );
                 'default'  => '3',
 	        ),
 
-
-
 //             array(
 //                  'id' => 'ampforwp-comments-banner',
 //                  'type' => 'select',
@@ -864,7 +890,6 @@ Redux::setArgs( "redux_builder_amp", $args );
 //                //  'desc'       => ' <br /><a href="' . esc_url(admin_url('customize.php?autofocus[section]=amp_design&customize_amp=1')) .'"  target="_blank"><img class="ampforwp-post-builder-img" src="'.AMPFORWP_IMAGE_DIR . '/amp-post-builder.png" width="489" height="72" /></a>',
 //              ),
 //
-
     $fields = array(
     'id'   => 'info_normal',
     'type' => 'info',
@@ -1171,30 +1196,7 @@ Redux::setArgs( "redux_builder_amp", $args );
 
             ),
         ) );
-
-
-    // AMP Content Builder SECTION
-   // Redux::setSection( $opt_name, array(
-   //     'title'      => __( 'Content Builder', 'accelerated-mobile-pages' ),
-   //     'desc'       => __( 'With AMP Content Builder, you can easily build landing pages for AMP with Drag and drop UI of widgets. <a href="'.trailingslashit(get_admin_url()).'nav-menus.php?action=locations">Learn More</a>' , 'accelerated-mobile-pages'),
-   //     'id'         => 'amp-content-builder',
-   //     'class' => 'amp_content_builder',
-   //     'subsection' => true,
-   //     'fields' => array(
-
-   //          array(
-   //              'id'       => 'ampforwp-content-builder',
-   //              'type'     => 'switch',
-   //              'title'    => __('Content Builder for AMP', 'accelerated-mobile-pages'),
-   //              'subtitle' => __('Build AMP Landing pages in minutes.', 'accelerated-mobile-pages'),
-   //              'true'      => 'true',
-   //              'false'     => 'false',
-   //              'default'   => 1
-   //          ),
-   //      )
-   //     )
-
-   // ) ;
+    
 
 
     // AMP Menu SECTION

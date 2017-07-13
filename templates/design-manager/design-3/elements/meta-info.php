@@ -1,4 +1,3 @@
-
 <?php do_action('ampforwp_before_meta_info_hook',$this); ?>
 <?php global $redux_builder_amp; ?>
 <div class="amp-wp-content amp-wp-article-header ampforwp-meta-info">

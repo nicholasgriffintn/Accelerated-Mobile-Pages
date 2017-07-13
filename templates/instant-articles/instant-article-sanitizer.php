@@ -233,6 +233,13 @@ function no_empty_p_tags($DOMDocument){
 		$instant_article_ad_id = $redux_builder_amp['fb-instant-article-ad-id'];
 		return $instant_article_ad_id;
 	}	
+
+function get_ia_placement_id(){
+ 		global $redux_builder_amp;
+ 		$instant_article_ad_id = $redux_builder_amp['fb-instant-article-ad-id'];
+ 		return $instant_article_ad_id;
+  	}	
+
 /*function fb_gallery_shortcode($output, $attr, $instance){
 		$post = get_post();
 

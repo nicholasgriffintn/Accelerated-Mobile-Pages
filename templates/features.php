@@ -374,10 +374,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE', $redux_builder_amp['ampforwp-number-of-comm
 	add_filter( 'amp_post_template_data', 'ampforwp_add_amp_related_scripts', 20 );
 	function ampforwp_add_amp_related_scripts( $data ) {
 		global $redux_builder_amp;
-		// Adding Sidebar Script
-		if ( empty( $data['amp_component_scripts']['amp-sidebar'] ) ) {
-			$data['amp_component_scripts']['amp-sidebar'] = 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js';
-		}
+		
 
 		return $data;
 	}
@@ -2540,6 +2537,20 @@ function ampforwp_meta_description() {
 		echo '<meta name="description" content="'. esc_html( convert_chars( wptexturize ( $desc ) ) )  .'"/>';
 	}
 }
+
+// 56tn. Properly adding sidebar script
+ add_filter( 'amp_post_template_data', 'ampforwp_add_sidebar_scripts' );
+ function ampforwp_add_sidebar_scripts( $data ) {
+ 	global $redux_builder_amp;
+ 
+ 	if ( $redux_builder_amp['ampforwp-amp-menu-on-off'] == true ) {
+ 					if ( empty( $data['amp_component_scripts']['amp-sidebar'] ) ) {
+ 						$data['amp_component_scripts']['amp-sidebar'] = 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js';
+ 					}
+ 	}
+ 
+ 	return $data;
+ }
 
 // 55. Call Now Button Feature added
 add_action('ampforwp_call_button','ampforwp_call_button_html_output');

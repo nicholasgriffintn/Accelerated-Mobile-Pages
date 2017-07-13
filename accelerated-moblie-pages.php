@@ -2,7 +2,7 @@
 /*
 Plugin Name: Accelerated Mobile Pages - TN V
 Description: AMP for WP - Accelerated Mobile Pages for WordPress
-Version: 0.9.54.2.tn.2
+Version: 0.9.55.tn.3
 */
 
 // Exit if accessed directly.

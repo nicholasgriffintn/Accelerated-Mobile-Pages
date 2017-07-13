@@ -6,18 +6,12 @@
       <link rel="canonical" href="<?php the_permalink(); ?>">
       <meta property="op:markup_version" content="v1.0">
       <?php if ( $redux_builder_amp['fb-instant-article-ads'] ){ ?>
-           <!-- automatic ad placement -->
-           <meta property="fb:use_automatic_ad_placement" content="true">
-           <?php } ?>
+          <!-- automatic ad placement -->
+          <meta property="fb:use_automatic_ad_placement" content="true">
+          <?php } ?>
     </head>
     <body>
         <article>
-        <?php if ( $redux_builder_amp['fb-instant-article-ads'] ){ ?>
-                     <!-- facebook audience network ad -->
-                     <figure class="op-ad">
-                         <iframe width="300" height="250" style="border:0; margin:0;" src="https://www.facebook.com/adnw_request?placement=<?php echo get_ia_placement_id(); ?>&adtype=banner300x250"></iframe>
-                     </figure>
-                     <?php } ?>
             <header>
                 <!-- title -->
 				<h1><?php the_title(); ?></h1>
@@ -25,10 +19,10 @@
 				<!-- kicker -->
 				<h3 class="op-kicker">
                    <?php $categories = get_the_category();
-                    if ( ! empty( $categories ) ) {
-                        echo esc_html( $categories[0]->name );   
-                     } ?>
-                 </h3>
+                   if ( ! empty( $categories ) ) {
+                       echo esc_html( $categories[0]->name );   
+                    } ?>
+                </h3>
 
                 <!-- publication date/time -->
 				<time class="op-published" datetime="<?php echo get_the_date("c"); ?>"><?php echo get_the_date(get_option('date_format') . ", " . get_option('time_format')); ?></time>
@@ -50,12 +44,20 @@
 				?>
                     <figure>
                         <img src="<?php echo $thumbnail_url; ?>" />
-                        <?php if (strlen(apply_filters("the_content", $attachment->post_excerpt)) > 0): ?>
-                            <figcaption><?php echo apply_filters("the_content", $attachment->post_excerpt); ?></figcaption>
-                        <?php endif; ?>
+                        <?php if (strlen(apply_filters("the_content", $attachment->post_excerpt)) > 0):
+                            if ( $attachment->post_excerpt ) { ?>
+                                <figcaption><?php echo apply_filters("the_content", $attachment->post_excerpt); ?></figcaption>
+                                <?php 
+                            }
+                        endif; ?>
                     </figure>
 				<?php endif; ?>
-
+                <?php if ( $redux_builder_amp['fb-instant-article-ads'] ){ ?>
+                    <!-- facebook audience network ad -->
+                    <figure class="op-ad">
+                        <iframe width="300" height="250" style="border:0; margin:0;" src="https://www.facebook.com/adnw_request?placement=<?php echo get_ia_placement_id(); ?>&adtype=banner300x250"></iframe>
+                    </figure>
+                    <?php } ?>
             </header>
 
             <!-- body -->

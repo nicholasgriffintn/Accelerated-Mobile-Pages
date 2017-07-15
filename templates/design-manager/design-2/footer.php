@@ -1,9 +1,15 @@
 <?php global $redux_builder_amp;
   wp_reset_postdata();?>
-  <footer class="container">
+ <footer class="container">
         <div id="footer">
         <a class="non-amp-link full-footer-link" href="<?php echo $ampforwp_backto_nonamp; ?>" rel="nofollow">View the original article</a>
-        <a class="to-top-link full-footer-link" href="#header" rel="nofollow">Go back to the top</a>
+        <a class="to-top-link full-footer-link" href="#header" rel="nofollow"><?php echo ampforwp_translation( $redux_builder_amp['amp-translator-top-text'], 'Top'); ?> </a> <?php
+                if($redux_builder_amp['amp-footer-link-non-amp-page']=='1') { ?> |  <?php ampforwp_view_nonamp(); 
+                } ?>
+                    <?php
+              global $allowed_html;
+              echo wp_kses( ampforwp_translation($redux_builder_amp['amp-translator-footer-text'], 'Footer'),$allowed_html);
+              ?>
           <a href="https://technutty.co.uk/">
 <span class="footer-logo-center">
               <amp-img src="https://technutty.co.uk/wp-content/assets/TechNuttyLogo.svg" width="300" height="68" alt="logo" class="amp-logo" layout=responsive id="AMP_1">
@@ -27,6 +33,7 @@
                                    </div>
                               </div>
                               <br>
-</div>
-  </footer>
+
+        </div>
+    </footer>
 <?php do_action('ampforwp_global_after_footer'); ?>

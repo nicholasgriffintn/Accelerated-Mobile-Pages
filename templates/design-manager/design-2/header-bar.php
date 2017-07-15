@@ -31,9 +31,11 @@
           <a href="<?php echo esc_url( $ampforwp_home_url ); ?>" <?php if($set_rel_to_noamp){echo ' rel="nofollow"'; } ?> >
 
             <?php if($redux_builder_amp['ampforwp-custom-logo-dimensions'] == true)  { ?>
+             <span class="header-logo-center">
 
-                <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="<?php echo $redux_builder_amp['opt-media-width']; ?>" height="<?php echo $redux_builder_amp['opt-media-height']; ?>" alt="logo" class="amp-logo"></amp-img>
+                <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="<?php echo $redux_builder_amp['opt-media-width']; ?>" height="<?php echo $redux_builder_amp['opt-media-height']; ?>" alt="TechNutty" layout=responsive class="amp-logo"></amp-img>
 
+</span>
             <?php } else { ?>
 
                 <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="190" height="36" alt="logo" class="amp-logo"></amp-img>
@@ -51,7 +53,7 @@
   </div>
 </header>
 
-
+<?php if($redux_builder_amp['ampforwp-amp-menu-on-off'] == true)  { ?>
 <div on='tap:sidebar.toggle' role="button" tabindex="0" class="nav_container">
 	<a href="#" class="toggle-text"><?php echo ampforwp_translation( $redux_builder_amp['amp-translator-navigate-text'], 'Navigate' ); ?></a>
 </div>
@@ -68,3 +70,4 @@
 
   </div>
 </amp-sidebar>
+<?php } ?>

@@ -21,11 +21,8 @@
 			<?php $this->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) ); ?>
 			<?php do_action('ampforwp_post_after_design_elements') ?>
 		</article>
-	</main>
 
-<?php do_action( 'amp_post_template_above_footer', $this ); ?>	
-<?php $this->load_parts( array( 'footer' ) ); ?>
-<footer class="container">
+		<footer class="container">
         <div id="footer">
         <a class="non-amp-link full-footer-link" href="<?php echo $ampforwp_backto_nonamp; ?>" rel="nofollow">View the original article</a>
         <a class="to-top-link full-footer-link" href="#header" rel="nofollow"><?php echo ampforwp_translation( $redux_builder_amp['amp-translator-top-text'], 'Top'); ?> </a> <?php
@@ -61,6 +58,11 @@
 
         </div>
     </footer>
+	
+	</main>
+
+<?php do_action( 'amp_post_template_above_footer', $this ); ?>	
+<?php $this->load_parts( array( 'footer' ) ); ?>
 <?php do_action( 'amp_post_template_footer', $this ); ?>
 </body>
 </html>

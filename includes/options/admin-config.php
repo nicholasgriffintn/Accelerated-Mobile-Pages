@@ -2465,6 +2465,7 @@ function fb_instant_article(){
     $fb_instant_article_feed = trailingslashit( site_url() ).$feedname ;
     return esc_url( $fb_instant_article_feed );
 }
+
 // Facebook Instant Articles
 Redux::setSection( $opt_name, array(
    'title'      => __( 'Facebook Instant Articles', 'accelerated-mobile-pages' ),

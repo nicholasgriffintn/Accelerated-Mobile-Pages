@@ -10,7 +10,12 @@
           <meta property="fb:use_automatic_ad_placement" content="true">
           <?php } ?>
 
-    <!-- Analytics code -->
+    </head>
+    <body>
+        <article>
+            <header>
+
+              <!-- Analytics code -->
      <?php if ( $redux_builder_amp['fb-instant-article-analytics'] ){ ?>
     <figure class="op-tracker">
     <iframe>
@@ -19,10 +24,6 @@
     </figure>
     <?php } ?>
     
-    </head>
-    <body>
-        <article>
-            <header>
                 <!-- title -->
 				<h1><?php the_title(); ?></h1>
 

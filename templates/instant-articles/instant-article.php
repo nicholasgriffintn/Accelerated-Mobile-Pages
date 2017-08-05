@@ -15,15 +15,14 @@
         <article>
             <header>
 
-              <!-- Analytics code -->
-     <?php if ( $redux_builder_amp['fb-instant-article-analytics'] ){ ?>
-    <figure class="op-tracker">
-    <iframe>
-        <?php echo get_ia_analytics_code(); ?>
-    </iframe>
-    </figure>
-    <?php } ?>
-    
+            <!-- Analytics code -->
+            <?php if ( $redux_builder_amp['fb-instant-article-analytics'] ){ ?>
+                <figure class="op-tracker">
+                  <iframe>
+                    <?php echo get_ia_analytics_code(); ?>
+                  </iframe>
+                </figure>
+            <?php } ?>
                 <!-- title -->
 				<h1><?php the_title(); ?></h1>
 

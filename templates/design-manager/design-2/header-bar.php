@@ -38,7 +38,7 @@
 </span>
             <?php } else { ?>
 
-                <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="190" height="36" alt="logo" class="amp-logo"></amp-img>
+                <amp-img src="<?php echo $redux_builder_amp['opt-media']['url']; ?>" width="190" height="36" alt= "<?php bloginfo('name'); ?>" class="amp-logo"></amp-img>
 
             <?php } ?>
 

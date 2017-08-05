@@ -239,11 +239,7 @@ function no_empty_p_tags($DOMDocument){
  		$instant_article_analytics_code = $redux_builder_amp['fb-instant-article-analytics-code'];
  		return $instant_article_analytics_code;
  	}
-<<<<<<< HEAD
-
-=======
  	
->>>>>>> master
 /*function fb_gallery_shortcode($output, $attr, $instance){
 		$post = get_post();
 

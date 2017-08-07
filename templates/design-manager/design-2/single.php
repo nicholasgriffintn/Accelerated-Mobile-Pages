@@ -19,6 +19,30 @@
 			<?php do_action('ampforwp_post_before_design_elements') ?>
 
 			<?php $this->load_parts( apply_filters( 'ampforwp_design_elements', array( 'empty-filter' ) ) ); ?>
+			<?php if( get_field('source_link') ): ?>
+	<div class="source-link">
+	Source:
+	<a href="<?php the_field('source_link'); ?>" rel"nofollow noopener">
+	<?php the_field('source_name'); ?>
+	</a>
+	</div>
+<?php endif; ?>
+<?php if( get_field('source_link_2') ): ?>
+	<div class="source-link">
+	Source:
+	<a href="<?php the_field('source_link_2'); ?>" rel"nofollow noopener">
+	<?php the_field('source_name_2'); ?>
+	</a>
+	</div>
+<?php endif; ?>
+<?php if( get_field('via_link') ): ?>
+	<div class="via-link">
+	Via:
+	<a href="<?php the_field('via_link'); ?>" rel"nofollow noopener">
+	<?php the_field('via_name'); ?>
+	</a>
+	</div>
+<?php endif; ?>
 			<?php do_action('ampforwp_post_after_design_elements') ?>
 		</article>
 	</main>

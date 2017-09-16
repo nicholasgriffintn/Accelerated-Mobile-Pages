@@ -1,7 +1,7 @@
+<amp-auto-ads type="adsense" data-ad-client="ca-pub-3514236063249617"></amp-auto-ads>
 <header class="container">
   <div id="headerwrap">
       <div id="header">
-      <amp-auto-ads type="adsense" data-ad-client="ca-pub-3514236063249617"></amp-auto-ads>
         <?php
          global $redux_builder_amp;
         $set_rel_to_noamp=false;

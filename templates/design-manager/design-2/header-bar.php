@@ -1,4 +1,3 @@
-<amp-auto-ads type="adsense" data-ad-client="ca-pub-3514236063249617"></amp-auto-ads>
 <header class="container">
   <div id="headerwrap">
       <div id="header">

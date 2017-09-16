@@ -53,7 +53,7 @@
   </div>
 </header>
 
-<?php if($redux_builder_amp['ampforwp-amp-menu-on-off'] == true)  { ?>
+<?php if(isset($redux_builder_amp['ampforwp-amp-menu']) && $redux_builder_amp['ampforwp-amp-menu']){ ?>
 <div on='tap:sidebar.toggle' role="button" tabindex="0" class="nav_container">
 	<a href="#" class="toggle-text"><?php echo ampforwp_translation( $redux_builder_amp['amp-translator-navigate-text'], 'Navigate' ); ?></a>
 </div>

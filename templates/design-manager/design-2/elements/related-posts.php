@@ -31,6 +31,18 @@
 		// declaring this variable here to prevent debug errors
 		$args = null;
 
+		// Custom Post types 
+       if( $current_post_type = get_post_type( $post )) {
+                // The query arguments
+                $args = array(
+                    'posts_per_page'=> $int_number_of_related_posts,
+                    'order' => 'DESC',
+                    'orderby' => 'ID',
+                    'post_type' => $current_post_type,
+                    'post__not_in' => array( $post->ID )
+                );   			
+		}//end of block for custom Post types
+
 		if($redux_builder_amp['ampforwp-single-select-type-of-related']==2){
 		    $categories = get_the_category($post->ID);
 					if ($categories) {
@@ -73,7 +85,7 @@
 												    $my_query->the_post();
 															$related_post_permalink = get_permalink();
 															$related_post_permalink = trailingslashit( $related_post_permalink );
-															$related_post_permalink = trailingslashit( $related_post_permalink . AMPFORWP_AMP_QUERY_VAR ) ;
+															$related_post_permalink = user_trailingslashit( $related_post_permalink . AMPFORWP_AMP_QUERY_VAR ) ;
 														?>
 														<li class="<?php if ( has_post_thumbnail() ) { echo'has_related_thumbnail'; } else { echo 'no_related_thumbnail'; } ?>">
                                                             <a href="<?php echo esc_url( $related_post_permalink ); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">

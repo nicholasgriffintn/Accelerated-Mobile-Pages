@@ -1,5 +1,12 @@
 <?php global $redux_builder_amp;  
-if ( is_single() ) { ?>
+if ( is_single() ) { 
+	$permalink = '';
+	if(isset($redux_builder_amp['enable-single-twitter-share-link']) && $redux_builder_amp['enable-single-twitter-share-link']){
+		$permalink = get_the_permalink();
+	}
+	else
+		$permalink = wp_get_shortlink();
+	?>
 <?php do_action('ampforwp_before_social_icons_hook',$this); ?>
 	<div class="amp-wp-content post-pagination-meta ampforwp-social-icons-wrapper ampforwp-social-icons">
 		<?php if($redux_builder_amp['enable-single-facebook-share'] == true)  { ?>

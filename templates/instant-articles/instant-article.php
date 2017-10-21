@@ -6,9 +6,9 @@
       <link rel="canonical" href="<?php the_permalink(); ?>">
       <meta property="op:markup_version" content="v1.0">
       <?php if (isset($redux_builder_amp['fb-instant-article-ads']) && $redux_builder_amp['fb-instant-article-ads'] ){ ?>
-          <!-- automatic ad placement -->
-          <meta property="fb:use_automatic_ad_placement" content="enable=true ad_density=default">
-          <?php } ?>
+        <!-- automatic ad placement -->
+        <meta property="fb:use_automatic_ad_placement" content="enable=true ad_density=<?php echo get_ia_placement_id(); ?>">
+      <?php } ?>
 
     </head>
     <body>

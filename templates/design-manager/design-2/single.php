@@ -9,7 +9,7 @@
 	<?php do_action( 'amp_post_template_css', $this ); ?>
 	</style>
 </head>
-<body class="single-post <?php ampforwp_the_body_class(); ?> <?php if(is_page()){ echo'amp-single-page'; };?> design_2_wrapper">
+<body <?php ampforwp_body_class('single-post design_2_wrapper');?> >
 <amp-auto-ads type="adsense" data-ad-client="ca-pub-3514236063249617"></amp-auto-ads>
 <?php do_action('ampforwp_body_beginning', $this); ?>
 <?php $this->load_parts( array( 'header-bar' ) ); ?>

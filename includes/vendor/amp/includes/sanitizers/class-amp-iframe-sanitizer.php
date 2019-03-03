@@ -97,7 +97,6 @@ class AMP_Iframe_Sanitizer extends AMP_Base_Sanitizer {
 					$out[ $name ] = $this->sanitize_dimension( $value, $name );
 					break;
 
-
 				case 'frameborder':
 					if ( '0' !== $value && '1' !== $value ) {
 						$value = '0';
@@ -117,9 +116,11 @@ class AMP_Iframe_Sanitizer extends AMP_Base_Sanitizer {
 			}
 		}
 
-		if ( ! isset( $out[ 'sandbox' ] ) ) {
-			$out[ 'sandbox' ] = self::SANDBOX_DEFAULTS;
+		if ( ! isset( $out['sandbox'] ) ) {
+			$out['sandbox'] = self::SANDBOX_DEFAULTS;
 		}
+
+		$out = ampforwp_amp_consent_check( $out );
 
 		return $out;
 	}

@@ -8,10 +8,21 @@ abstract class AMP_Base_Sanitizer {
 	protected $dom;
 	protected $args;
 	protected $did_convert_elements = false;
+	/**
+	 * The root element used for sanitization. Either html or body.
+	 *
+	 * @var DOMElement
+	 */
+	protected $root_element;
 
 	public function __construct( $dom, $args = array() ) {
 		$this->dom = $dom;
 		$this->args = array_merge( $this->DEFAULT_ARGS, $args );
+		if ( ! empty( $this->args['use_document_element'] ) ) {
+			$this->root_element = $this->dom->documentElement;
+		} else {
+			$this->root_element = $this->dom->getElementsByTagName( 'body' )->item( 0 );
+		}
 	}
 
 	abstract public function sanitize();
@@ -42,9 +53,9 @@ abstract class AMP_Base_Sanitizer {
 		}
 
 		if ( AMP_String_Utils::endswith( $value, '%' ) ) {
-			if ( 'width' === $dimension && isset( $this->args[ 'content_max_width'] ) ) {
+			if ( 'width' === $dimension && isset( $this->args['content_max_width'] ) ) {
 				$percentage = absint( $value ) / 100;
-				return round( $percentage * $this->args[ 'content_max_width'] );
+				return round( $percentage * $this->args['content_max_width'] );
 			}
 		}
 
@@ -120,5 +131,70 @@ abstract class AMP_Base_Sanitizer {
 		}
 
 		return $src;
+	}
+
+
+	/**
+	 * Removes an invalid child of a node.
+	 *
+	 * Also, calls the mutation callback for it.
+	 * This tracks all the nodes that were removed.
+	 *
+	 * @since 0.7
+	 *
+	 * @param DOMNode|DOMElement $node The node to remove.
+	 * @param array              $args Additional args to pass to validation error callback.
+	 *
+	 * @return void
+	 */
+	public function remove_invalid_child( $node, $args = array() ) {
+		if ( isset( $this->args['validation_error_callback'] ) ) {
+			call_user_func( $this->args['validation_error_callback'],
+				array_merge( compact( 'node' ), $args )
+			);
+		}
+		if ( empty( $this->args['disable_invalid_removal'] ) ) {
+			$node->parentNode->removeChild( $node );
+		}
+	}
+
+	/**
+	 * Removes an invalid attribute of a node.
+	 *
+	 * Also, calls the mutation callback for it.
+	 * This tracks all the attributes that were removed.
+	 *
+	 * @since 0.7
+	 *
+	 * @param DOMElement     $element   The node for which to remove the attribute.
+	 * @param DOMAttr|string $attribute The attribute to remove from the element.
+	 * @param array          $args      Additional args to pass to validation error callback.
+	 * @return void
+	 */
+	public function remove_invalid_attribute( $element, $attribute, $args = array() ) {
+		if ( isset( $this->args['validation_error_callback'] ) ) {
+			if ( is_string( $attribute ) ) {
+				$attribute = $element->getAttributeNode( $attribute );
+			}
+			if ( $attribute ) {
+				call_user_func( $this->args['validation_error_callback'],
+					array_merge(
+						array(
+							'node' => $attribute,
+						),
+						$args
+					)
+				);
+				if ( empty( $this->args['disable_invalid_removal'] ) ) {
+					$element->removeAttributeNode( $attribute );
+				}
+			}
+		} elseif ( empty( $this->args['disable_invalid_removal'] ) ) {
+			if ( is_string( $attribute ) ) {
+				$element->removeAttribute( $attribute );
+			} else {
+				$element->removeAttributeNode( $attribute );
+			}
+		}
 	}
 }

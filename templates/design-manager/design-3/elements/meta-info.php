@@ -1,6 +1,7 @@
 
 <?php do_action('ampforwp_before_meta_info_hook',$this); ?>
-<?php global $redux_builder_amp; ?>
+<?php global $redux_builder_amp;
+if ( is_single() || (is_page() && $redux_builder_amp['meta_page']) ) : ?>
 <div class="amp-wp-content amp-wp-article-header ampforwp-meta-info">
 	<div class="amp-wp-content post-title-meta">
 
@@ -20,13 +21,14 @@ if( isset($redux_builder_amp['ampforwp-cats-single']) && $redux_builder_amp['amp
   if ( $ampforwp_categories ) : ?>
   	<span class="amp-wp-meta amp-wp-tax-category ampforwp-tax-category  ">
       <?php
-        global $redux_builder_amp; printf( ampforwp_translation($redux_builder_amp['amp-translator-in-designthree'] .' ', 'accelerated-mobile-pages' )); 
+        global $redux_builder_amp; printf( esc_attr(ampforwp_translation($redux_builder_amp['amp-translator-in-designthree'] , 'in' ) .' ')); 
+
         foreach ($ampforwp_categories as $cat ) {
           if( isset($redux_builder_amp['ampforwp-archive-support']) && $redux_builder_amp['ampforwp-archive-support'] && isset($redux_builder_amp['ampforwp-cats-tags-links-single']) && $redux_builder_amp['ampforwp-cats-tags-links-single']) {
-            echo ('<span class="amp-cat-'.$cat->term_id.'"><a href="'. user_trailingslashit( trailingslashit(get_category_link($cat->term_id)).'amp') . '" >'.$cat->name .'</a></span>'); 
+            echo ('<span class="amp-cat-'.esc_attr($cat->term_id).'"><a href="'. ampforwp_url_controller( get_category_link( $cat->term_id ) ) . '" >'.esc_attr($cat->name) .'</a></span>'); 
         } 
       else {
-        echo ('<span>'.$cat->name .'</span>');
+        echo ('<span>'.esc_attr($cat->name) .'</span>');
       }
        }
 			?>
@@ -34,7 +36,13 @@ if( isset($redux_builder_amp['ampforwp-cats-single']) && $redux_builder_amp['amp
 <?php endif;  } ?>
 
 <?php if ( $redux_builder_amp['amp-design-3-date-feature'] ) : ?>
-	<span class="ampforwp-design3-single-date"><?php global $redux_builder_amp; echo ampforwp_translation($redux_builder_amp['amp-translator-on-text']. ' ', 'On'); the_modified_date( get_option( 'date_format' ) ) ?></span>
+	<span class="ampforwp-design3-single-date"><?php global $redux_builder_amp;
+  $date = get_the_date( get_option( 'date_format' ));
+  if( 2 == $redux_builder_amp['ampforwp-post-date-global'] ){
+    $date = get_the_modified_date( get_option( 'date_format' ) ) . ', ' . get_the_modified_time() ;
+  }
+
+  echo esc_attr(apply_filters('ampforwp_modify_post_date', ampforwp_translation($redux_builder_amp['amp-translator-on-text'], 'On') . ' ' . $date )) ?></span>
 <?php endif; ?>
 
 	</div>
@@ -44,4 +52,5 @@ if( isset($redux_builder_amp['ampforwp-cats-single']) && $redux_builder_amp['amp
 			</ul>
 	</div>
 </div>
+<?php endif; ?>
 <?php do_action('ampforwp_after_meta_info_hook',$this);

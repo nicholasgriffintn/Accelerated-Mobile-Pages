@@ -1,4 +1,11 @@
 <?php
+/*!
+ * AMP v0.4.2
+ * https://github.com/automattic/amp-wp
+ *
+ * Licensed GPLv2 or later
+ */
+ 
 /**
  * Plugin Name: AMP
  * Description: Add AMP support to your WordPress site.
@@ -7,7 +14,6 @@
  * Author URI: https://automattic.com
  * Version: 0.4.2
  * Text Domain: amp
- * Domain Path: /languages/
  * License: GPLv2 or later
  */
 // Make sure the `amp` query var has an explicit value.

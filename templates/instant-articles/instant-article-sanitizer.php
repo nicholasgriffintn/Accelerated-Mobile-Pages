@@ -1,21 +1,27 @@
 <?php
-add_filter( 'fbia_content', 'headlines');
-add_filter( 'fbia_content', 'filter_dom');
-add_filter( 'fbia_content', 'address_tag');
-//remove_all_filters( 'post_gallery' );
-//add_filter( 'post_gallery', 'fb_gallery_shortcode', 10, 3 );
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+add_filter( 'ampforwp_fbia_content', 'ampforwp_fbia_headlines');
+add_filter( 'ampforwp_fbia_content', 'ampforwp_fbia_filter_dom');
+add_filter( 'ampforwp_fbia_content', 'ampforwp_fbia_address_tag');
 
 // DOM Document Filter
 if(class_exists("DOMDocument")){
-	add_filter( 'fbia_content_dom', 'list_items_with_content');
-	add_filter( 'fbia_content_dom', 'validate_images');
-	add_filter( 'fbia_content_dom','resize_images');
+	add_filter( 'ampforwp_fbia_content_dom', 'ampforwp_fbia_list_items_with_content');
+	add_filter( 'ampforwp_fbia_content_dom', 'ampforwp_fbia_validate_images');
+	add_filter( 'ampforwp_fbia_content_dom','ampforwp_fbia_resize_images');
 	// The empty P tags class should run last
-	add_filter( 'fbia_content_dom','no_empty_p_tags');
+	add_filter( 'ampforwp_fbia_content_dom','ampforwp_fbia_no_empty_p_tags');
 	// Wrap the Tables and Iframes inside Figure
-	add_filter( 'fbia_content_dom','ampforwp_fbia_wrap_elements');
+	add_filter( 'ampforwp_fbia_content_dom','ampforwp_fbia_wrap_elements');
+	// Video Filter
+	add_filter( 'ampforwp_fbia_content_dom','ampforwp_fbia_video_element');
+	// Embeds sanitizer
+	add_filter( 'fbia_content_dom','ampforwp_fbia_wrap_embed_elements');
 	}
-function headlines($content){
+function ampforwp_fbia_headlines($content){
 		// Replace h3, h4, h5, h6 with h2
 		$content = preg_replace(
 			'/<h[3,4,5,6][^>]*>(.*)<\/h[3,4,5,6]>/sU',
@@ -24,7 +30,7 @@ function headlines($content){
 		);
 		return $content;
 	}
-function address_tag($content){
+function ampforwp_fbia_address_tag($content){
 		$content = preg_replace(
 			'/<address[^>]*>(.*)<\/address>/sU',
 			'<p>$1</p>',
@@ -32,17 +38,17 @@ function address_tag($content){
 		);
 		return $content;
 	}
-function filter_dom($content){
-		$DOMDocument = get_content_DOM($content);
+function ampforwp_fbia_filter_dom($content){
+		$DOMDocument = ampforwp_fbia_get_content_DOM($content);
 
-		$DOMDocument = apply_filters("fbia_content_dom", $DOMDocument);
+		$DOMDocument = apply_filters("ampforwp_fbia_content_dom", $DOMDocument);
 
-		$content = get_content_from_DOM($DOMDocument);
+		$content = ampforwp_fbia_get_content_from_DOM($DOMDocument);
 
 		return $content;
 	}
 
-function get_content_DOM($content){
+function ampforwp_fbia_get_content_DOM($content){
 		$libxml_previous_state = libxml_use_internal_errors( true );
 		$DOMDocument = new DOMDocument( '1.0', get_option( 'blog_charset' ) );
 
@@ -58,7 +64,7 @@ function get_content_DOM($content){
 		return $DOMDocument;
 	}
 
-function get_content_from_DOM($DOMDocument){
+function ampforwp_fbia_get_content_from_DOM($DOMDocument){
 		$body = $DOMDocument->getElementsByTagName( 'body' )->item( 0 );
 		$filtered_content = '';
 		foreach ( $body->childNodes as $node ) {
@@ -75,7 +81,7 @@ function get_content_from_DOM($DOMDocument){
 		return $filtered_content;
 	}	
 
-function list_items_with_content($DOMDocument){
+function ampforwp_fbia_list_items_with_content($DOMDocument){
 
 		// A set of inline tags, that are allowed within the li element
 		$allowed_tags = array(
@@ -106,7 +112,7 @@ function list_items_with_content($DOMDocument){
 		return $DOMDocument;
 	}	
 
-function validate_images($DOMDocument){
+function ampforwp_fbia_validate_images($DOMDocument){
 
 		// Find all the image items
 		$elements = $DOMDocument->getElementsByTagName( 'img' );
@@ -146,7 +152,7 @@ function validate_images($DOMDocument){
 		return $DOMDocument;
 	}	
 
-function resize_images($DOMDocument){
+function ampforwp_fbia_resize_images($DOMDocument){
 
 		$default_image_size = apply_filters('fbia_default_image_size', 'full');
 
@@ -175,7 +181,7 @@ function resize_images($DOMDocument){
 		return $DOMDocument;
 	}	
 
-function no_empty_p_tags($DOMDocument){
+function ampforwp_fbia_no_empty_p_tags($DOMDocument){
 		$allowed_tags = array(
 			"p", "b", "u", "i", "em", "span", "strong", "#text", "a"
 		);
@@ -251,79 +257,65 @@ function ampforwp_fbia_wrap_elements( $DOMDocument ){
 		}
 	return $DOMDocument;
 }
+// Video Element
+function ampforwp_fbia_video_element( $DOMDocument ){
+	$video_elements = $DOMDocument->getElementsByTagName( 'video' );
 
-	function get_ia_placement_id(){
-		global $redux_builder_amp;
-		$instant_article_ad_id = $redux_builder_amp['fb-instant-article-ad-id'];
-		return $instant_article_ad_id;
+	// Iterate over all the video items
+	for ( $i = 0; $i < $video_elements->length; ++$i ) {
+		$video = $video_elements->item( $i );
+
+		if($video->parentNode->nodeName == "figure"){
+				// This element is already wrapped in a figure tag, we only need to make sure it's placed right
+				$video = $video->parentNode;
+			} else {
+				// Wrap this video into a figure tag
+				$figure = $DOMDocument->createElement('figure');
+				$video->parentNode->replaceChild($figure, $video);
+				$figure->appendChild($video);
+				$video = $figure;
+			}
 	}
-
-	function get_ia_analytics_code(){
- 		global $redux_builder_amp;
- 		$instant_article_analytics_code = $redux_builder_amp['fb-instant-article-analytics-code'];
- 		return $instant_article_analytics_code;
- 	}
- 	
-/*function fb_gallery_shortcode($output, $attr, $instance){
-		$post = get_post();
-
-		$atts = shortcode_atts( array(
-			'order'      => 'ASC',
-			'orderby'    => 'menu_order ID',
-			'id'         => $post ? $post->ID : 0,
-			'itemtag'    => 'figure',
-			'icontag'    => 'div',
-			'captiontag' => 'figcaption',
-			'columns'    => 3,
-			'size'       => 'thumbnail',
-			'include'    => '',
-			'exclude'    => '',
-			'link'       => ''
-		), $attr, 'gallery' );
-
-		if ( ! empty( $atts['include'] ) ) {
-			$_attachments = get_posts( array( 'include' => $atts['include'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
-			$attachments = array();
-			foreach ( $_attachments as $key => $val ) {
-				$attachments[$val->ID] = $_attachments[$key];
+	return $DOMDocument;
+}
+// Embeds Sanitizer
+function ampforwp_fbia_wrap_embed_elements( $DOMDocument ) {
+	$figure_object = $DOMDocument->createElement( 'figure' );
+	$figure_object->setAttribute( 'class', 'op-interactive' );
+	$iframe_object = $DOMDocument->createElement( 'iframe' );
+	$body = $DOMDocument->getElementsByTagName( 'body' )->item( 0 );
+    $xpath = new DOMXPath($DOMDocument);
+    // Instagram
+    $class_name = 'instagram-media';
+    $blockquotes = $xpath->query("//*[contains(@class,'$class_name')]");
+    foreach($blockquotes as $instagram_media){
+  		if ( 'iframe' !== $instagram_media->parentNode->tagName ) {
+			$iframe = clone $iframe_object;
+			$instagram_media->parentNode->replaceChild( $iframe, $instagram_media );
+			$iframe->appendChild( $instagram_media );
+			if ( 'figure' !== $iframe->parentNode->tagName ) {
+				$figure_template = clone $figure_object;
+				$iframe->parentNode->replaceChild( $figure_template, $iframe );
+				$figure_template->appendChild( $iframe );
 			}
-		} elseif ( ! empty( $atts['exclude'] ) ) {
-			$attachments = get_children( array( 'post_parent' => $id, 'exclude' => $atts['exclude'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
-		} else {
-			$attachments = get_children( array( 'post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
 		}
-		if ( empty( $attachments ) ) {
-			return '';
-		}
+    }
+	return $DOMDocument;
+}
+function ampforwp_get_ia_placement_id(){
+	global $redux_builder_amp;
+	$instant_article_ad_id = $redux_builder_amp['fb-instant-article-ad-id'];
+	return $instant_article_ad_id;
+}
 
-		// Build the gallery html output
-		$output = "<figure class=\"op-slideshow\">";
+function ampforwp_get_ia_ad_density(){
+	global $redux_builder_amp;
+	$instant_article_ad_density = $redux_builder_amp['fb-instant-article-ad-density-setup'];
+	return $instant_article_ad_density;
+}
 
-		// Iterate over the available images
-		$i = 0;
-		foreach ( $attachments as $id => $attachment ) {
-			$attr = ( trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "gallery-$id" ) : '';
-			$image_output = wp_get_attachment_image( $id, "full", false, $attr );
-
-			$image_meta  = wp_get_attachment_metadata( $id );
-			$orientation = '';
-			if ( isset( $image_meta['height'], $image_meta['width'] ) ) {
-				$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
-			}
-			$output .= "<figure>";
-			$output .= "
-				$image_output";
-			if ( trim($attachment->post_excerpt) ) {
-				$output .= "
-					<figcaption>
-					" . wptexturize($attachment->post_excerpt) . "
-					</figcaption>";
-			}
-			$output .= "</figure>";
-		}
-
-
-		$output .= "</figure>";
-
-		return $output;
-	}*/	
+function ampforwp_get_ia_analytics_code(){
+	global $redux_builder_amp;
+	$instant_article_analytics_code = $redux_builder_amp['fb-instant-article-analytics-code'];
+	return $instant_article_analytics_code;
+}

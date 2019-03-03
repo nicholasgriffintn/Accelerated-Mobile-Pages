@@ -35,8 +35,8 @@ function amp_add_customizer_link() {
 
 	// Add the theme page.
 	$page = add_theme_page(
-		__( 'AMP', 'amp' ),
-		__( 'AMP', 'amp' ),
+		esc_html__( 'AMP', 'accelerated-mobile-pages' ),
+		esc_html__( 'AMP', 'accelerated-mobile-pages' ),
 		'edit_theme_options',
 		$menu_slug
 	);
